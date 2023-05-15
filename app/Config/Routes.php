@@ -7,8 +7,7 @@ $routes = Services::routes();
 
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
-if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
-{
+if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
 	require SYSTEMPATH . 'Config/Routes.php';
 }
 
@@ -18,10 +17,12 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Dashboard');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function () {
+	return view('notFound');
+});
 $routes->setAutoRoute(true);
 
 /*
@@ -32,7 +33,14 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Dashboard::index');
+$routes->post('/auth', 'Login::auth');
+$routes->get('/logout', 'Login::logout');
+$routes->get('/admin/home', 'admin\Home::index');
+$routes->get('/admin/presensi', 'admin\Presensi::index');
+$routes->get('/admin/rekap-presensi', 'admin\Presensi::rekap');
+$routes->get('/admin/siswa', 'admin\Siswa::index');
+$routes->get('/admin/guru', 'admin\Guru::index');
 
 /*
  * --------------------------------------------------------------------
@@ -47,7 +55,6 @@ $routes->get('/', 'Home::index');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
-if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
-{
+if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }
