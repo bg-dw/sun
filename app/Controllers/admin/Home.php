@@ -8,7 +8,7 @@ class Home extends BaseController
 {
     public function index()
     {
-        $data['page'] = 'x';
+        $data['title'] = 'Dashboard';
         return view('v_admin/V_home', $data);
     }
 }

@@ -30,11 +30,15 @@ $segments = $uri->getSegments(); ?>
             </ul>
         </li>
         <li class="menu-header">Data Master</li>
-        <li class="dropdown">
+        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'siswa')) {
+            echo "active";
+        } ?>">
             <a href="<?= base_url('admin/siswa') ?>" class="nav-link"><i data-feather="database"></i><span>Peserta
                     Didik</span></a>
         </li>
-        <li class="dropdown">
+        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'guru')) {
+            echo "active";
+        } ?>">
             <a href="<?= base_url('admin/guru') ?>" class="nav-link"><i data-feather="database"></i><span>Data
                     Guru</span></a>
         </li>

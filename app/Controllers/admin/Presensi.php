@@ -9,14 +9,14 @@ class Presensi extends BaseController
     //index presensi
     public function index()
     {
-        $data['page'] = 'x';
+        $data['title'] = 'Hari Ini';
         return view('v_admin/presensi/V_presensi', $data);
     }
 
     //rekap presensi
     public function rekap()
     {
-        $data['page'] = 'x';
+        $data['title'] = 'Data Rekap';
         return view('v_admin/presensi/V_rekap', $data);
     }
 }

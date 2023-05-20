@@ -39,7 +39,10 @@ $routes->get('/logout', 'Login::logout');
 $routes->get('/admin/home', 'admin\Home::index');
 $routes->get('/admin/presensi', 'admin\Presensi::index');
 $routes->get('/admin/rekap-presensi', 'admin\Presensi::rekap');
+
 $routes->get('/admin/siswa', 'admin\Siswa::index');
+$routes->post('/admin/import/siswa', 'admin\Siswa::importCsv');
+
 $routes->get('/admin/guru', 'admin\Guru::index');
 
 /*

@@ -4,7 +4,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Daftar Peserta Didik</h4>
+                <h4>Daftar Guru</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -14,9 +14,9 @@
                                 <th class="text-center">
                                     #
                                 </th>
+                                <th>NIP</th>
                                 <th>Nama</th>
-                                <th>Kehadiran</th>
-                                <th>Aksi</th>
+                                <th>Gelar</th>
                             </tr>
                         </thead>
                         <tbody>
