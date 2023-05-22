@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use App\Models\M_siswa;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class Siswa extends BaseController
+class MasterSiswa extends BaseController
 {
     protected $siswa;
     public function __construct()
@@ -41,23 +41,23 @@ class Siswa extends BaseController
             foreach ($excel_data as $key => $value) {
                 $nis = empty($value[2]) ? "-" : $value[2];
                 $nisn = empty($value[4]) ? "-" : $value[4];
-                $tmpt = empty($value[5]) ? "-" : $value[5];
+                $tmpt = empty($value[5]) ? "-" : strtoupper($value[5]);
                 $tgl = empty($value[6]) ? "-" : $value[6];
                 $asis = empty($value[9]) ? "-" : $value[9];
-                $ayah = empty($value[24]) ? "-" : $value[24];
-                $ibu = empty($value[30]) ? "-" : $value[30];
-                $p_ayah = empty($value[27]) ? "-" : $value[27];
-                $p_ibu = empty($value[33]) ? "-" : $value[33];
+                $ayah = empty($value[24]) ? "-" : strtoupper($value[24]);
+                $ibu = empty($value[30]) ? "-" : strtoupper($value[30]);
+                $p_ayah = empty($value[27]) ? "-" : strtoupper($value[27]);
+                $p_ibu = empty($value[33]) ? "-" : strtoupper($value[33]);
                 $al_ort = empty($value[9]) ? "-" : $value[9];
-                $nm_wali = empty($value[36]) ? "-" : $value[36];
+                $nm_wali = empty($value[36]) ? "-" : strtoupper($value[36]);
                 $al_wali = empty($value[9]) ? "-" : $value[9];
-                $id = md5(date('U'));
+                $id = md5($i . date('U'));
                 if ($key <= 5) {
                     continue;
                 }
                 $arr = [
-                    'id_siswa' => ($i . $id),
-                    'nama' => $value[1],
+                    'id_siswa' => ($id),
+                    'nama' => strtoupper($value[1]),
                     'nis' => $nis,
                     'jk' => $value[3],
                     'nisn' => $nisn,
@@ -78,9 +78,31 @@ class Siswa extends BaseController
                 }
             }
             session()->setFlashdata('success', $i . ' Data berhasil diimport.');
-            return redirect()->route('admin/siswa');
+            return redirect()->route('admin/data-siswa');
         } else {
             return redirect()->back()->with('error', 'File harus berupa Excel.');
         }
+    }
+
+    //tambah RFID
+    public function add_rfid()
+    {
+        $this->siswa->save([
+            'id_siswa' => $this->request->getVar('id_siswa'),
+            'rfid' => $this->request->getVar('rfid')
+        ]);
+        session()->setFlashdata('success', ' Data berhasil disimpan.');
+        return redirect()->route('admin/data-siswa');
+    }
+
+    //edit rfid
+    public function edit_rfid()
+    {
+        $this->siswa->save([
+            'id_siswa' => $this->request->getVar('id_siswa'),
+            'rfid' => $this->request->getVar('rfid')
+        ]);
+        session()->setFlashdata('success', ' Data berhasil diperbaharui.');
+        return redirect()->route('admin/data-siswa');
     }
 }

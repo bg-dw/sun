@@ -40,10 +40,22 @@ $routes->get('/admin/home', 'admin\Home::index');
 $routes->get('/admin/presensi', 'admin\Presensi::index');
 $routes->get('/admin/rekap-presensi', 'admin\Presensi::rekap');
 
-$routes->get('/admin/siswa', 'admin\Siswa::index');
-$routes->post('/admin/import/siswa', 'admin\Siswa::importCsv');
+//data master periode
+$routes->get('/admin/data-periode', 'admin\MasterPeriode::index');
 
-$routes->get('/admin/guru', 'admin\Guru::index');
+//data master guru
+$routes->get('/admin/data-guru', 'admin\MasterGuru::index');
+
+$routes->get('/admin/data-siswa', 'admin\MasterSiswa::index');
+$routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');
+// $routes->post('/admin/add/rfid', 'admin\Siswa::add_rfid');
+// $routes->post('/admin/edit/rfid', 'admin\Siswa::edit_rfid');
+
+//data master kelas
+$routes->get('/admin/data-kelas', 'admin\MasterKelas::index');
+
+//data master presensi
+$routes->get('/admin/data-presensi', 'admin\MasterPresensi::index');
 
 /*
  * --------------------------------------------------------------------

@@ -4,7 +4,7 @@ namespace App\Controllers\admin;
 
 use App\Controllers\BaseController;
 
-class Guru extends BaseController
+class MasterGuru extends BaseController
 {
     //index presensi
     public function index()

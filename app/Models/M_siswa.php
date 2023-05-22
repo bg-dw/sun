@@ -11,6 +11,7 @@ class M_siswa extends Model
     protected $useTimestamps = true;
     protected $allowedFields = [
         'id_siswa',
+        'status_siswa',
         'nis',
         'nisn',
         'nama',

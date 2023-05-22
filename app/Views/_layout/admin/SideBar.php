@@ -30,17 +30,40 @@ $segments = $uri->getSegments(); ?>
             </ul>
         </li>
         <li class="menu-header">Data Master</li>
-        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'siswa')) {
+        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-periode')) {
             echo "active";
         } ?>">
-            <a href="<?= base_url('admin/siswa') ?>" class="nav-link"><i data-feather="database"></i><span>Peserta
-                    Didik</span></a>
+            <a href="<?= base_url('admin/data-periode') ?>" class="nav-link">
+                <i data-feather="check-circle"></i><span>Data Periode</span>
+            </a>
         </li>
-        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'guru')) {
+        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-guru')) {
             echo "active";
         } ?>">
-            <a href="<?= base_url('admin/guru') ?>" class="nav-link"><i data-feather="database"></i><span>Data
-                    Guru</span></a>
+            <a href="<?= base_url('admin/data-guru') ?>" class="nav-link">
+                <i data-feather="book"></i><span>Data Guru</span>
+            </a>
+        </li>
+        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-siswa')) {
+            echo "active";
+        } ?>">
+            <a href="<?= base_url('admin/data-siswa') ?>" class="nav-link">
+                <i data-feather="users"></i><span> Data Peserta Didik</span>
+            </a>
+        </li>
+        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-kelas')) {
+            echo "active";
+        } ?>">
+            <a href="<?= base_url('admin/data-kelas') ?>" class="nav-link">
+                <i data-feather="home"></i><span>Data Kelas</span>
+            </a>
+        </li>
+        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-presensi')) {
+            echo "active";
+        } ?>">
+            <a href="<?= base_url('admin/data-presensi') ?>" class="nav-link">
+                <i data-feather="book-open"></i><span>Data Presensi</span>
+            </a>
         </li>
     </ul>
 </aside>

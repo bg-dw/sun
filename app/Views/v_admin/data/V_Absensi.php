@@ -4,10 +4,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Data Peserta Didik</h4>
+                <h4>Data Presensi</h4>
                 <div class="card-header-action" role="group" aria-label="Basic example" id="group-btn">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal"
-                        id="btn-import">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
                         <i class="fas fa-file-import"></i> Import
                     </button>
                     <button type="button" class="btn btn-primary" id="btn-add">
@@ -30,6 +29,7 @@
                                 <th class="text-center">NIS</th>
                                 <th class="text-center">NISN</th>
                                 <th class="text-center">Nama</th>
+                                <th class="text-center">RFID</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,6 +57,23 @@
                                         </td>
                                         <td>
                                             <?= $row['nama'] ?>
+                                        </td>
+                                        <td class="text-center" style="width: 15%">
+                                            <?php if ($row['rfid']): ?>
+                                                <button class="btn btn-icon btn-info" data-toggle="tooltip" title="
+                                            <?= $row['rfid'] ?>">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                <button class="btn btn-icon btn-outline-warning" data-toggle="tooltip"
+                                                    title="Edit RFID" onclick="edit_rfid('<?= $row['id_siswa'] ?>')">
+                                                    <i class="far fa-edit"></i>
+                                                </button>
+                                            <?php else: ?>
+                                                <button class="btn btn-icon btn-outline-primary" data-toggle="tooltip"
+                                                    title="Tambah RFID" onclick="add_rfid('<?= $row['id_siswa'] ?>')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php
@@ -167,10 +184,8 @@
 <script>
     // $(function () {
     // });
-    $('#btn-import').click(function () {
-        $('#add-modal').appendTo('body').modal('show');
-    });
     $('#btn-add').click(function () {
+        // $('#add-modal').appendTo('body').modal('show');
         $('#tbl-data').hide('slow');
         $('#group-btn').hide('slow');
         $('#f-add').show('slow');

@@ -28,8 +28,9 @@
 		}
 
 		li {
-			height: 50px;
-			border-bottom: 1px solid #333;
+			height: 60px;
+			/* border-bottom: 1px solid #333; */
+			overflow: hidden;
 		}
 
 		.btnFloat {
@@ -44,83 +45,82 @@
 <body>
 	<div class="loader"></div>
 	<div id="app">
-		<section class="section">
-			<div class="container mt-5">
-				<div class="row list mb-2" style="margin-top: -40px;">
-					<div class="col-md-4">
-						<input type="number" name="rfid" class="form-control" id="nomor" name="id"
-							style="margin-top:-500px;" />
-					</div>
-					<button class="btnFloat btn btn-icon btn-lg btn-primary" onclick="login()">
-						<i class="my-float fas fa-fingerprint"> Login</i>
-					</button>
+		<section class="section" style="overflow: hidden;">
+			<div class="row list m-2">
+				<div class="col-md-4">
+					<input type="number" name="rfid" class="form-control" id="nomor" name="id"
+						style="margin-top:-500px;" />
 				</div>
-				<div class="row list">
-					<div class="col-md-4 mb-4">
-						<div class="card card-primary h-100">
-							<div class="card-header">
-								<h4>Kelas - I</h4>
-							</div>
-							<div class="card-body" style="height: 250px;">
-								<div class="daftar">
-									<ul id="kelas1" style="margin-left: -40px;">
-									</ul>
-								</div>
-							</div>
+				<button class="btnFloat btn btn-icon btn-lg btn-primary" onclick="login()">
+					<i class="my-float fas fa-fingerprint"> Login</i>
+				</button>
+			</div>
+			<div class="row list m-2">
+				<div class="col-md-4 mb-4">
+					<div class="card card-primary h-100">
+						<div class="card-header">
+							<h4>Kelas - I</h4>
 						</div>
-					</div>
-					<div class="col-md-4 mb-4">
-						<div class="card card-primary h-100">
-							<div class="card-header center">
-								<h4>Kelas - II</h4>
-							</div>
-							<div class="card-body" style="min-height: 200px; max-height: 200px;overflow-x: auto;">
-								<table id="tb1">
-									<tbody class="output"></tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 mb-4">
-						<div class="card card-primary h-100">
-							<div class="card-header">
-								<h4>Kelas - III</h4>
-							</div>
-							<div class="card-body">
+						<div class="card-body" style="height: 250px;">
+							<div class="daftar">
+								<ul id="kelas1" style="margin-left: -40px;">
+								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row list">
-					<div class="col-md-4 mb-4">
-						<div class="card card-primary h-100">
-							<div class="card-header">
-								<h4>Kelas - IV</h4>
-							</div>
-							<div class="card-body" style="height: 250px;">
-							</div>
+				<div class="col-md-4 mb-4">
+					<div class="card card-primary h-100">
+						<div class="card-header center">
+							<h4>Kelas - II</h4>
 						</div>
-					</div>
-					<div class="col-md-4 mb-4">
-						<div class="card card-primary h-100">
-							<div class="card-header">
-								<h4>Kelas - V</h4>
-							</div>
-							<div class="card-body">
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 mb-4">
-						<div class="card card-primary h-100">
-							<div class="card-header">
-								<h4>Kelas - VI</h4>
-							</div>
-							<div class="card-body">
-							</div>
+						<div class="card-body" style="min-height: 200px; max-height: 200px;overflow-x: auto;">
+							<table id="tb1">
+								<tbody class="output"></tbody>
+							</table>
 						</div>
 					</div>
 				</div>
-
+				<div class="col-md-4 mb-4">
+					<div class="card card-primary h-100">
+						<div class="card-header">
+							<h4>Kelas - III</h4>
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row list m-2">
+				<div class="col-md-4 mb-4">
+					<div class="card card-primary h-100">
+						<div class="card-header">
+							<h4>Kelas - IV</h4>
+						</div>
+						<div class="card-body" style="height: 250px;">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 mb-4">
+					<div class="card card-primary h-100">
+						<div class="card-header">
+							<h4>Kelas - V</h4>
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 mb-4">
+					<div class="card card-primary h-100">
+						<div class="card-header">
+							<h4>Kelas - VI</h4>
+						</div>
+						<div class="card-body">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
 				<div class="row flogin" style="display:none;margin-top: 50px;">
 					<div
 						class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
@@ -191,7 +191,8 @@
 
 		function buat() {
 			for (let x in tamp) {
-				$("#kelas1").append("<li><h3>" + (tamp[x]) + "</h3></li>");
+				// $("#kelas1").append("<li><h3 style='margin-bottom:1px;'>" + (tamp[x]) + "</h3><label>Jam" + (tamp[x]) + "</label></li>");
+				$("#kelas1").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">07:00</span> Heading ' + (tamp[x]) + ' Heading 3</h3></li>');
 			}
 			loop();
 		}
