@@ -41,12 +41,14 @@
     <script src="<?= base_url() ?>/public/assets/js/page/chart-apexcharts.js"></script>
     <!-- Template JS File -->
     <script src="<?= base_url() ?>/public/assets/bundles/datatables/datatables.min.js"></script>
+    <script src="<?= base_url() ?>/public/assets/bundles/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script
         src="<?= base_url() ?>/public/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
     <!-- Page Specific JS File -->
     <script src="<?= base_url() ?>/public/assets/js/page/datatables.js"></script>
     <script src="<?= base_url() ?>/public/assets/bundles/izitoast/js/iziToast.min.js"></script>
     <script src="<?= base_url() ?>/public/assets/bundles/sweetalert/sweetalert.min.js"></script>
+    <script src="<?= base_url() ?>/public/assets/bundles/select2/dist/js/select2.full.min.js"></script>
     <script src="<?= base_url() ?>/public/assets/js/scripts.js"></script>
     <!-- Custom JS File -->
     <script src="<?= base_url() ?>/public/assets/js/custom.js"></script>

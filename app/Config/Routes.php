@@ -45,6 +45,7 @@ $routes->get('/admin/data-periode', 'admin\MasterPeriode::index');
 
 //data master guru
 $routes->get('/admin/data-guru', 'admin\MasterGuru::index');
+$routes->post('/admin/guru/add', 'admin\MasterGuru::add');
 
 $routes->get('/admin/data-siswa', 'admin\MasterSiswa::index');
 $routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');
@@ -53,9 +54,12 @@ $routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');
 
 //data master kelas
 $routes->get('/admin/data-kelas', 'admin\MasterKelas::index');
+$routes->post('/admin/kelas/add', 'admin\MasterKelas::add');
 
 //data master presensi
 $routes->get('/admin/data-presensi', 'admin\MasterPresensi::index');
+$routes->post('/admin/presensi/add', 'admin\MasterPresensi::add');
+$routes->post('/admin/edit/rfid', 'admin\MasterPresensi::edit_rfid');
 
 /*
  * --------------------------------------------------------------------

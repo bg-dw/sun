@@ -14,7 +14,7 @@ class MasterSiswa extends BaseController
     {
         $this->siswa = new M_siswa();
     }
-    //index presensi
+    //index siswa
     public function index()
     {
         $data['title'] = 'Data Peserta Didik';
@@ -95,14 +95,4 @@ class MasterSiswa extends BaseController
         return redirect()->route('admin/data-siswa');
     }
 
-    //edit rfid
-    public function edit_rfid()
-    {
-        $this->siswa->save([
-            'id_siswa' => $this->request->getVar('id_siswa'),
-            'rfid' => $this->request->getVar('rfid')
-        ]);
-        session()->setFlashdata('success', ' Data berhasil diperbaharui.');
-        return redirect()->route('admin/data-siswa');
-    }
 }
