@@ -28,7 +28,7 @@
 		}
 
 		li {
-			height: 60px;
+			height: 59px;
 			/* border-bottom: 1px solid #333; */
 			overflow: hidden;
 		}
@@ -62,8 +62,8 @@
 							<h4>Kelas - I</h4>
 						</div>
 						<div class="card-body" style="height: 250px;">
-							<div class="daftar">
-								<ul id="kelas1" style="margin-left: -40px;">
+							<div class="">
+								<ul id="" style="margin-left: -40px;">
 								</ul>
 							</div>
 						</div>
@@ -106,7 +106,11 @@
 						<div class="card-header">
 							<h4>Kelas - V</h4>
 						</div>
-						<div class="card-body">
+						<div class="card-body" style="height: 250px;">
+							<div class="daftar">
+								<ul id="kelas5" style="margin-left: -40px;">
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -183,18 +187,65 @@
 	<script src="<?= base_url() ?>/public/assets/js/custom.js"></script>
 	<script>
 		var input = document.getElementById("nomor");
-		var tamp = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+		// var tamp = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+		var tamp = [];
+		// var tamp2 = [tamp];
+
 		$(function () {
 			input.focus();
-			buat();
+			tampil();
 		});
 
+		function tampil() {
+			tamp = [];
+			$.ajax({
+				url: "<?= base_url('/show'); ?>",
+				type: 'post',
+				data: { d_kelas: 'V' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					for (let x in data) {
+						tamp.push([data[x]['jam_absensi'], data[x]['nama']]
+						);
+					}
+					console.log(tamp);
+
+					buat();
+				}
+			});
+		}
+
+		function tambah(rfid) {
+			$.ajax({
+				url: "<?= base_url('/inp'); ?>",
+				type: 'post',
+				data: { in_rfid: rfid },
+				success: function (result) {
+					let data = JSON.parse(result);
+					// console.table(data)
+					// if()
+					console.log('tambah data');
+					console.log(data);
+					console.log(data['status']);
+					// tamp.push([data[0]['jam_absensi'], data[0]['nama']]
+					// );
+
+					tampil();
+				}
+			});
+		}
+
 		function buat() {
+			let i = 0;
 			for (let x in tamp) {
 				// $("#kelas1").append("<li><h3 style='margin-bottom:1px;'>" + (tamp[x]) + "</h3><label>Jam" + (tamp[x]) + "</label></li>");
-				$("#kelas1").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">07:00</span> Heading ' + (tamp[x]) + ' Heading 3</h3></li>');
+				$("#kelas5").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp[i][0].substring(0, 5) + '</span> ' + tamp[i][1] + '</h3></li>');
+				i++;
 			}
-			loop();
+			// console.log(x);
+			if (i > 4) {//lakukan scroll data jika data lebih dari 4
+				loop();
+			}
 		}
 
 		function loop() {
@@ -224,12 +275,15 @@
 			if (event.key === "Enter") {
 				// Cancel the default action, if needed
 				event.preventDefault();
-				tamp.push(input.value.slice(-2));
-				console.log(input.value.slice(-2));
+				// tamp.push(input.value.slice(-2));
+				tambah(input.value);
+				// console.log(input.value.slice(-2));
 				input.value = '';
-				$('#kelas1').remove();
-				$(".daftar").append('<ul id="kelas1"></ul>');
-				buat();
+				$('#kelas5').remove();
+				$(".daftar").append('<ul id="kelas5"></ul>');
+				// buat();
+				// tampil();
+				// tambah((input.value));
 			}
 		});
 
@@ -243,8 +297,5 @@
 		}
 	</script>
 </body>
-
-
-<!-- auth-forgot-password.html  21 Nov 2019 04:05:02 GMT -->
 
 </html>
