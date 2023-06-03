@@ -36,6 +36,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Dashboard::index');
 $routes->post('/show', 'Dashboard::get_absen');
 $routes->post('/inp', 'Dashboard::put_absen');
+$routes->post('/get_last', 'Dashboard::get_total');
 
 $routes->post('/auth', 'Login::auth');
 $routes->get('/logout', 'Login::logout');

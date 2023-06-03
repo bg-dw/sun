@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/components.css">
 	<!-- Custom style CSS -->
 	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/custom.css">
+	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/shadow__btn.css">
 	<link rel='shortcut icon' type='image/x-icon' href='<?= base_url() ?>/public/assets/img/favicon.ico' />
 	<style>
 		.daftar {
@@ -51,7 +52,7 @@
 					<input type="number" name="rfid" class="form-control" id="nomor" name="id"
 						style="margin-top:-500px;" />
 				</div>
-				<button class="btnFloat btn btn-icon btn-lg btn-primary" onclick="login()">
+				<button class="btnFloat btn btn-icon btn-lg shadow__btn" onclick="login()">
 					<i class="my-float fas fa-fingerprint"> Login</i>
 				</button>
 			</div>
@@ -90,8 +91,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row list m-2">
+
 				<div class="col-md-4 mb-4">
 					<div class="card card-primary h-100">
 						<div class="card-header">
@@ -189,12 +189,30 @@
 		var input = document.getElementById("nomor");
 		// var tamp = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 		var tamp = [];
-		// var tamp2 = [tamp];
+		var last = 0;
 
 		$(function () {
 			input.focus();
+			setInterval(function () {
+				cek();
+			}, 1000);
 			tampil();
 		});
+
+		function cek() {
+			$.ajax({
+				url: "<?= base_url('/get_last'); ?>",
+				type: 'post',
+				data: { d_kelas: 'V' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					if (last != data['total']) {
+						last = data['total']
+						reload();
+					}
+				}
+			});
+		}
 
 		function tampil() {
 			tamp = [];
@@ -208,8 +226,6 @@
 						tamp.push([data[x]['jam_absensi'], data[x]['nama']]
 						);
 					}
-					console.log(tamp);
-
 					buat();
 				}
 			});
@@ -222,14 +238,6 @@
 				data: { in_rfid: rfid },
 				success: function (result) {
 					let data = JSON.parse(result);
-					// console.table(data)
-					// if()
-					console.log('tambah data');
-					console.log(data);
-					console.log(data['status']);
-					// tamp.push([data[0]['jam_absensi'], data[0]['nama']]
-					// );
-
 					tampil();
 				}
 			});
@@ -242,7 +250,6 @@
 				$("#kelas5").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp[i][0].substring(0, 5) + '</span> ' + tamp[i][1] + '</h3></li>');
 				i++;
 			}
-			// console.log(x);
 			if (i > 4) {//lakukan scroll data jika data lebih dari 4
 				loop();
 			}
@@ -275,17 +282,17 @@
 			if (event.key === "Enter") {
 				// Cancel the default action, if needed
 				event.preventDefault();
-				// tamp.push(input.value.slice(-2));
 				tambah(input.value);
-				// console.log(input.value.slice(-2));
 				input.value = '';
-				$('#kelas5').remove();
-				$(".daftar").append('<ul id="kelas5"></ul>');
-				// buat();
-				// tampil();
-				// tambah((input.value));
+				reload();
 			}
 		});
+
+		function reload() {
+			$('#kelas5').remove();
+			$(".daftar").append('<ul id="kelas5"></ul>');
+			tampil();
+		}
 
 		function login() {
 			$(".list").hide("slow");

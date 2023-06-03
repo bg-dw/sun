@@ -1,5 +1,8 @@
 <?= $this->extend('v_admin/Main') ?>
 <?= $this->section('content') ?>
+<?php
+// dd($home);
+?>
 <div class="row ">
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="card">
@@ -9,8 +12,16 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                             <div class="card-content">
                                 <h5 class="font-15">Total Siswa</h5>
-                                <h2 class="mb-3 font-18">258</h2>
-                                <p class="mb-0"><span class="col-green">10%</span> Increase</p>
+                                <h2 class="mb-3 font-18">
+                                    <?php if ($home) {
+                                        echo $home["L"];
+                                    } ?>
+                                </h2>
+                                <p class="mb-0"><span class="col-green">
+                                        <?php if (isset($home[0])) {
+                                            echo number_format((($home["L"] / ($home["L"] + $home["P"])) * 100), 1);
+                                        } ?>%
+                                    </span></p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -31,8 +42,16 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                             <div class="card-content">
                                 <h5 class="font-15"> Total Siswi</h5>
-                                <h2 class="mb-3 font-18">1,287</h2>
-                                <p class="mb-0"><span class="col-orange">09%</span> Decrease</p>
+                                <h2 class="mb-3 font-18">
+                                    <?php if ($home) {
+                                        echo $home["P"];
+                                    } ?>
+                                </h2>
+                                <p class="mb-0"><span class="col-orange">
+                                        <?php if (isset($home[0])) {
+                                            echo number_format((($home["P"] / ($home["L"] + $home["P"])) * 100), 1);
+                                        } ?>%
+                                    </span></p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -53,7 +72,11 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                             <div class="card-content">
                                 <h5 class="font-15">Total Siswa-Siswi</h5>
-                                <h2 class="mb-3 font-18">128</h2>
+                                <h2 class="mb-3 font-18">
+                                    <?php if ($home) {
+                                        echo $home["L"] + $home["P"];
+                                    } ?>
+                                </h2>
                                 <p class="mb-0"><span class="col-green">18%</span>
                                     Increase</p>
                             </div>
