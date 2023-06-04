@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- auth-forgot-password.html  21 Nov 2019 04:05:02 GMT -->
-
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 	<title>4 SEMAMBUNG</title>
-	<!-- General CSS Files -->
 	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/app.min.css">
-	<!-- tamplate CSS -->
 	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/style.css">
 	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/components.css">
-	<!-- Custom style CSS -->
 	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/custom.css">
 	<link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/shadow__btn.css">
-	<link rel='shortcut icon' type='image/x-icon' href='<?= base_url() ?>/public/assets/img/favicon.ico' />
+	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url() ?>/public/assets/img/favicon.ico">
 	<style>
-		.daftar {
+		.absen {
 			height: 250px;
 			overflow: hidden;
 		}
@@ -30,7 +24,6 @@
 
 		li {
 			height: 59px;
-			/* border-bottom: 1px solid #333; */
 			overflow: hidden;
 		}
 
@@ -63,8 +56,8 @@
 							<h4>Kelas - I</h4>
 						</div>
 						<div class="card-body" style="height: 250px;">
-							<div class="">
-								<ul id="" style="margin-left: -40px;">
+							<div class="absen daftar-1">
+								<ul id="kelas1" style="margin-left: -40px;">
 								</ul>
 							</div>
 						</div>
@@ -75,10 +68,11 @@
 						<div class="card-header center">
 							<h4>Kelas - II</h4>
 						</div>
-						<div class="card-body" style="min-height: 200px; max-height: 200px;overflow-x: auto;">
-							<table id="tb1">
-								<tbody class="output"></tbody>
-							</table>
+						<div class="card-body" style="height: 250px;">
+							<div class="absen daftar-2">
+								<ul id="kelas2" style="margin-left: -40px;">
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -87,7 +81,11 @@
 						<div class="card-header">
 							<h4>Kelas - III</h4>
 						</div>
-						<div class="card-body">
+						<div class="card-body" style="height: 250px;">
+							<div class="absen daftar-3">
+								<ul id="kelas3" style="margin-left: -40px;">
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -98,6 +96,10 @@
 							<h4>Kelas - IV</h4>
 						</div>
 						<div class="card-body" style="height: 250px;">
+							<div class="absen daftar-4">
+								<ul id="kelas4" style="margin-left: -40px;">
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -107,7 +109,7 @@
 							<h4>Kelas - V</h4>
 						</div>
 						<div class="card-body" style="height: 250px;">
-							<div class="daftar">
+							<div class="absen daftar-5">
 								<ul id="kelas5" style="margin-left: -40px;">
 								</ul>
 							</div>
@@ -119,7 +121,11 @@
 						<div class="card-header">
 							<h4>Kelas - VI</h4>
 						</div>
-						<div class="card-body">
+						<div class="card-body" style="height: 250px;">
+							<div class="absen daftar-6">
+								<ul id="kelas6" style="margin-left: -40px;">
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -137,8 +143,7 @@
 									novalidate="">
 									<div class="form-group">
 										<label for="email">Email</label>
-										<input id="email" type="text" class="form-control" name="email" tabindex="1"
-											autofocus>
+										<input id="email" type="text" class="form-control" name="email" tabindex="1">
 										<div class="invalid-feedback">
 											Please fill in your email
 										</div>
@@ -187,50 +192,6 @@
 	<script src="<?= base_url() ?>/public/assets/js/custom.js"></script>
 	<script>
 		var input = document.getElementById("nomor");
-		// var tamp = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-		var tamp = [];
-		var last = 0;
-
-		$(function () {
-			input.focus();
-			setInterval(function () {
-				cek();
-			}, 1000);
-			tampil();
-		});
-
-		function cek() {
-			$.ajax({
-				url: "<?= base_url('/get_last'); ?>",
-				type: 'post',
-				data: { d_kelas: 'V' },
-				success: function (result) {
-					let data = JSON.parse(result);
-					if (last != data['total']) {
-						last = data['total']
-						reload();
-					}
-				}
-			});
-		}
-
-		function tampil() {
-			tamp = [];
-			$.ajax({
-				url: "<?= base_url('/show'); ?>",
-				type: 'post',
-				data: { d_kelas: 'V' },
-				success: function (result) {
-					let data = JSON.parse(result);
-					for (let x in data) {
-						tamp.push([data[x]['jam_absensi'], data[x]['nama']]
-						);
-					}
-					buat();
-				}
-			});
-		}
-
 		function tambah(rfid) {
 			$.ajax({
 				url: "<?= base_url('/inp'); ?>",
@@ -238,45 +199,24 @@
 				data: { in_rfid: rfid },
 				success: function (result) {
 					let data = JSON.parse(result);
-					tampil();
+					if (data['status'] == 'success') {
+						if (data['kelas'] == 'I') {
+							reload_satu();
+						} else if (data['kelas'] == 'II') {
+							reload_dua();
+						} else if (data['kelas'] == 'III') {
+							reload_tiga();
+						} else if (data['kelas'] == 'IV') {
+							reload_empat();
+						} else if (data['kelas'] == 'V') {
+							reload_lima();
+						} else if (data['kelas'] == 'VI') {
+							reload_enam();
+						}
+					}
 				}
 			});
 		}
-
-		function buat() {
-			let i = 0;
-			for (let x in tamp) {
-				// $("#kelas1").append("<li><h3 style='margin-bottom:1px;'>" + (tamp[x]) + "</h3><label>Jam" + (tamp[x]) + "</label></li>");
-				$("#kelas5").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp[i][0].substring(0, 5) + '</span> ' + tamp[i][1] + '</h3></li>');
-				i++;
-			}
-			if (i > 4) {//lakukan scroll data jika data lebih dari 4
-				loop();
-			}
-		}
-
-		function loop() {
-			setTimeout(function () {
-				var tickerLength = $('.daftar ul li').length;
-				var tickerHeight = $('.daftar ul li').outerHeight();
-				$('.daftar ul li:last-child').prependTo('.daftar ul');
-				$('.daftar ul').css('marginTop', -tickerHeight);
-
-				function moveTop() {
-					$('.daftar ul').animate({
-						top: -tickerHeight
-					}, 2000, function () {
-						$('.daftar ul li:first-child').appendTo('.daftar ul');
-						$('.daftar ul').css('top', '');
-					});
-				}
-				setInterval(function () {
-					moveTop();
-				}, 1500);
-			}, 1000);
-		}
-
-		// Execute a function when the user presses a key on the keyboard
 		input.addEventListener("keypress", function (event) {
 			// If the user presses the "Enter" key on the keyboard
 			if (event.key === "Enter") {
@@ -284,14 +224,469 @@
 				event.preventDefault();
 				tambah(input.value);
 				input.value = '';
-				reload();
 			}
 		});
 
-		function reload() {
+		$(function () {
+			input.focus();
+			tampil_satu();
+			tampil_dua();
+			tampil_tiga();
+			tampil_empat();
+			tampil_lima();
+			tampil_enam();
+			setInterval(function () {
+				cek_satu();
+				cek_dua();
+				cek_tiga();
+				cek_empat();
+				cek_lima();
+				cek_enam();
+			}, 1000);
+		});
+
+		//kelas1
+		var tamp_satu = [];
+		var last_satu = 0;
+
+		function cek_satu() {
+			$.ajax({
+				url: "<?= base_url('/get_last'); ?>",
+				type: 'post',
+				data: { d_kelas: 'I' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					// console.log(data['total']);
+					if (last_satu != data['total']) {
+						last_satu = data['total']
+						reload_satu();
+					}
+				}
+			});
+		}
+
+		function tampil_satu() {
+			tamp_satu = [];
+			$.ajax({
+				url: "<?= base_url('/show'); ?>",
+				type: 'post',
+				data: { d_kelas: 'I' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					for (let x in data) {
+						tamp_satu.push([data[x]['jam_absensi'], data[x]['nama']]
+						);
+					}
+					buat_satu();
+				}
+			});
+		}
+
+		function buat_satu() {
+			let i = 0;
+			for (let x in tamp_satu) {
+				$("#kelas1").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp_satu[i][0].substring(0, 5) + '</span> ' + tamp_satu[i][1] + '</h3></li>');
+				i++;
+			}
+			if (i > 4) {//lakukan scroll data jika data lebih dari 4
+				loop_satu();
+			}
+		}
+
+		function loop_satu() {
+			setTimeout(function () {
+				let tickerLength = $('.daftar-1 ul li').length;
+				let tickerHeight = $('.daftar-1 ul li').outerHeight();
+				$('.daftar-1 ul li:last-child').prependTo('.daftar-1 ul');
+				$('.daftar-1 ul').css('marginTop', -tickerHeight);
+
+				function moveTop_satu() {
+					$('.daftar-1 ul').animate({
+						top: -tickerHeight
+					}, 2000, function () {
+						$('.daftar-1 ul li:first-child').appendTo('.daftar-1 ul');
+						$('.daftar-1 ul').css('top', '');
+					});
+				}
+				setInterval(function () {
+					moveTop_satu();
+				}, 1500);
+			}, 1000);
+		}
+
+		function reload_satu() {
+			$('#kelas1').remove();
+			$(".daftar-1").append('<ul id="kelas1" style="margin-left: -40px;"></ul>');
+			tampil_satu();
+		}
+
+		//kelas 2
+		var tamp_dua = [];
+		var last_dua = 0;
+		function cek_dua() {
+			$.ajax({
+				url: "<?= base_url('/get_last'); ?>",
+				type: 'post',
+				data: { d_kelas: 'II' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					if (last_dua != data['total']) {
+						last_dua = data['total']
+						reload_dua();
+					}
+				}
+			});
+		}
+
+		function tampil_dua() {
+			tamp_dua = [];
+			$.ajax({
+				url: "<?= base_url('/show'); ?>",
+				type: 'post',
+				data: { d_kelas: 'II' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					for (let x in data) {
+						tamp_dua.push([data[x]['jam_absensi'], data[x]['nama']]
+						);
+					}
+					buat_dua();
+				}
+			});
+		}
+
+		function buat_dua() {
+			let i = 0;
+			for (let x in tamp_dua) {
+				$("#kelas2").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp_dua[i][0].substring(0, 5) + '</span> ' + tamp_dua[i][1] + '</h3></li>');
+				i++;
+			}
+			if (i > 4) {//lakukan scroll data jika data lebih dari 4
+				loop_dua();
+			}
+		}
+
+		function loop_dua() {
+			setTimeout(function () {
+				let tickerLength = $('.daftar-2 ul li').length;
+				let tickerHeight = $('.daftar-2 ul li').outerHeight();
+				$('.daftar-2 ul li:last-child').prependTo('.daftar-2 ul');
+				$('.daftar-2 ul').css('marginTop', -tickerHeight);
+
+				function moveTop_dua() {
+					$('.daftar-2 ul').animate({
+						top: -tickerHeight
+					}, 2000, function () {
+						$('.daftar-2 ul li:first-child').appendTo('.daftar-2 ul');
+						$('.daftar-2 ul').css('top', '');
+					});
+				}
+				setInterval(function () {
+					moveTop_dua();
+				}, 1500);
+			}, 1000);
+		}
+
+		function reload_dua() {
+			$('#kelas2').remove();
+			$(".daftar-2").append('<ul id="kelas2" style="margin-left: -40px;"></ul>');
+			tampil_dua();
+		}
+
+		// kelas 3
+		var tamp_tiga = [];
+		var last_tiga = 0;
+
+		function cek_tiga() {
+			$.ajax({
+				url: "<?= base_url('/get_last'); ?>",
+				type: 'post',
+				data: { d_kelas: 'III' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					if (last_tiga != data['total']) {
+						last_tiga = data['total']
+						reload_tiga();
+					}
+				}
+			});
+		}
+
+		function tampil_tiga() {
+			tamp_tiga = [];
+			$.ajax({
+				url: "<?= base_url('/show'); ?>",
+				type: 'post',
+				data: { d_kelas: 'III' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					for (let x in data) {
+						tamp_tiga.push([data[x]['jam_absensi'], data[x]['nama']]
+						);
+					}
+					buat_tiga();
+				}
+			});
+		}
+
+		function buat_tiga() {
+			let i = 0;
+			for (let x in tamp_tiga) {
+				$("#kelas3").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp_tiga[i][0].substring(0, 5) + '</span> ' + tamp_tiga[i][1] + '</h3></li>');
+				i++;
+			}
+			if (i > 4) {//lakukan scroll data jika data lebih dari 4
+				loop_tiga();
+			}
+		}
+
+		function loop_tiga() {
+			setTimeout(function () {
+				let tickerLength = $('.daftar-3 ul li').length;
+				let tickerHeight = $('.daftar-3 ul li').outerHeight();
+				$('.daftar-3 ul li:last-child').prependTo('.daftar-3 ul');
+				$('.daftar-3 ul').css('marginTop', -tickerHeight);
+
+				function moveTop_tiga() {
+					$('.daftar-3 ul').animate({
+						top: -tickerHeight
+					}, 2000, function () {
+						$('.daftar-3 ul li:first-child').appendTo('.daftar-3 ul');
+						$('.daftar-3 ul').css('top', '');
+					});
+				}
+				setInterval(function () {
+					moveTop_tiga();
+				}, 1500);
+			}, 1000);
+		}
+
+		function reload_tiga() {
+			$('#kelas3').remove();
+			$(".daftar-3").append('<ul id="kelas3" style="margin-left: -40px;"></ul>');
+			tampil_tiga();
+		}
+
+		//kelas 4
+		var tamp_empat = [];
+		var last_empat = 0;
+
+		function cek_empat() {
+			$.ajax({
+				url: "<?= base_url('/get_last'); ?>",
+				type: 'post',
+				data: { d_kelas: 'IV' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					if (last_empat != data['total']) {
+						last_empat = data['total']
+						reload_empat();
+					}
+				}
+			});
+		}
+
+		function tampil_empat() {
+			tamp_empat = [];
+			$.ajax({
+				url: "<?= base_url('/show'); ?>",
+				type: 'post',
+				data: { d_kelas: 'IV' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					for (let x in data) {
+						tamp_empat.push([data[x]['jam_absensi'], data[x]['nama']]
+						);
+					}
+					buat_empat();
+				}
+			});
+		}
+
+		function buat_empat() {
+			let i = 0;
+			for (let x in tamp_empat) {
+				$("#kelas4").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp_empat[i][0].substring(0, 5) + '</span> ' + tamp_empat[i][1] + '</h3></li>');
+				i++;
+			}
+			if (i > 4) {//lakukan scroll data jika data lebih dari 4
+				loop_empat();
+			}
+		}
+
+		function loop_empat() {
+			setTimeout(function () {
+				let tickerLength = $('.daftar-4 ul li').length;
+				let tickerHeight = $('.daftar-4 ul li').outerHeight();
+				$('.daftar-4 ul li:last-child').prependTo('.daftar-4 ul');
+				$('.daftar-4 ul').css('marginTop', -tickerHeight);
+
+				function moveTop_empat() {
+					$('.daftar-4 ul').animate({
+						top: -tickerHeight
+					}, 2000, function () {
+						$('.daftar-4 ul li:first-child').appendTo('.daftar-4 ul');
+						$('.daftar-4 ul').css('top', '');
+					});
+				}
+				setInterval(function () {
+					moveTop_empat();
+				}, 1500);
+			}, 1000);
+		}
+
+		function reload_empat() {
+			$('#kelas4').remove();
+			$(".daftar-4").append('<ul id="kelas4" style="margin-left: -40px;"></ul>');
+			tampil_empat();
+		}
+
+		//kelas 5
+		var tamp_lima = [];
+		var last_lima = 0;
+
+		function cek_lima() {
+			$.ajax({
+				url: "<?= base_url('/get_last'); ?>",
+				type: 'post',
+				data: { d_kelas: 'V' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					if (last_lima != data['total']) {
+						last_lima = data['total']
+						reload_lima();
+					}
+				}
+			});
+		}
+
+		function tampil_lima() {
+			tamp_lima = [];
+			$.ajax({
+				url: "<?= base_url('/show'); ?>",
+				type: 'post',
+				data: { d_kelas: 'V' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					for (let x in data) {
+						tamp_lima.push([data[x]['jam_absensi'], data[x]['nama']]
+						);
+					}
+					buat_lima();
+				}
+			});
+		}
+
+		function buat_lima() {
+			let i = 0;
+			for (let x in tamp_lima) {
+				$("#kelas5").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp_lima[i][0].substring(0, 5) + '</span> ' + tamp_lima[i][1] + '</h3></li>');
+				i++;
+			}
+			if (i > 4) {//lakukan scroll data jika data lebih dari 4
+				loop_lima();
+			}
+		}
+
+		function loop_lima() {
+			setTimeout(function () {
+				let tickerLength = $('.daftar-5 ul li').length;
+				let tickerHeight = $('.daftar-5 ul li').outerHeight();
+				$('.daftar-5 ul li:last-child').prependTo('.daftar-5 ul');
+				$('.daftar-5 ul').css('marginTop', -tickerHeight);
+
+				function moveTop_lima() {
+					$('.daftar-5 ul').animate({
+						top: -tickerHeight
+					}, 2000, function () {
+						$('.daftar-5 ul li:first-child').appendTo('.daftar-5 ul');
+						$('.daftar-5 ul').css('top', '');
+					});
+				}
+				setInterval(function () {
+					moveTop_lima();
+				}, 1500);
+			}, 1000);
+		}
+
+		function reload_lima() {
 			$('#kelas5').remove();
-			$(".daftar").append('<ul id="kelas5"></ul>');
-			tampil();
+			$(".daftar-5").append('<ul id="kelas5" style="margin-left: -40px;"></ul>');
+			tampil_lima();
+		}
+
+		//kelas 6
+		var tamp_enam = [];
+		var last_enam = 0;
+
+		function cek_enam() {
+			$.ajax({
+				url: "<?= base_url('/get_last'); ?>",
+				type: 'post',
+				data: { d_kelas: 'VI' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					if (last_enam != data['total']) {
+						last_enam = data['total']
+						reload_enam();
+					}
+				}
+			});
+		}
+
+		function tampil_enam() {
+			tamp_enam = [];
+			$.ajax({
+				url: "<?= base_url('/show'); ?>",
+				type: 'post',
+				data: { d_kelas: 'VI' },
+				success: function (result) {
+					let data = JSON.parse(result);
+					for (let x in data) {
+						tamp_enam.push([data[x]['jam_absensi'], data[x]['nama']]
+						);
+					}
+					buat_enam();
+				}
+			});
+		}
+
+		function buat_enam() {
+			let i = 0;
+			for (let x in tamp_enam) {
+				$("#kelas6").append('<li><h3 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp_enam[i][0].substring(0, 5) + '</span> ' + tamp_enam[i][1] + '</h3></li>');
+				i++;
+			}
+			if (i > 4) {//lakukan scroll data jika data lebih dari 4
+				loop_enam();
+			}
+		}
+
+		function loop_enam() {
+			setTimeout(function () {
+				let tickerLength = $('.daftar-6 ul li').length;
+				let tickerHeight = $('.daftar-6 ul li').outerHeight();
+				$('.daftar-6 ul li:last-child').prependTo('.daftar-6 ul');
+				$('.daftar-6 ul').css('marginTop', -tickerHeight);
+
+				function moveTop_enam() {
+					$('.daftar-6 ul').animate({
+						top: -tickerHeight
+					}, 2000, function () {
+						$('.daftar-6 ul li:first-child').appendTo('.daftar-6 ul');
+						$('.daftar-6 ul').css('top', '');
+					});
+				}
+				setInterval(function () {
+					moveTop_enam();
+				}, 1500);
+			}, 1000);
+		}
+
+		function reload_enam() {
+			$('#kelas6').remove();
+			$(".daftar-6").append('<ul id="kelas6" style="margin-left: -40px;"></ul>');
+			tampil_enam();
 		}
 
 		function login() {
@@ -303,6 +698,12 @@
 			$(".list").show("slow");
 		}
 	</script>
+	<!-- <script src="<?= base_url() ?>/public/assets/js/script_1.js"></script>
+	<script src="<?= base_url() ?>/public/assets/js/script_2.js"></script>
+	<script src="<?= base_url() ?>/public/assets/js/script_3.js"></script>
+	<script src="<?= base_url() ?>/public/assets/js/script_4.js"></script>
+	<script src="<?= base_url() ?>/public/assets/js/script_5.js"></script>
+	<script src="<?= base_url() ?>/public/assets/js/script_6.js"></script> -->
 </body>
 
 </html>

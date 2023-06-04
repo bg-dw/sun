@@ -4,169 +4,66 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Absensi Hari Ini</h4>
+                <h4>Presensi Hari Ini</h4>
             </div>
             <div class="card-body">
+                <div class="float-right" role="group" aria-label="Basic example" id="group-btn">
+                    <div class="form-inline">
+                        <form action="<?= base_url('admin/presensi') ?>" method="post" id="f-kelas">
+                            <select class="form-control bg-primary text-white" name="kelas"
+                                onchange="$('#f-kelas').submit()">
+                                <?php foreach ($kelas as $row): ?>
+                                    <option value="<?= $row['kelas'] ?>" <?php if ($sel == $row['kelas']) {
+                                          echo "selected";
+                                      } ?>>
+                                        Kelas
+                                        <?= $row['kelas'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </form>
+                    </div>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="table-1">
+                    <table class="table table-striped" id="today">
                         <thead>
                             <tr>
                                 <th class="text-center">
                                     #
                                 </th>
                                 <th>Nama</th>
-                                <th>Kehadiran</th>
+                                <th>Jam</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>Create a mobile app</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-success width-per-40">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2
-                                </td>
-                                <td>Redesign homepage</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar width-per-60"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    3
-                                </td>
-                                <td>Backup database</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-warning width-per-70"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    4
-                                </td>
-                                <td>Input data</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-success width-per-90"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    5
-                                </td>
-                                <td>Create a mobile app</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-success width-per-40">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    6
-                                </td>
-                                <td>Redesign homepage</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar width-per-60"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    7
-                                </td>
-                                <td>Backup database</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-warning width-per-70"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    8
-                                </td>
-                                <td>Input data</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-success width-per-90"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    9
-                                </td>
-                                <td>Create a mobile app</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-success width-per-40">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    10
-                                </td>
-                                <td>Redesign homepage</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar width-per-60"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    11
-                                </td>
-                                <td>Backup database</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-warning width-per-70"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    12
-                                </td>
-                                <td>Input data</td>
-                                <td class="align-middle">
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar bg-success width-per-90"></div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="btn btn-primary">Detail</a></td>
-                            </tr>
+                            <?php $i = 1;
+                            foreach ($absen as $bar): ?>
+                                <tr>
+                                    <td class="text-center" width="5%">
+                                        <?= $i++ . "."; ?>
+                                    </td>
+                                    <td>
+                                        <?= $bar['nama']; ?>
+                                    </td>
+                                    <td class="align-middle">
+                                        <?php
+                                        $first = new DateTime('07:00:59');
+                                        $second = new DateTime($bar['jam_absensi']);
+                                        ?>
+                                        <?php if ($second > $first): ?>
+                                            <span class="badge badge-light">
+                                                <?= $bar['jam_absensi'] ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="badge badge-dark">
+                                                <?= $bar['jam_absensi'] ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><a href="#" class="btn btn-primary">Detail</a></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -174,4 +71,11 @@
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        $('#today').dataTable({
+            "pageLength": 50
+        });
+    });
+</script>
 <?= $this->endSection() ?>

@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- errors-404.html  21 Nov 2019 04:05:02 GMT -->
-
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
@@ -48,8 +45,5 @@
     <!-- Custom JS File -->
     <script src="<?= base_url() ?>/public/assets/js/custom.js"></script>
 </body>
-
-
-<!-- errors-404.html  21 Nov 2019 04:05:02 GMT -->
 
 </html>

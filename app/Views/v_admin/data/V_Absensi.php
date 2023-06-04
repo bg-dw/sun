@@ -13,10 +13,9 @@
             </div>
             <div class="card-body" id="tbl-data">
                 <?php
-                // dd($presensi);
                 ?>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="table-1">
+                    <table class="table table-striped" id="data-presensi">
                         <thead>
                             <tr>
                                 <th class="text-center">
@@ -144,6 +143,14 @@
 </div>
 
 <script>
+    $(function () {
+        $('#data-presensi').DataTable({
+            // "order": [[3, 'asc']],
+            "columnDefs": [
+                { "orderable": false, "targets": [1, 4] }
+            ]
+        });
+    });
     $('#btn-add').click(function () {
         $('#tbl-data').hide('slow');
         $('#btn-add').hide('slow');

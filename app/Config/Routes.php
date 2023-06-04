@@ -21,7 +21,8 @@ $routes->setDefaultController('Dashboard');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override(function () {
-	return view('notFound');
+	// return view('notFound');
+	// return redirect()->route('/');
 });
 $routes->setAutoRoute(true);
 
@@ -41,7 +42,10 @@ $routes->post('/get_last', 'Dashboard::get_total');
 $routes->post('/auth', 'Login::auth');
 $routes->get('/logout', 'Login::logout');
 $routes->get('/admin/home', 'admin\Home::index');
+
+//presensi
 $routes->get('/admin/presensi', 'admin\Presensi::index');
+$routes->post('/admin/presensi', 'admin\Presensi::index');
 $routes->get('/admin/rekap-presensi', 'admin\Presensi::rekap');
 
 //data master periode

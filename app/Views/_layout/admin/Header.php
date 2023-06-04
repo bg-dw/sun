@@ -1,6 +1,7 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>PRESENSI
+<title>
+    <?= isset($title) ? "PRESENSI - " . $title : "PRESENSI"; ?>
 </title>
 <!-- General CSS Files -->
 <link rel="stylesheet" href="<?= site_url() ?>/public/assets/css/app.min.css">

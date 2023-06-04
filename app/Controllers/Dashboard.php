@@ -43,9 +43,9 @@ class Dashboard extends BaseController
 					'jenis_absensi' => 'rfid'
 				];
 				$set_data = $this->home->simpan($data);
-				return json_encode(['status' => 'success', 'isi' => $set_data]);
+				return json_encode(['status' => 'success', 'isi' => $set_data, 'kelas' => $get_data[0]->kelas]);
 			} else {
-				return json_encode(['status' => 'failed', 'isi' => '']);
+				return json_encode(['status' => 'failed', 'isi' => '', 'kelas' => '']);
 			}
 		}
 	}
