@@ -10,6 +10,7 @@ class MasterPeriode extends BaseController
     protected $periode;
     public function __construct()
     {
+        $this->is_session_available();
         $this->periode = new M_periode();
     }
     //index periode

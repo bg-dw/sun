@@ -12,6 +12,7 @@ class MasterKelas extends BaseController
     protected $kelas, $periode, $guru;
     public function __construct()
     {
+        $this->is_session_available();
         $this->periode = new M_periode();
         $this->kelas = new M_kelas();
         $this->guru = new M_guru();

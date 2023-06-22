@@ -12,6 +12,7 @@ class MasterSiswa extends BaseController
     protected $siswa;
     public function __construct()
     {
+        $this->is_session_available();
         $this->siswa = new M_siswa();
     }
     //index siswa

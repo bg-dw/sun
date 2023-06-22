@@ -17,7 +17,7 @@
             </div>
             <div class="card-body" id="tbl-data">
                 <?php
-                // dd($guru);
+
                 ?>
                 <div class="table-responsive">
                     <table class="table table-striped" id="table-1">
@@ -44,10 +44,12 @@
                                             <?= $i++; ?>
                                         </td>
                                         <td class="text-center" style="width: 10%">
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Siswa">
+                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Guru"
+                                                onclick="edit('<?= $row['id_guru'] ?>','<?= $row['nip'] ?>','<?= $row['nama_guru'] ?>','<?= $row['gelar_guru'] ?>','<?= $row['level_login'] ?>','<?= $row['status_guru'] ?>');">
                                                 <i class="fas fa-pen"></i>
                                             </button>
-                                            <button class="btn btn-danger" data-toggle="tooltip" title="Hapus Siswa">
+                                            <button class="btn btn-danger" title="Hapus Guru"
+                                                onclick="del('<?= $row['id_guru'] ?>','<?= $row['nama_guru'] ?>')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -112,11 +114,72 @@
                     </div>
                 </form>
             </div>
+            <div class="card-body" id="f-edit" style="display:none;">
+                <form action="<?= base_url('admin/guru/update') ?>" method="post"
+                    onsubmit="return confirm('Simpan data?')">
+                    <?= csrf_field(); ?>
+                    <input type="hidden" name="id" id="e-id" required>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>NIP</label>
+                            <input type="text" name="nip" class="form-control" placeholder="Ex:123" id="e-nip">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Nama</label>
+                            <input type="text" name="nama" class="form-control" placeholder="Ex:Midas" id="e-nama"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Gelar</label>
+                            <input type="text" name="gelar" class="form-control" placeholder="Ex:S.Pd." id="e-gelar">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Akses</label>
+                            <select name="akses" class="form-control" required id="e-level">
+                                <option value="GR">Guru</option>
+                                <option value="KS">Kepala Sekolah</option>
+                                <option value="ADM">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="submit">Simpan</button>
+                        <button class="btn btn-secondary" type="button" id="btn-cancel-edit">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modal-delete" tabindex="-100" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hapus Data?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="<?= base_url('admin/guru/delete') ?>" method="post">
+                    <?= csrf_field(); ?>
+                    <input type="hidden" name="id" id="h-id" required>
+                    <center>
+                        <h2 id="h-nama"></h2>
+                    </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-danger">Hapus</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
 <script>
-
     $('#btn-import').click(function () {
         $('#add-modal').appendTo('body').modal('show');
     });
@@ -132,5 +195,29 @@
         $('#tbl-data').show('slow');
         $('#card-title').text('Data Guru');
     });
+
+    function edit(id, nip, nama, gelar, level, status) {
+        $('#tbl-data').hide('slow');
+        $('#group-btn').hide('slow');
+        $('#e-id').val(id);
+        $('#e-nip').val(nip);
+        $('#e-nama').val(nama);
+        $('#e-gelar').val(gelar);
+        $('#e-level').val(level);
+        $('#f-edit').show('slow');
+        $('#card-title').text('Update Data Guru');
+    }
+    $('#btn-cancel-edit').click(function () {
+        $('#f-edit').hide('slow');
+        $('#group-btn').show('slow');
+        $('#tbl-data').show('slow');
+        $('#card-title').text('Data Guru');
+    });
+
+    function del(id, nama) {
+        $('#h-id').val(id);
+        $('#h-nama').text(nama);
+        $('#modal-delete').appendTo('body').modal('show');
+    }
 </script>
 <?= $this->endSection() ?>

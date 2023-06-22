@@ -35,10 +35,13 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Dashboard::index');
+$routes->get('/beranda', 'Dashboard::index');
 $routes->post('/show', 'Dashboard::get_absen');
 $routes->post('/inp', 'Dashboard::put_absen');
 $routes->post('/get_last', 'Dashboard::get_total');
 
+//Login
+$routes->get('/login', 'Login::index');
 $routes->post('/auth', 'Login::auth');
 $routes->get('/logout', 'Login::logout');
 $routes->get('/admin/home', 'admin\Home::index');
@@ -47,6 +50,7 @@ $routes->get('/admin/home', 'admin\Home::index');
 $routes->get('/admin/presensi', 'admin\Presensi::index');
 $routes->post('/admin/presensi', 'admin\Presensi::index');
 $routes->get('/admin/rekap-presensi', 'admin\Presensi::rekap');
+$routes->post('/admin/rekap-presensi', 'admin\Presensi::rekap');
 
 //data master periode
 $routes->get('/admin/data-periode', 'admin\MasterPeriode::index');
@@ -54,6 +58,8 @@ $routes->get('/admin/data-periode', 'admin\MasterPeriode::index');
 //data master guru
 $routes->get('/admin/data-guru', 'admin\MasterGuru::index');
 $routes->post('/admin/guru/add', 'admin\MasterGuru::add');
+$routes->post('/admin/guru/update', 'admin\MasterGuru::update');
+$routes->post('/admin/guru/delete', 'admin\MasterGuru::delete');
 
 $routes->get('/admin/data-siswa', 'admin\MasterSiswa::index');
 $routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');

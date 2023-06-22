@@ -20,6 +20,16 @@ use Psr\Log\LoggerInterface;
 
 class BaseController extends Controller
 {
+
+	//cek session
+	public function is_session_available()
+	{
+		if (session()->get('passed') != true):
+			session()->setFlashdata('warning', 'Tidak Memiliki Hak Akses!');
+			header('Location: ' . base_url());
+			exit();
+		endif;
+	}
 	/**
 	 * An array of helpers to be loaded automatically upon
 	 * class instantiation. These helpers will be available
@@ -27,7 +37,7 @@ class BaseController extends Controller
 	 *
 	 * @var array
 	 */
-	protected $helpers = [];
+	protected $helpers = ['url'];
 
 	/**
 	 * Constructor.
@@ -46,8 +56,9 @@ class BaseController extends Controller
 		// Preload any models, libraries, etc, here.
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
-		// $this->session = \Config\Services::session();
-		session();
+
+		$this->session = \Config\Services::session();
 		$this->validation = \Config\Services::validation();
+
 	}
 }

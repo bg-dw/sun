@@ -12,6 +12,7 @@ class MasterPresensi extends BaseController
     protected $presensi, $kelas, $siswa;
     public function __construct()
     {
+        $this->is_session_available();
         $this->presensi = new M_presensi();
         $this->kelas = new M_kelas();
         $this->siswa = new M_siswa();

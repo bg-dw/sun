@@ -1,7 +1,7 @@
 <?php
 $uri = current_url(true);
 $segments = $uri->getSegments(); ?>
-<aside id="sidebar-wrapper">
+<aside id="sidebar-wrapper" class="d-print-none">
     <div class="sidebar-brand">
         <a href="<?= base_url('admin/home') ?>"> <img alt="image" src="<?= base_url() ?>/public/assets/img/logo.png"
                 class="header-logo" />

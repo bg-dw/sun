@@ -1,4 +1,4 @@
-<div class="form-inline mr-auto">
+<div class="form-inline mr-auto d-print-none">
     <ul class="navbar-nav mr-3">
         <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
                                     collapse-btn"> <i data-feather="align-justify"></i></a></li>
@@ -8,18 +8,18 @@
         </li>
     </ul>
 </div>
-<ul class="navbar-nav navbar-right">
+<ul class="navbar-nav navbar-right d-print-none">
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="<?= base_url() ?>/public/assets/img/user.png" class="user-img-radious-style"> <span
                 class="d-sm-none d-lg-inline-block"></span></a>
         <div class="dropdown-menu dropdown-menu-right pullDown">
-            <div class="dropdown-title">Hello Sarah Smith</div>
-            <a href="profile.html" class="dropdown-item has-icon"> <i class="far
-                                        fa-user"></i> Profile
-            </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
-                Activities
-            </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
-                Settings
+            <div class="dropdown-title">
+                <?= session()->get('nama') ?>
+            </div>
+            <a href="profile.html" class="dropdown-item has-icon"> <i class="far fa-user"></i> Ganti Username
+            </a>
+            <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-lock"></i>
+                Ganti Password
             </a>
             <div class="dropdown-divider"></div>
             <a href="<?= base_url('logout') ?>" class="dropdown-item has-icon text-danger"> <i

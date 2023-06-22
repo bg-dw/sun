@@ -10,6 +10,7 @@ class MasterGuru extends BaseController
     protected $guru;
     public function __construct()
     {
+        $this->is_session_available();
         $this->guru = new M_guru();
     }
     //index presensi
@@ -23,13 +24,48 @@ class MasterGuru extends BaseController
     //tambah guru
     public function add()
     {
-        $this->guru->save([
+        $send = $this->guru->save([
             'nip' => $this->request->getVar('nip'),
             'nama_guru' => strtoupper($this->request->getVar('nama')),
             'gelar_guru' => $this->request->getVar('gelar'),
             'level_login' => $this->request->getVar('akses'),
             'status_guru' => 'aktif'
         ]);
+        if ($send):
+            session()->setFlashdata('success', ' Data berhasil ditambahkan.');
+        else:
+            session()->setFlashdata('warning', ' Data gagal ditambahkan.');
+        endif;
+        return redirect()->route('admin/data-guru');
+    }
+
+    //update guru
+    public function update()
+    {
+        $send = $this->guru->save([
+            'id_guru' => $this->request->getVar('id'),
+            'nip' => $this->request->getVar('nip'),
+            'nama_guru' => $this->request->getVar('nama'),
+            'gelar_guru' => $this->request->getVar('gelar'),
+            'level_login' => $this->request->getVar('akses')
+        ]);
+        if ($send):
+            session()->setFlashdata('success', ' Data berhasil diperbaharui.');
+        else:
+            session()->setFlashdata('warning', ' Data gagal diperbaharui.');
+        endif;
+        return redirect()->route('admin/data-guru');
+    }
+
+    //delete guru
+    public function delete()
+    {
+        $send = $this->guru->where('id_guru', $this->request->getVar('id'))->delete();
+        if ($send):
+            session()->setFlashdata('success', ' Data berhasil dihapus.');
+        else:
+            session()->setFlashdata('warning', ' Data gagal dihapus.');
+        endif;
         return redirect()->route('admin/data-guru');
     }
 }

@@ -10,7 +10,7 @@
 
 <body>
     <!-- <div class="loader"></div> -->
-    <div id="app">
+    <div id="app d-print-none">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
             <nav class="navbar navbar-expand-lg main-navbar sticky">
@@ -27,7 +27,7 @@
                     </div>
                 </section>
             </div>
-            <footer class="main-footer">
+            <footer class="main-footer  d-print-none">
                 <?= $this->include('_layout/admin/Footer') ?>
             </footer>
         </div>
@@ -53,6 +53,22 @@
     <!-- Custom JS File -->
     <script src="<?= base_url() ?>/public/assets/js/custom.js"></script>
     <?= $this->include('_layout/alert') ?>
+    <script>
+        $(function () {
+            // $('.date-d').datepicker({
+            //     changeMonth: true,
+            //     changeYear: true,
+            //     showButtonPanel: true,
+            //     dateFormat: 'dd'
+            // });
+            // $(".datepicker-d").daterangepicker(
+            //     {
+            //         dateFormat: 'dd',
+            //         singleDatePicker: true
+            //     }
+            // );
+        });
+    </script>
 </body>
 
 

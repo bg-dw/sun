@@ -24,4 +24,12 @@ class M_kelas extends Model
         $this->join('tbl_guru', 'tbl_kelas.id_guru = tbl_guru.id_guru');
         return $this->findAll();
     }
+    function get_data_guru($kelas)
+    {
+        $this->select('tbl_guru.*');
+        $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+        $this->join('tbl_guru', 'tbl_kelas.id_guru = tbl_guru.id_guru');
+        $this->where(['tbl_kelas.kelas' => $kelas]);
+        return $this->first();
+    }
 }

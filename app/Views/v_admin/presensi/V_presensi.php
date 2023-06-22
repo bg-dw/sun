@@ -5,13 +5,10 @@
         <div class="card">
             <div class="card-header">
                 <h4>Presensi Hari Ini</h4>
-            </div>
-            <div class="card-body">
                 <div class="float-right" role="group" aria-label="Basic example" id="group-btn">
                     <div class="form-inline">
                         <form action="<?= base_url('admin/presensi') ?>" method="post" id="f-kelas">
-                            <select class="form-control bg-primary text-white" name="kelas"
-                                onchange="$('#f-kelas').submit()">
+                            <select class="" name="kelas" onchange="$('#f-kelas').submit()">
                                 <?php foreach ($kelas as $row): ?>
                                     <option value="<?= $row['kelas'] ?>" <?php if ($sel == $row['kelas']) {
                                           echo "selected";
@@ -24,6 +21,8 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped" id="today">
                         <thead>
@@ -31,39 +30,62 @@
                                 <th class="text-center">
                                     #
                                 </th>
-                                <th>Nama</th>
-                                <th>Jam</th>
-                                <th>Aksi</th>
+                                <th class="text-center">Aksi</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Nama</th>
+                                <th class="text-center">Jam</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i = 1;
-                            foreach ($absen as $bar): ?>
-                                <tr>
-                                    <td class="text-center" width="5%">
-                                        <?= $i++ . "."; ?>
-                                    </td>
-                                    <td>
-                                        <?= $bar['nama']; ?>
-                                    </td>
-                                    <td class="align-middle">
+                            <?php
+                            if (isset($absen)):
+                                for ($i = 0; $i < count($absen); $i++): ?>
+                                    <tr>
                                         <?php
                                         $first = new DateTime('07:00:59');
-                                        $second = new DateTime($bar['jam_absensi']);
+                                        $second = new DateTime($absen[$i]['jam']);
                                         ?>
-                                        <?php if ($second > $first): ?>
-                                            <span class="badge badge-light">
-                                                <?= $bar['jam_absensi'] ?>
-                                            </span>
-                                        <?php else: ?>
-                                            <span class="badge badge-dark">
-                                                <?= $bar['jam_absensi'] ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                </tr>
-                            <?php endforeach; ?>
+                                        <td class="text-center" width="5%">
+                                            <?= $i + 1 . "."; ?>
+                                        </td>
+                                        <td class="text-center"><button class="btn btn-sm btn-warning">Edit</button></td>
+                                        <td class="text-center">
+                                            <?php
+                                            if ($absen[$i]['absensi'] != ""):
+                                                if ($second > $first): ?>
+                                                    <?= "TELAT"; ?>
+                                                <?php else: ?>
+                                                    <?= strtoupper($absen[$i]['absensi']); ?>
+                                                    <?php
+                                                endif;
+                                            else:
+                                                echo "-";
+                                            endif; ?>
+                                        </td>
+                                        <td>
+                                            <?= $absen[$i]['nama']; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php
+                                            if ($absen[$i]['absensi'] != ""):
+                                                if ($second > $first): ?>
+                                                    <span class="badge badge-light">
+                                                        <?= $absen[$i]['jam'] ?>
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-dark">
+                                                        <?= $absen[$i]['jam'] ?>
+                                                    </span>
+                                                    <?php
+                                                endif;
+                                            else:
+                                                echo "-";
+                                            endif; ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                endfor;
+                            endif; ?>
                         </tbody>
                     </table>
                 </div>
