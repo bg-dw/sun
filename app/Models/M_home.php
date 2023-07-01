@@ -55,6 +55,20 @@ class M_home extends Model
         return $this->findAll();
     }
 
+    function get_rekap_today($date)
+    {
+        $this->select('tbl_kelas.kelas,count(tbl_siswa.id_siswa) as tot');
+        $this->join('tbl_absensi', 'tbl_detail_absensi.id_absensi = tbl_absensi.id_absensi');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+        $this->join('tbl_siswa', 'tbl_absensi.id_siswa = tbl_siswa.id_siswa');
+        $this->where('tbl_detail_absensi.tgl_absensi', $date);
+        $this->orderBy('tbl_kelas.kelas', 'ASC');
+        $this->orderBy('tbl_detail_absensi.tgl_absensi', 'ASC');
+        $this->groupBy('tbl_kelas.kelas');
+        return $this->findAll();
+    }
+
     function get_total_absensi($kelas)
     {
         $this->select('COUNT(tbl_detail_absensi.id_detail_absensi) as total');

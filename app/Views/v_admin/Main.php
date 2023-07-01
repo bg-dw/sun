@@ -38,7 +38,7 @@
     <!-- JS Libraies -->
     <script src="<?= base_url() ?>/public/assets/bundles/apexcharts/apexcharts.min.js"></script>
     <!-- Page Specific JS File -->
-    <script src="<?= base_url() ?>/public/assets/js/page/chart-apexcharts.js"></script>
+    <!-- <script src="<?= base_url() ?>/public/assets/js/page/chart-apexcharts.js"></script> -->
     <!-- Template JS File -->
     <script src="<?= base_url() ?>/public/assets/bundles/datatables/datatables.min.js"></script>
     <script src="<?= base_url() ?>/public/assets/bundles/bootstrap-daterangepicker/daterangepicker.js"></script>

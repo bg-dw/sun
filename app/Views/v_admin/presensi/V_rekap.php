@@ -341,7 +341,6 @@ function isSunday($date)
         $('#v-alpha').text(pembilang);
         $('#v-pembagi').text(hari + " x " + siswa);
         $('#v-hasil').text(((pembilang / (hari * siswa)) * 100).toFixed(1));
-        console.log((pembilang / (hari * siswa)) * 100);
     }
     function cetak() {
         var myWindow = window.open('', '', 'width=1366,height=768');

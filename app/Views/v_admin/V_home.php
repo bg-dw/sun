@@ -129,11 +129,11 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Persentase Absensi</h4>
+                <h4>Absensi Hari Ini ( Per-Kelas )</h4>
             </div>
             <div class="card-body table-responsive">
                 <div class="recent-report__chart">
-                    <div id="chart2"></div>
+                    <div id="chart1"></div>
                 </div>
             </div>
         </div>
@@ -145,10 +145,138 @@
             </div>
             <div class="card-body table-responsive">
                 <div class="recent-report__chart">
-                    <div id="chart7"></div>
+                    <div id="siswa-kelas"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        siswa_per_kelas();
+        absensi();
+    });
+
+    function siswa_per_kelas() {
+        var options;
+        var kelas = [];
+        var jumlah = [];
+        $.ajax({
+            url: "<?= base_url('/admin/get_siswa_kelas'); ?>",
+            type: 'get',
+            success: function (result) {
+                let data = JSON.parse(result);
+                for (let i = 0; i < data.length; i++) {
+                    kelas.push("Kelas " + data[i]['kelas']);
+                    jumlah.push(parseInt(data[i]['tot']));
+                }
+                options = {
+                    chart: {
+                        width: 360,
+                        type: 'pie',
+                    },
+                    labels: kelas,
+                    series: jumlah,
+                    responsive: [{
+                        breakpoint: 480,
+                        options: {
+                            chart: {
+                                width: 200
+                            },
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+                var chart = new ApexCharts(
+                    document.querySelector("#siswa-kelas"),
+                    options
+                );
+
+                chart.render();
+            }
+        });
+    }
+    function absensi() {
+        var options;
+        var kelas = [];
+        var jumlah = [];
+        $.ajax({
+            url: "<?= base_url('/admin/get_absen_today'); ?>",
+            type: 'get',
+            success: function (result) {
+                let data = JSON.parse(result);
+                console.log(data);
+                for (let i = 0; i < data.length; i++) {
+                    kelas.push("Kelas " + data[i]['kelas']);
+                    jumlah.push(parseInt(data[i]['tot']));
+                }
+                // console.log(kelas);
+            }
+        });
+        var options = {
+            chart: {
+                height: 350,
+                type: 'bar',
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    endingShape: 'rounded',
+                    columnWidth: '80%',
+                },
+            },
+            dataLabels: {
+                enabled: true
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [{
+                name: 'Sudah Absen',
+                data: jumlah
+            }],
+            xaxis: {
+                categories: kelas,
+                labels: {
+                    style: {
+                        colors: '#9aa0ac',
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: '( Jumlah Siswa - Siswi )'
+                },
+                labels: {
+                    style: {
+                        color: '#9aa0ac',
+                    }
+                }
+            },
+            fill: {
+                opacity: 1
+
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + " Org"
+                    }
+                }
+            }
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#chart1"),
+            options
+        ); setTimeout(function () {
+            chart.render();
+        }, 500);
+    }
+</script>
 <?= $this->endSection() ?>

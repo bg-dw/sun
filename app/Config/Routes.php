@@ -45,6 +45,8 @@ $routes->get('/login', 'Login::index');
 $routes->post('/auth', 'Login::auth');
 $routes->get('/logout', 'Login::logout');
 $routes->get('/admin/home', 'admin\Home::index');
+$routes->get('/admin/get_siswa_kelas', 'admin\Home::get_siswa_kelas');
+$routes->get('/admin/get_absen_today', 'admin\Home::get_absen_today');
 
 //presensi
 $routes->get('/admin/presensi', 'admin\Presensi::index');

@@ -34,6 +34,13 @@ class M_presensi extends Model
         $this->orderBy('tbl_siswa.nama', 'ASC');
         return $this->findAll();
     }
+
+    function get_data_presensi_kelas()
+    {
+        $sql = $this->db->query("select count(tbl_siswa.id_siswa) as tot, tbl_kelas.kelas from tbl_absensi join tbl_siswa on tbl_absensi.id_siswa = tbl_siswa.id_siswa join tbl_kelas on tbl_absensi.id_kelas = tbl_kelas.id_kelas join tbl_periode on tbl_kelas.id_periode = tbl_periode.id_periode where tbl_periode.status_periode='aktif'group by tbl_kelas.kelas ORDER BY tbl_kelas.kelas ASC");
+        return $sql->getResult();
+    }
+
     function get_data_presensi_by($kelas)
     {
         $this->select('tbl_absensi.id_absensi,tbl_absensi.rfid,tbl_siswa.id_siswa,tbl_siswa.nis,tbl_siswa.nama,tbl_siswa.jk,tbl_kelas.kelas');
