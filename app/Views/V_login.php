@@ -27,7 +27,7 @@
                                 <h4>Login</h4>
                             </div>
                             <div class="card-body">
-                                <form method="POST" action="<?= base_url('auth') ?>" class="needs-validation"
+                                <form method="POST" action="<?= base_url(bin2hex('/auth')) ?>" class="needs-validation"
                                     novalidate=""><?= csrf_field(); ?>
                                     <div class="form-group">
                                         <label for="user">Username</label>

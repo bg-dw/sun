@@ -5,6 +5,7 @@ namespace Config;
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
+$encrypter = Services::encrypter();
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
 if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
@@ -41,18 +42,18 @@ $routes->post('/inp', 'Dashboard::put_absen');
 $routes->post('/get_last', 'Dashboard::get_total');
 
 //Login
-$routes->get('/login', 'Login::index');
-$routes->post('/auth', 'Login::auth');
-$routes->get('/logout', 'Login::logout');
-$routes->get('/admin/home', 'admin\Home::index');
-$routes->get('/admin/get_siswa_kelas', 'admin\Home::get_siswa_kelas');
-$routes->get('/admin/get_absen_today', 'admin\Home::get_absen_today');
+$routes->get(bin2hex('/login'), 'Login::index');
+$routes->post(bin2hex('/auth'), 'Login::auth');
+$routes->get(bin2hex('/logout'), 'Login::logout');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('home'), 'admin\Home::index');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('get_siswa_kelas'), 'admin\Home::get_siswa_kelas');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('get_absen_today'), 'admin\Home::get_absen_today');
 
 //presensi
-$routes->get('/admin/presensi', 'admin\Presensi::index');
-$routes->post('/admin/presensi', 'admin\Presensi::index');
-$routes->get('/admin/rekap-presensi', 'admin\Presensi::rekap');
-$routes->post('/admin/rekap-presensi', 'admin\Presensi::rekap');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('presensi'), 'admin\Presensi::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi'), 'admin\Presensi::index');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi'), 'admin\Presensi::rekap');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi'), 'admin\Presensi::rekap');
 
 //data master periode
 $routes->get('/admin/data-periode', 'admin\MasterPeriode::index');

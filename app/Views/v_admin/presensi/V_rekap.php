@@ -22,7 +22,8 @@ function isSunday($date)
                 <div class="row" style="margin-bottom: -25px;">
                     <div class="col-md-7">
                         <div class="">
-                            <form action="<?= base_url('/admin/rekap-presensi') ?>" method="post">
+                            <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi')) ?>"
+                                method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label for="inputKelas">Kelas</label>

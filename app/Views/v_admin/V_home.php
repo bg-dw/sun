@@ -162,7 +162,7 @@
         var kelas = [];
         var jumlah = [];
         $.ajax({
-            url: "<?= base_url('/admin/get_siswa_kelas'); ?>",
+            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('get_siswa_kelas')); ?>",
             type: 'get',
             success: function (result) {
                 let data = JSON.parse(result);
@@ -204,11 +204,11 @@
         var kelas = [];
         var jumlah = [];
         $.ajax({
-            url: "<?= base_url('/admin/get_absen_today'); ?>",
+            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('get_absen_today')); ?>",
             type: 'get',
             success: function (result) {
                 let data = JSON.parse(result);
-                console.log(data);
+                // console.log(data);
                 for (let i = 0; i < data.length; i++) {
                     kelas.push("Kelas " + data[i]['kelas']);
                     jumlah.push(parseInt(data[i]['tot']));

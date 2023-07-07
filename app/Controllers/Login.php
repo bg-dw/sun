@@ -32,18 +32,14 @@ class Login extends BaseController
 
             $this->session->set($ses);
             session()->setFlashdata('success', ' Selamat Datang!');
-            return redirect()->route('admin/home');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('home'));
         else:
-            // session()->setFlashdata('warning', ' Username atau password salah.');
-            // return redirect()->route('/login');
             return redirect()->back()->with('warning', ' Username atau password salah.');
         endif;
     }
     public function logout()
     {
-        // $ses = ['id', 'nama', 'user', 'pass', 'level', 'logged_in'];
         $this->session->destroy();
         return redirect()->route('/');
-        // return redirect()->to(base_url('logout'));
     }
 }

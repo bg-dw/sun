@@ -7,7 +7,8 @@
                 <h4>Presensi Hari Ini</h4>
                 <div class="float-right" role="group" aria-label="Basic example" id="group-btn">
                     <div class="form-inline">
-                        <form action="<?= base_url('admin/presensi') ?>" method="post" id="f-kelas">
+                        <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('presensi')) ?>" method="post"
+                            id="f-kelas">
                             <select class="" name="kelas" onchange="$('#f-kelas').submit()">
                                 <?php foreach ($kelas as $row): ?>
                                     <option value="<?= $row['kelas'] ?>" <?php if ($sel == $row['kelas']) {
