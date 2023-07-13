@@ -66,8 +66,6 @@ $routes->post('/admin/guru/delete', 'admin\MasterGuru::delete');
 
 $routes->get('/admin/data-siswa', 'admin\MasterSiswa::index');
 $routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');
-// $routes->post('/admin/add/rfid', 'admin\Siswa::add_rfid');
-// $routes->post('/admin/edit/rfid', 'admin\Siswa::edit_rfid');
 
 //data master kelas
 $routes->get('/admin/data-kelas', 'admin\MasterKelas::index');
@@ -78,6 +76,19 @@ $routes->get('/admin/data-presensi', 'admin\MasterPresensi::index');
 $routes->post('/admin/presensi/add', 'admin\MasterPresensi::add');
 $routes->post('/admin/edit/rfid', 'admin\MasterPresensi::edit_rfid');
 
+
+//Guru
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('home'), 'guru\Home::index');
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('get_siswa_kelas'), 'guru\Home::get_siswa_kelas');
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('get_absen_today'), 'guru\Home::get_absen_today');
+
+//Presensi Guru
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('presensi'), 'guru\Presensi::index');
+$routes->post('/' . bin2hex('guru') . '/' . bin2hex('presensi'), 'guru\Presensi::index');
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('rekap-presensi'), 'guru\Presensi::rekap');
+$routes->post('/' . bin2hex('guru') . '/' . bin2hex('rekap-presensi'), 'guru\Presensi::rekap');
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('data-siswa'), 'guru\MasterSiswa::index');
+$routes->post('/' . bin2hex('guru') . '/' . bin2hex('set-presensi'), 'guru\Presensi::set_presensi');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

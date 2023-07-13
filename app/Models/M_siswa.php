@@ -34,4 +34,15 @@ class M_siswa extends Model
         $exc = $this->db->table('tbl_siswa')->insert($data);
         return $exc;
     }
+
+    function get_siswa($kelas)
+    {
+        $this->select('tbl_kelas.kelas,tbl_siswa.nis,tbl_siswa.nisn,tbl_siswa.nama');
+        $this->join('tbl_absensi', 'tbl_siswa.id_siswa = tbl_absensi.id_siswa');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+        $this->where('tbl_kelas.kelas', $kelas);
+        $this->orderBy('tbl_siswa.nama', 'ASC');
+        return $this->findAll();
+    }
 }

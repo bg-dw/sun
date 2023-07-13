@@ -36,6 +36,7 @@ class Dashboard extends BaseController
 			$get_data = $this->home->get_presensi_by_rfid($rfid);
 			$end = new DateTime('07:30:00');
 			$start = new DateTime('05:59:00');
+			$batas = new DateTime('07:00:59');
 			$now = new DateTime(date('H:i:s'));
 			if (($now < $end) && ($now > $start)): //jika kurang dari jam 7:30 pagi
 				if ($get_data) { //get rfid
@@ -43,12 +44,18 @@ class Dashboard extends BaseController
 					if ($cek) { //jika data sudah absen
 						return json_encode(['status' => 'failed', 'isi' => '', 'kelas' => '']);
 					} else { //jika belum absen
+						$absen = "";
+						if ($now > $batas) {
+							$absen = "telat";
+						} else {
+							$absen = "hadir";
+						}
 						$data = [
 							'id_detail_absensi' => md5(microtime()),
 							'id_absensi' => $get_data[0]->id_absensi,
 							'jam_absensi' => date('H:i:s'),
 							'tgl_absensi' => date('Y-m-d'),
-							'absensi' => 'hadir',
+							'absensi' => $absen,
 							'jenis_absensi' => 'rfid'
 						];
 						$set_data = $this->home->simpan($data);

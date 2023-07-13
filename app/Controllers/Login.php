@@ -29,10 +29,17 @@ class Login extends BaseController
                 'level' => $cek['level_login'],
                 'passed' => true,
             ];
-
             $this->session->set($ses);
-            session()->setFlashdata('success', ' Selamat Datang!');
-            return redirect()->route(bin2hex('admin') . '/' . bin2hex('home'));
+            if ($cek['level_login'] === "ADM"):
+                session()->setFlashdata('success', ' Selamat Datang!');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('home'));
+            elseif ($cek['level_login'] === "KS"):
+                session()->setFlashdata('success', ' Selamat Datang!');
+                // return redirect()->route(bin2hex('ks') . '/' . bin2hex('home'));
+            elseif ($cek['level_login'] === "GR"):
+                session()->setFlashdata('success', ' Selamat Datang!');
+                return redirect()->route(bin2hex('guru') . '/' . bin2hex('home'));
+            endif;
         else:
             return redirect()->back()->with('warning', ' Username atau password salah.');
         endif;

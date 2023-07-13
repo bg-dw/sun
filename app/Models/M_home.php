@@ -30,7 +30,7 @@ class M_home extends Model
 
     function get_presensi($kelas)
     {
-        $this->select('tbl_periode.status_periode,tbl_kelas.kelas,tbl_absensi.rfid,tbl_siswa.id_siswa,tbl_siswa.nama,tbl_detail_absensi.jam_absensi,tbl_detail_absensi.absensi');
+        $this->select('tbl_periode.status_periode,tbl_kelas.kelas,tbl_absensi.rfid,tbl_siswa.id_siswa,tbl_siswa.nama,tbl_detail_absensi.jam_absensi,tbl_detail_absensi.absensi,tbl_detail_absensi.id_detail_absensi');
         $this->join('tbl_absensi', 'tbl_detail_absensi.id_absensi = tbl_absensi.id_absensi');
         $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
         $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
@@ -87,7 +87,7 @@ class M_home extends Model
 
     function sudah_absen($id)
     {
-        $this->select('id_absensi');
+        $this->select('id_absensi,id_detail_absensi');
         $this->where(['id_absensi' => $id, 'tgl_absensi' => date('Y-m-d')]);
         return $this->first();
     }

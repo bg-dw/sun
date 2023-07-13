@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\admin;
+namespace App\Controllers\kepsek;
 
 use App\Controllers\BaseController;
 use App\Models\M_dashboard;

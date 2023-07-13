@@ -17,4 +17,14 @@ class M_guru extends Model
         'level_login',
         'status_guru'
     ];
+
+    function get_guru_by($id)
+    {
+        $this->select('tbl_kelas.kelas');
+        $this->join('tbl_kelas', 'tbl_kelas.id_guru = tbl_guru.id_guru');
+        $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+        $this->where(['tbl_periode.status_periode' => 'aktif']);
+        $this->where(['tbl_guru.id_guru' => $id]);
+        return $this->first();
+    }
 }

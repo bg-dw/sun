@@ -1,4 +1,4 @@
-<?= $this->extend('v_admin/Main') ?>
+<?= $this->extend('v_guru/Main') ?>
 <?= $this->section('content') ?>
 <style>
     .btnFloat {
@@ -22,20 +22,13 @@ function isSunday($date)
                 <div class="row" style="margin-bottom: -25px;">
                     <div class="col-md-7">
                         <div class="">
-                            <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi')) ?>"
+                            <form action="<?= base_url('/' . bin2hex('guru') . '/' . bin2hex('rekap-presensi')) ?>"
                                 method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label for="inputKelas">Kelas</label>
                                         <select id="inputKelas" class="form-control" name="kelas" required>
-                                            <?php foreach ($kelas as $row): ?>
-                                                <option value="<?= $row['kelas'] ?>" <?php if ($sel_kelas == $row['kelas']) {
-                                                      echo "selected";
-                                                  } ?>>
-                                                    Kelas
-                                                    <?= $row['kelas'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
+                                            <option value="<?= $sel_kelas ?>">Kelas <?= $sel_kelas ?></option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -140,6 +133,7 @@ function isSunday($date)
                                         <?= $row["jk"]; ?>
                                     </td>
                                     <?php
+                                    $sakit = $ijin = $alpha = $bar_sakit = $bar_ijin = $bar_alpha = 0;
                                     for ($j = 0; $j < $tot_hari; $j++): ?>
                                         <td class="text-center" style="min-width: 20px;<?php if (isSunday(date('Y-m') . "-" . ($j + 1)) == 1) {
                                             echo 'background-color:red;color:white;';
@@ -175,19 +169,22 @@ function isSunday($date)
                                     $i++;
                                     ?>
                                     <td class="text-center">
-                                        <?= $tot_sakit += $sakit; ?>
+                                        <?= $bar_sakit += $sakit; ?>
                                     </td>
                                     <td class="text-center">
-                                        <?= $tot_ijin += $ijin; ?>
+                                        <?= $bar_ijin += $ijin; ?>
                                     </td>
                                     <td class="text-center">
-                                        <?= $tot_alpha += $alpha; ?>
+                                        <?= $bar_alpha += $alpha; ?>
                                     </td>
                                     <td class="text-center">
                                         <?= $sakit + $ijin + $alpha; ?>
                                     </td>
                                 </tr>
                                 <?php
+                                $tot_sakit += $bar_sakit;
+                                $tot_ijin += $bar_ijin;
+                                $tot_alpha += $bar_alpha;
                             endforeach;
                         endif;
                         ?>
@@ -207,7 +204,7 @@ function isSunday($date)
                             </td>
                         </tr>
                     </table>
-                    <input type="hidden" id="inp-pembilang" value="<?= $sakit + $ijin + $alpha; ?>">
+                    <input type="hidden" id="inp-pembilang" value="<?= $tot_sakit + $tot_ijin + $tot_alpha; ?>">
                     <input type="hidden" id="inp-siswa" value="<?= $i; ?>">
                     <table style="margin-left: 20%;margin-top: 20px;">
                         <tr>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\admin;
+namespace App\Controllers\guru;
 
 use App\Controllers\BaseController;
 use App\Models\M_dashboard;
@@ -26,7 +26,7 @@ class Home extends BaseController
         $where = "(level_login='GR' OR level_login='KS') AND status_guru='aktif'";
         $data['guru'] = count($this->guru->where($where)->findAll());
         $data['home'] = $this->dashboard->get_all_data();
-        return view('v_admin/V_home', $data);
+        return view('v_guru/V_home', $data);
     }
 
     //Mengambil data siswa per-kelas
