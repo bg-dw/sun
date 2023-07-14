@@ -22,8 +22,7 @@ $routes->setDefaultController('Dashboard');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override(function () {
-	// return view('notFound');
-	// return redirect()->route('/');
+	throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
 });
 $routes->setAutoRoute(true);
 
@@ -85,6 +84,10 @@ $routes->get('/' . bin2hex('guru') . '/' . bin2hex('get_absen_today'), 'guru\Hom
 //Presensi Guru
 $routes->get('/' . bin2hex('guru') . '/' . bin2hex('presensi'), 'guru\Presensi::index');
 $routes->post('/' . bin2hex('guru') . '/' . bin2hex('presensi'), 'guru\Presensi::index');
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('edit-presensi'), 'guru\Presensi::update');
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('edit-presensi') . '/(:num)/(:num)/(:any)', 'guru\Presensi::update/$1/$2/$3');
+$routes->post('/' . bin2hex('guru') . '/' . bin2hex('edit-presensi'), 'guru\Presensi::update');
+$routes->post('/' . bin2hex('guru') . '/' . bin2hex('aksi-edit-presensi') . '/(:num)/(:num)/', 'guru\Presensi::ac_update/$1/$2');
 $routes->get('/' . bin2hex('guru') . '/' . bin2hex('rekap-presensi'), 'guru\Presensi::rekap');
 $routes->post('/' . bin2hex('guru') . '/' . bin2hex('rekap-presensi'), 'guru\Presensi::rekap');
 $routes->get('/' . bin2hex('guru') . '/' . bin2hex('data-siswa'), 'guru\MasterSiswa::index');

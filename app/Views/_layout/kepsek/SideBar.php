@@ -4,7 +4,7 @@ $segments = $uri->getSegments(); ?>
 <aside id="sidebar-wrapper" class="d-print-none">
     <div class="sidebar-brand">
         <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('home')) ?>"> <img alt="image"
-                src="<?= base_url() ?>/public/assets/img/logo.png" class="header-logo" />
+                src="<?= base_url() ?>/public/assets/img/logo.png" class="header-logo" style="margin-top: -5px;" />
             <span class="logo-name">PRESENSI</span>
         </a>
     </div>
