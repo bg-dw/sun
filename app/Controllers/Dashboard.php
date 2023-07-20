@@ -34,17 +34,17 @@ class Dashboard extends BaseController
 		if ($this->request->isAJAX()) {
 			$rfid = $this->request->getPost('in_rfid');
 			$get_data = $this->home->get_presensi_by_rfid($rfid);
-			$end = new DateTime('07:30:00');
-			$start = new DateTime('05:59:00');
-			$batas = new DateTime('07:00:59');
-			$now = new DateTime(date('H:i:s'));
+			$end = strtotime('07:30:00');
+			$start = strtotime('05:59:00');
+			$batas = strtotime('07:00:59');
+			$now = strtotime(date('H:i:s'));
+			$absen = "";
 			if (($now < $end) && ($now > $start)): //jika kurang dari jam 7:30 pagi
 				if ($get_data) { //get rfid
 					$cek = $this->home->sudah_absen($get_data[0]->id_absensi);
 					if ($cek) { //jika data sudah absen
 						return json_encode(['status' => 'failed', 'isi' => '', 'kelas' => '']);
 					} else { //jika belum absen
-						$absen = "";
 						if ($now > $batas) {
 							$absen = "telat";
 						} else {
@@ -62,10 +62,10 @@ class Dashboard extends BaseController
 						return json_encode(['status' => 'success', 'isi' => $set_data, 'kelas' => $get_data[0]->kelas]);
 					}
 				} else {
-					return json_encode(['status' => 'failed', 'isi' => '', 'kelas' => '']);
+					return json_encode(['status' => 'failed', 'isi' => 'no rfid', 'kelas' => '']);
 				}
 			else:
-				return json_encode(['status' => 'failed', 'isi' => '', 'kelas' => '']);
+				return json_encode(['status' => 'failed', 'isi' => 'lewat jam', 'kelas' => '']);
 			endif;
 		}
 	}
@@ -77,6 +77,8 @@ class Dashboard extends BaseController
 			$kelas = $this->request->getPost('d_kelas');
 			$get_data = $this->home->get_total_absensi($kelas);
 			return json_encode($get_data);
+		} else {
+			return json_encode("Bukan Ajax Req");
 		}
 	}
 }

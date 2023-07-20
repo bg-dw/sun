@@ -21,12 +21,15 @@ class Login extends BaseController
     {
         $cek = $this->guru->where(['username' => md5($this->request->getVar('user')), 'password' => md5($this->request->getVar('pass'))])->first();
         if ($cek):
+            $kelas = $this->guru->get_guru_by($cek['id_guru']);
+            $set = $kelas['kelas'];
             $ses = [
                 'id' => $cek['id_guru'],
                 'nama' => $cek['nama_guru'],
                 'user' => $cek['username'],
                 'pass' => $cek['password'],
                 'level' => $cek['level_login'],
+                'kelas' => $set,
                 'passed' => true,
             ];
             $this->session->set($ses);

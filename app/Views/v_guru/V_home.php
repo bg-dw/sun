@@ -3,6 +3,13 @@
 <?php
 // dd($home);
 ?>
+<style>
+    .absen {
+        height: 310px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+</style>
 <div class="row m-t--40">
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="card">
@@ -129,13 +136,17 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Absensi Hari Ini ( Per-Kelas )</h4>
+                <h4>Absensi Hari Ini Kelas
+                    <?= session()->get('kelas'); ?>
+                </h4>
             </div>
-            <div class="card-body table-responsive">
-                <div class="recent-report__chart">
-                    <div id="chart1"></div>
+            <div class="card-body">
+                <div class="absen daftar-1 table-responsive">
+                    <ul id="list" style="margin-left: -40px;">
+                    </ul>
                 </div>
             </div>
+            <div class="card-footer"></div>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
@@ -154,8 +165,65 @@
 <script>
     $(function () {
         siswa_per_kelas();
-        absensi();
+        tampil_siswa();
+        setInterval(function () {
+            cek_siswa();
+        }, 1000);
     });
+    var tamp_satu = [];
+    var last_satu = 0;
+
+    function cek_siswa() {
+        $.ajax({
+            url: "<?= base_url('/get_last'); ?>",
+            type: 'post',
+            data: { d_kelas: "<?= session()->get('kelas'); ?>" },
+            success: function (result) {
+                let data = JSON.parse(result);
+                console.log(data['total']);
+                if (last_satu != data['total']) {
+                    last_satu = data['total']
+                    reload_list();
+                }
+            }
+        });
+    }
+
+    function tampil_siswa() {
+        tamp_satu = [];
+        $.ajax({
+            url: "<?= base_url('/show'); ?>",
+            type: 'post',
+            data: { d_kelas: "<?= session()->get('kelas'); ?>" },
+            success: function (result) {
+                let data = JSON.parse(result);
+                console.log(data);
+                for (let x in data) {
+                    tamp_satu.push([data[x]['jam_absensi'], data[x]['nama']]
+                    );
+                }
+                buat_list();
+            }
+        });
+    }
+
+    function buat_list() {
+        let i = 0;
+        for (let x in tamp_satu) {
+            // setInterval(function () {
+            $("#list").append('<li><h5 style="margin-top:15px;"><span class="badge badge-secondary">' + tamp_satu[i][0].substring(0, 5) + '</span> ' + tamp_satu[i][1] + '</h5></li>');
+            i++;
+            // }, 1000);
+        }
+        // if (i > 4) {//lakukan scroll data jika data lebih dari 4
+        //     loop_satu();
+        // }
+    }
+    function reload_list() {
+        $('#list').remove();
+        $(".daftar-1").append('<ul id="list" style="margin-left: -40px;"></ul>');
+        tampil_siswa();
+    }
 
     function siswa_per_kelas() {
         var options;
@@ -198,85 +266,6 @@
                 chart.render();
             }
         });
-    }
-    function absensi() {
-        var options;
-        var kelas = [];
-        var jumlah = [];
-        $.ajax({
-            url: "<?= base_url('/' . bin2hex('guru') . '/' . bin2hex('get_absen_today')); ?>",
-            type: 'get',
-            success: function (result) {
-                let data = JSON.parse(result);
-                // console.log(data);
-                for (let i = 0; i < data.length; i++) {
-                    kelas.push("Kelas " + data[i]['kelas']);
-                    jumlah.push(parseInt(data[i]['tot']));
-                }
-                // console.log(kelas);
-            }
-        });
-        var options = {
-            chart: {
-                height: 350,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    endingShape: 'rounded',
-                    columnWidth: '80%',
-                },
-            },
-            dataLabels: {
-                enabled: true
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            series: [{
-                name: 'Sudah Absen',
-                data: jumlah
-            }],
-            xaxis: {
-                categories: kelas,
-                labels: {
-                    style: {
-                        colors: '#9aa0ac',
-                    }
-                }
-            },
-            yaxis: {
-                title: {
-                    text: '( Jumlah Siswa - Siswi )'
-                },
-                labels: {
-                    style: {
-                        color: '#9aa0ac',
-                    }
-                }
-            },
-            fill: {
-                opacity: 1
-
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return val + " Org"
-                    }
-                }
-            }
-        }
-
-        var chart = new ApexCharts(
-            document.querySelector("#chart1"),
-            options
-        ); setTimeout(function () {
-            chart.render();
-        }, 500);
     }
 </script>
 <?= $this->endSection() ?>

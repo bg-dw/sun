@@ -22,8 +22,7 @@ function isSunday($date)
                 <div class="row">
                     <div class="col-md-12">
                         <form action="<?= base_url('/' . bin2hex('guru') . '/' . bin2hex('edit-presensi')) ?>"
-                            method="post" id="f-list"
-                            onsubmit="$('#inpNama').val($('#inputps option:selected').text())">
+                            method="post" id="f-list">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputBulan">Bulan</label>
@@ -59,16 +58,15 @@ function isSunday($date)
                                         onchange="$('#f-list').submit()">
                                         <option value="">--Pilih Peserta Didik--</option>
                                         <?php foreach ($siswa as $row): ?>
-                                            <option value="<?= $row['id_absensi']; ?>" <?php if ($sel_siswa == $row['id_absensi']) {
-                                                  echo "selected";
-                                              } ?>>
+                                            <option value="<?= $row['id_absensi'] . "|" . $row['nama']; ?>" <?php if ($sel_siswa == $row['id_absensi']) {
+                                                      echo "selected";
+                                                  } ?>>
                                                 <?= $row['nama']; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
-                            <input type="hidden" name="sel_nama" id="inpNama">
                         </form>
                     </div>
                 </div>
@@ -120,7 +118,8 @@ function isSunday($date)
                                     else:
                                         echo "light";
                                     endif; ?> mt-2 mr-2"
-                                        onclick="update('<?= $sel_tahun . '-' . $sel_bulan . '-' . ($i + 1) ?>','<?= $sel_nama ?>','<?= $rec[$i]['absensi'] ?>')">
+                                        onclick="update_absen('<?= $sel_tahun . '-' . $sel_bulan . '-' . ($i + 1); ?>','<?= $sel_nama; ?>','<?= $rec[$i]['absensi']; ?>')"
+                                        type="button">
                                         <?= "<h6>[" . ($i + 1) . "]</h6> " . $rec[$i]['absensi'] ?>
                                     </button>
                                 <?php endif;
@@ -134,10 +133,10 @@ function isSunday($date)
                             method="post">
                             <div class="col-md-12">
                                 <div class="form-row">
-                                    <input type="hidden" name="id_absen" id="e-id" readonly>
+                                    <input type="hidden" name="id_absen" id="e-id" readonly required>
                                     <div class="form-group col-md-6">
                                         <label for="inputBulan">Tanggal</label>
-                                        <input type="text" name="tgl" class="form-control" id="e-tgl" readonly>
+                                        <input type="text" name="tgl" class="form-control" id="e-tgl" readonly required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputBulan">Peserta Didik</label>
@@ -149,35 +148,35 @@ function isSunday($date)
                                         <label class="d-block">Jenis Absensi</label>
                                         <div class="form-check">
                                             <input class="form-check-input pil" type="radio" name="absensi" id="hadir"
-                                                value="hadir">
+                                                value="hadir" required>
                                             <label class="form-check-label" for="hadir">
                                                 Hadir
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input pil" type="radio" name="absensi" id="hadir_t"
-                                                value="telat">
+                                                value="telat" required>
                                             <label class="form-check-label" for="hadir_t">
                                                 Hadir (Telat)
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input pil" type="radio" name="absensi" id="sakit"
-                                                value="sakit">
+                                                value="sakit" required>
                                             <label class="form-check-label" for="sakit">
                                                 Sakit
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input pil" type="radio" name="absensi" id="ijin"
-                                                value="ijin">
+                                                value="ijin" required>
                                             <label class="form-check-label" for="ijin">
                                                 Ijin
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input pil" type="radio" name="absensi" id="alpha"
-                                                value="alpha">
+                                                value="alpha" required>
                                             <label class="form-check-label" for="alpha">
                                                 Alpha
                                             </label>
@@ -199,14 +198,27 @@ function isSunday($date)
     </div>
 </div>
 <script>
-    function update(tgl, nama, presensi) {
-        var id = $('#inputps').val();
-        $('#e-id').val(id);
+    function set_nama() {
+        var x = $('#inputps option:selected').text();
+        console.log(x.length);
+        return false;
+    }
+    function update_absen(tgl, nama, presensi) {
+        var id = $('#inputps').val().split("|");
+        $('#e-id').val(id[0]);
         $('#e-tgl').val(tgl);
         $('#e-ps').val(nama);
         if (presensi == "hadir") {
             $('#hadir').prop('checked', true);
-        } else if (presensi == "telat") { $('#hadir_t').prop('checked', true); } else if (presensi == "sakit") { $('#sakit').prop('checked', true); } else if (presensi == "ijin") { $('#ijin').prop('checked', true); } else if (presensi == "alpha") { $('#alpha').prop('checked', true); }
+        } else if (presensi == "telat") {
+            $('#hadir_t').prop('checked', true);
+        } else if (presensi == "sakit") {
+            $('#sakit').prop('checked', true);
+        } else if (presensi == "ijin") {
+            $('#ijin').prop('checked', true);
+        } else if (presensi == "alpha") {
+            $('#alpha').prop('checked', true);
+        }
         $('#list').hide('slow');
         $('#f-update').show('slow');
     }

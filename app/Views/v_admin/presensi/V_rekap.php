@@ -110,7 +110,7 @@ function isSunday($date)
                         <tr>
                             <?php
                             for ($x = 0; $x < $tot_hari; $x++): ?>
-                                <th class="text-center" style="<?php if (isSunday(date('Y-m') . "-" . ($x + 1)) == 1) {
+                                <th class="text-center" style="<?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($x + 1)) == 1) {
                                     echo 'background-color:red;color:white;';
                                 } ?>">
                                     <?= $x + 1; ?>
@@ -141,7 +141,7 @@ function isSunday($date)
                                     </td>
                                     <?php
                                     for ($j = 0; $j < $tot_hari; $j++): ?>
-                                        <td class="text-center" style="min-width: 20px;<?php if (isSunday(date('Y-m') . "-" . ($j + 1)) == 1) {
+                                        <td class="text-center" style="min-width: 20px;<?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) {
                                             echo 'background-color:red;color:white;';
                                         } ?>">
                                             <?php

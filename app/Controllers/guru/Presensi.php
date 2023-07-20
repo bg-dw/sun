@@ -171,7 +171,14 @@ class Presensi extends BaseController
         $set = $kelas['kelas'];
         $bulan = $this->request->getPost('bulan');
         $tahun = $this->request->getPost('tahun');
-        $sel_siswa = $this->request->getPost('ps');
+        $sel = $this->request->getPost('ps');
+        $arr = explode('|', $sel);
+        $sel_siswa = "";
+        $nama = "";
+        if ($sel) {
+            $sel_siswa = $arr[0];
+            $nama = $arr[1];
+        }
         $bulan_now = date('m');
         $tahun_now = date('Y');
         if (isset($bulan) && isset($tahun)) {
@@ -193,8 +200,6 @@ class Presensi extends BaseController
 
         $rec = array();
         $hari = array();
-        // dd($rekap);
-        $nama = "";
         for ($i = 0; $i < $tot_hari; $i++) {
             if (($rekap)):
                 foreach ($rekap as $col) {
@@ -220,9 +225,6 @@ class Presensi extends BaseController
                     endif;
                 }
             else:
-                if ($sel_siswa) {
-                    $nama = $this->request->getPost('sel_nama');
-                }
                 $rec[$i] = [
                     "nama" => "",
                     "jk" => "",
@@ -233,7 +235,6 @@ class Presensi extends BaseController
             endif;
             $hari[$i] = $i + 1;
         }
-        // dd($rec);
 
         $data['title'] = 'Data Rekap';
         $data['sel_bulan'] = $bulan_now;
@@ -285,9 +286,6 @@ class Presensi extends BaseController
                 session()->setFlashdata('warning', ' Data gagal diperbaharui.');
             endif;
         endif;
-        // var_dump(session());
-        // echo session()->has('warning');
-        // dd($data);
         return redirect()->to('/' . bin2hex('guru') . '/' . bin2hex('edit-presensi') . '/' . $bulan . '/' . $tahun . '/' . $id);
     }
 
