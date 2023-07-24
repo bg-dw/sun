@@ -19,6 +19,11 @@ class Dashboard extends BaseController
 		return view('V_dashboard');
 	}
 
+	public function scan()
+	{
+		return view('V_scan');
+	}
+
 	//get absensi hari ini
 	public function get_absen()
 	{
@@ -34,7 +39,7 @@ class Dashboard extends BaseController
 		if ($this->request->isAJAX()) {
 			$rfid = $this->request->getPost('in_rfid');
 			$get_data = $this->home->get_presensi_by_rfid($rfid);
-			$end = strtotime('07:30:00');
+			$end = strtotime('10:30:00');
 			$start = strtotime('05:59:00');
 			$batas = strtotime('07:00:59');
 			$now = strtotime(date('H:i:s'));
@@ -67,6 +72,8 @@ class Dashboard extends BaseController
 			else:
 				return json_encode(['status' => 'failed', 'isi' => 'lewat jam', 'kelas' => '']);
 			endif;
+		} else {
+			return json_encode(['status' => 'failed', 'isi' => 'Bukan Ajax Req', 'kelas' => '']);
 		}
 	}
 

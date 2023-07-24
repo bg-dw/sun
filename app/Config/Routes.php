@@ -36,6 +36,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Dashboard::index');
 $routes->get('/beranda', 'Dashboard::index');
+$routes->get('/scan', 'Dashboard::scan');
 $routes->post('/show', 'Dashboard::get_absen');
 $routes->post('/inp', 'Dashboard::put_absen');
 $routes->post('/get_last', 'Dashboard::get_total');
