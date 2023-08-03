@@ -140,6 +140,8 @@ function isSunday($date)
                                         <?= $row["jk"]; ?>
                                     </td>
                                     <?php
+                                    $sakit = $ijin = $alpha = 0;
+                                    $bar_sakit = $bar_ijin = $bar_alpha = 0;
                                     for ($j = 0; $j < $tot_hari; $j++): ?>
                                         <td class="text-center" style="min-width: 20px;<?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) {
                                             echo 'background-color:red;color:white;';
@@ -175,19 +177,22 @@ function isSunday($date)
                                     $i++;
                                     ?>
                                     <td class="text-center">
-                                        <?= $tot_sakit += $sakit; ?>
+                                        <?= $bar_sakit += $sakit; ?>
                                     </td>
                                     <td class="text-center">
-                                        <?= $tot_ijin += $ijin; ?>
+                                        <?= $bar_ijin += $ijin; ?>
                                     </td>
                                     <td class="text-center">
-                                        <?= $tot_alpha += $alpha; ?>
+                                        <?= $bar_alpha += $alpha; ?>
                                     </td>
                                     <td class="text-center">
                                         <?= $sakit + $ijin + $alpha; ?>
                                     </td>
                                 </tr>
                                 <?php
+                                $tot_sakit += $bar_sakit;
+                                $tot_ijin += $bar_ijin;
+                                $tot_alpha += $bar_alpha;
                             endforeach;
                         endif;
                         ?>

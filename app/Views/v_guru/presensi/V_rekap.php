@@ -133,7 +133,8 @@ function isSunday($date)
                                         <?= $row["jk"]; ?>
                                     </td>
                                     <?php
-                                    $sakit = $ijin = $alpha = $bar_sakit = $bar_ijin = $bar_alpha = 0;
+                                    $sakit = $ijin = $alpha = 0;
+                                    $bar_sakit = $bar_ijin = $bar_alpha = 0;
                                     for ($j = 0; $j < $tot_hari; $j++): ?>
                                         <td class="text-center" style="min-width: 20px;<?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) {
                                             echo 'background-color:red;color:white;';
