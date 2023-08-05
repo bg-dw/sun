@@ -8,14 +8,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                Perubahan status periode, Harus dilakukan ketika tahun ajaran sebelumnya telah berakhir. Tetap lanjutkan
-                perubahan status periode?
-            </div>
-            <div class="modal-footer bg-whitesmoke br">
-                <button type="button" class="btn btn-primary">Lanjutkan</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-            </div>
+            <form
+                action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-periode') . '/' . bin2hex('set-status')) ?>"
+                method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="id" required id="inp-u-status">
+                    Perubahan status periode, Harus dilakukan ketika tahun ajaran sebelumnya telah berakhir. "Aktifkan"
+                    periode terpilih?
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Aktifkan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

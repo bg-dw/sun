@@ -81,8 +81,8 @@
                 </div>
             </div>
             <div class="card-body" id="f-add" style="display:none;">
-                <form action="<?= base_url('admin/guru/add') ?>" method="post"
-                    onsubmit="return confirm('Simpan data?')">
+                <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('add')) ?>"
+                    method="post" onsubmit="return confirm('Simpan data?')">
                     <?= csrf_field(); ?>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -115,8 +115,8 @@
                 </form>
             </div>
             <div class="card-body" id="f-edit" style="display:none;">
-                <form action="<?= base_url('admin/guru/update') ?>" method="post"
-                    onsubmit="return confirm('Simpan data?')">
+                <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('update')) ?>"
+                    method="post" onsubmit="return confirm('Simpan data?')">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="id" id="e-id" required>
                     <div class="form-row">
@@ -164,7 +164,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('admin/guru/delete') ?>" method="post">
+                <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('delete')) ?>"
+                    method="post">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="id" id="h-id" required>
                     <center>

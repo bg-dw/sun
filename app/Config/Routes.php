@@ -59,12 +59,13 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi'), 'admin\P
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-periode'), 'admin\MasterPeriode::index');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('data-periode') . '/' . bin2hex('add'), 'admin\MasterPeriode::ac_add');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('data-periode') . '/' . bin2hex('update'), 'admin\MasterPeriode::ac_update');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('data-periode') . '/' . bin2hex('set-status'), 'admin\MasterPeriode::ac_update_status');
 
 //data master guru
-$routes->get('/admin/data-guru', 'admin\MasterGuru::index');
-$routes->post('/admin/guru/add', 'admin\MasterGuru::add');
-$routes->post('/admin/guru/update', 'admin\MasterGuru::update');
-$routes->post('/admin/guru/delete', 'admin\MasterGuru::delete');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-guru'), 'admin\MasterGuru::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('add'), 'admin\MasterGuru::add');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('update'), 'admin\MasterGuru::update');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('delete'), 'admin\MasterGuru::delete');
 
 $routes->get('/admin/data-siswa', 'admin\MasterSiswa::index');
 $routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');

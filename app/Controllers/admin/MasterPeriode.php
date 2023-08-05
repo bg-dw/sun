@@ -71,4 +71,31 @@ class MasterPeriode extends BaseController
             }
         }
     }
+    public function ac_update_status()
+    {
+        $cek = $this->periode->where(['status_periode' => "aktif"])->first();
+
+        if ($cek) {
+            $periode_lama = [
+                'id_periode' => $cek['id_periode'],
+                'status_periode' => "non-aktif"
+            ];
+            $this->periode->save($periode_lama);
+            $data = [
+                'id_periode' => $this->request->getVar('id'),
+                'status_periode' => "aktif"
+            ];
+            $send = $this->periode->save($data);
+            if ($send) {
+                session()->setFlashdata('success', ' Data berhasil disimpan.');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-periode'));
+            } else {
+                session()->setFlashdata('warning', ' Data gagal ditambahkan.');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-periode'));
+            }
+        } else {
+            session()->setFlashdata('warning', ' Data sudah ada!');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-periode'));
+        }
+    }
 }

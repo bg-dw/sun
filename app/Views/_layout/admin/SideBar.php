@@ -41,10 +41,10 @@ $segments = $uri->getSegments(); ?>
                 <i data-feather="check-circle"></i><span>Data Periode</span>
             </a>
         </li>
-        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-guru')) {
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('data-guru'))) {
             echo "active";
         } ?>">
-            <a href="<?= base_url('admin/data-guru') ?>" class="nav-link">
+            <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-guru')) ?>" class="nav-link">
                 <i data-feather="book"></i><span>Data Guru</span>
             </a>
         </li>

@@ -27,18 +27,20 @@
                         </thead>
                         <tbody>
                             <?php $i = 1;
-                            if (isset($periode) && count($periode) > 0) {
-                                foreach ($periode as $row) {
+                            if (isset($periode) && count($periode) > 0) :
+                                foreach ($periode as $row):
                                     ?>
                                     <tr>
                                         <td class="text-center" style="width: 4%">
                                             <?= $i++; ?>
                                         </td>
                                         <td class="text-center" style="width: 11%">
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Periode"
-                                                onclick="update_periode('<?= $row['id_periode'] ?>','<?= $row['tahun_awal'] ?>','<?= $row['tahun_akhir'] ?>','<?= $row['status_periode'] ?>')">
-                                                <i class="fas fa-pen"></i>
-                                            </button>
+                                            <?php if($row['status_periode']==="non-aktif"):?>
+                                                <button class="btn btn-warning" data-toggle="tooltip" title="Edit Periode"
+                                                    onclick="update_periode('<?= $row['id_periode'] ?>','<?= $row['tahun_awal'] ?>','<?= $row['tahun_akhir'] ?>','<?= $row['status_periode'] ?>')">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                            <?php endif;?>
                                         </td>
                                         <td class="text-center">
                                             <?= $row['tahun_awal'] ?>
@@ -50,12 +52,14 @@
                                             <button
                                                 class="btn btn-<?= ($row['status_periode'] == 'aktif') ? 'success' : 'secondary'; ?>"
                                                 <?php if ($row['status_periode'] == 'non-aktif') { ?>onclick="set_act('<?= $row['id_periode'] ?>')" data-toggle="tooltip" title="Klik untuk Edit" <?php } ?>
-                                                ><?= strtoupper($row['status_periode']) ?></button>
+                                                >
+                                                <?= strtoupper($row['status_periode']); ?>
+                                            </button>
                                         </td>
                                     </tr>
                                     <?php
-                                }
-                            }
+                                endforeach;
+                            endif;
                             ?>
                         </tbody>
                     </table>
@@ -134,7 +138,7 @@
     });
 
     function set_act(id) {
-        $('#u-id-act').val(id);
+        $('#inp-u-status').val(id);
         $('#m-act').modal('show');
     }
 

@@ -36,7 +36,7 @@ class MasterGuru extends BaseController
         else:
             session()->setFlashdata('warning', ' Data gagal ditambahkan.');
         endif;
-        return redirect()->route('admin/data-guru');
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
     }
 
     //update guru
@@ -54,7 +54,7 @@ class MasterGuru extends BaseController
         else:
             session()->setFlashdata('warning', ' Data gagal diperbaharui.');
         endif;
-        return redirect()->route('admin/data-guru');
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
     }
 
     //delete guru
@@ -66,6 +66,6 @@ class MasterGuru extends BaseController
         else:
             session()->setFlashdata('warning', ' Data gagal dihapus.');
         endif;
-        return redirect()->route('admin/data-guru');
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
     }
 }
