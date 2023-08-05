@@ -56,7 +56,9 @@ $routes->get('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi'), 'admin\Pr
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi'), 'admin\Presensi::rekap');
 
 //data master periode
-$routes->get('/admin/data-periode', 'admin\MasterPeriode::index');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-periode'), 'admin\MasterPeriode::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('data-periode') . '/' . bin2hex('add'), 'admin\MasterPeriode::ac_add');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('data-periode') . '/' . bin2hex('update'), 'admin\MasterPeriode::ac_update');
 
 //data master guru
 $routes->get('/admin/data-guru', 'admin\MasterGuru::index');

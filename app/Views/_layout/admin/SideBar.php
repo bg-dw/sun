@@ -34,10 +34,10 @@ $segments = $uri->getSegments(); ?>
             </ul>
         </li>
         <li class="menu-header">Data Master</li>
-        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-periode')) {
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('data-periode'))) {
             echo "active";
         } ?>">
-            <a href="<?= base_url('admin/data-periode') ?>" class="nav-link">
+            <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-periode')) ?>" class="nav-link">
                 <i data-feather="check-circle"></i><span>Data Periode</span>
             </a>
         </li>

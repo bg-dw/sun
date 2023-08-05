@@ -12,6 +12,7 @@ class M_periode extends Model
     protected $allowedFields = [
         'id_periode',
         'tahun_awal',
-        'tahun_akhir'
+        'tahun_akhir',
+        'status_periode'
     ];
 }

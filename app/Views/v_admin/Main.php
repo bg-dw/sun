@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <!-- <div class="loader"></div> -->
+    <div class="loader"></div>
     <div id="app d-print-none">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
@@ -30,6 +30,7 @@
             <footer class="main-footer  d-print-none">
                 <?= $this->include('_layout/admin/Footer') ?>
             </footer>
+            <?= $this->include('_layout/admin/Modal') ?>
         </div>
     </div>
 
