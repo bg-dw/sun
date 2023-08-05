@@ -66,6 +66,7 @@ $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-guru'), 'admin\MasterG
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('add'), 'admin\MasterGuru::add');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('update'), 'admin\MasterGuru::update');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('delete'), 'admin\MasterGuru::delete');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('set-status'), 'admin\MasterGuru::ac_update_status');
 
 $routes->get('/admin/data-siswa', 'admin\MasterSiswa::index');
 $routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');

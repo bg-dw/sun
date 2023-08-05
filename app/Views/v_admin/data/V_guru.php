@@ -65,11 +65,11 @@
                                         <td class="text-center" style="width: 10%">
                                             <?= $row['level_login'] ?>
                                         </td>
-                                        <td class="text-center" style="width: 10%">
+                                        <td class="text-center" style="width: 15%">
                                             <button
                                                 class="btn btn-<?= ($row['status_guru'] == 'aktif') ? 'success' : 'secondary'; ?>"
-                                                <?php if ($row['status_guru'] == 'non-aktif') { ?>onclick="set_act_guru('<?= $row['id_guru'] ?>')" data-toggle="tooltip" title="Klik untuk Edit" <?php } ?>
-                                                >
+                                                onclick="set_act_guru('<?= $row['id_guru'] ?>','<?= $row['status_guru'] ?>')"
+                                                data-toggle="tooltip" title="Klik untuk Edit">
                                                 <?= strtoupper($row['status_guru']); ?>
                                             </button>
                                         </td>
@@ -184,25 +184,26 @@
 </div>
 
 <!-- Modal update Status Guru -->
-<div class="modal fade" id="m-act-guru" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="m-act-guru" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Perbaharui Status Periode</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Perbaharui Status Guru</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form
-                action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('set-status')) ?>"
+            <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('set-status')) ?>"
                 method="post">
                 <div class="modal-body">
-                    <input type="hidden" name="id" required id="inp-u-status-guru">
-                    Perubahan status periode, Harus dilakukan ketika tahun ajaran sebelumnya telah berakhir. "Aktifkan"
-                    periode terpilih?
+                    <input type="hidden" name="id" required id="inp-u-id-guru">
+                    <input type="hidden" name="status" required id="inp-u-status-guru">
+                    Perubahan status guru dapat mempengaruhi Login dan Presensi Siswa. " <b id="u-stat"></b> "
+                    guru terpilih?
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Aktifkan</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit"></button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 </div>
             </form>
@@ -210,6 +211,9 @@
     </div>
 </div>
 <script>
+    function up_first(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     $('#btn-import').click(function () {
         $('#add-modal').appendTo('body').modal('show');
     });
@@ -243,6 +247,21 @@
         $('#tbl-data').show('slow');
         $('#card-title').text('Data Guru');
     });
+
+    function set_act_guru(id, status) {
+        let stat = status;
+        if (stat === "aktif") {
+            stat = "non-aktif"
+        } else {
+            stat = "aktif"
+        }
+        $('#inp-u-id-guru').val(id);
+        $('#inp-u-status-guru').val(stat);
+        $('#btn-submit').text(up_first(stat) + "kan");
+        $('#u-stat').text(up_first(stat) + "kan");
+        console.log("here");
+        $('#m-act-guru').appendTo("body").modal('show');
+    }
 
     function del(id, nama) {
         $('#h-id').val(id);

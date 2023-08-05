@@ -68,4 +68,21 @@ class MasterGuru extends BaseController
         endif;
         return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
     }
+
+    //update status guru
+    public function ac_update_status()
+    {
+        $data = [
+            'id_guru' => $this->request->getVar('id'),
+            'status_guru' => $this->request->getVar('status')
+        ];
+        $send = $this->guru->save($data);
+        if ($send) {
+            session()->setFlashdata('success', ' Data berhasil disimpan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
+        } else {
+            session()->setFlashdata('warning', ' Data gagal ditambahkan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
+        }
+    }
 }
