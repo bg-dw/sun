@@ -66,10 +66,12 @@
                                             <?= $row['level_login'] ?>
                                         </td>
                                         <td class="text-center" style="width: 10%">
-                                            <span
-                                                class="badge badge-<?= ($row['status_guru'] == 'aktif') ? 'success' : 'light'; ?>">
-                                                <?= strtoupper($row['status_guru']) ?>
-                                            </span>
+                                            <button
+                                                class="btn btn-<?= ($row['status_guru'] == 'aktif') ? 'success' : 'secondary'; ?>"
+                                                <?php if ($row['status_guru'] == 'non-aktif') { ?>onclick="set_act_guru('<?= $row['id_guru'] ?>')" data-toggle="tooltip" title="Klik untuk Edit" <?php } ?>
+                                                >
+                                                <?= strtoupper($row['status_guru']); ?>
+                                            </button>
                                         </td>
                                     </tr>
                                     <?php
@@ -154,11 +156,11 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="modal-delete" tabindex="-100" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Hapus Data?</h5>
+                <h5 class="modal-title">Hapus Data?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -176,6 +178,33 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 <button type="submit" class="btn btn-danger">Hapus</button>
             </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal update Status Guru -->
+<div class="modal fade" id="m-act-guru" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Perbaharui Status Periode</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form
+                action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('set-status')) ?>"
+                method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="id" required id="inp-u-status-guru">
+                    Perubahan status periode, Harus dilakukan ketika tahun ajaran sebelumnya telah berakhir. "Aktifkan"
+                    periode terpilih?
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Aktifkan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
             </form>
         </div>
     </div>

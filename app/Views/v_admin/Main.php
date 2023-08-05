@@ -30,7 +30,6 @@
             <footer class="main-footer  d-print-none">
                 <?= $this->include('_layout/admin/Footer') ?>
             </footer>
-            <?= $this->include('_layout/admin/Modal') ?>
         </div>
     </div>
 

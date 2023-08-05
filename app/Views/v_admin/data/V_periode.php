@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                             <?php $i = 1;
-                            if (isset($periode) && count($periode) > 0) :
+                            if (isset($periode) && count($periode) > 0):
                                 foreach ($periode as $row):
                                     ?>
                                     <tr>
@@ -35,12 +35,12 @@
                                             <?= $i++; ?>
                                         </td>
                                         <td class="text-center" style="width: 11%">
-                                            <?php if($row['status_periode']==="non-aktif"):?>
+                                            <?php if ($row['status_periode'] === "non-aktif"): ?>
                                                 <button class="btn btn-warning" data-toggle="tooltip" title="Edit Periode"
                                                     onclick="update_periode('<?= $row['id_periode'] ?>','<?= $row['tahun_awal'] ?>','<?= $row['tahun_akhir'] ?>','<?= $row['status_periode'] ?>')">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                            <?php endif;?>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-center">
                                             <?= $row['tahun_awal'] ?>
@@ -51,8 +51,8 @@
                                         <td class="text-center" style="width: 15%">
                                             <button
                                                 class="btn btn-<?= ($row['status_periode'] == 'aktif') ? 'success' : 'secondary'; ?>"
-                                                <?php if ($row['status_periode'] == 'non-aktif') { ?>onclick="set_act('<?= $row['id_periode'] ?>')" data-toggle="tooltip" title="Klik untuk Edit" <?php } ?>
-                                                >
+                                                <?php if ($row['status_periode'] == 'non-aktif'): ?>onclick="set_act('<?= $row['id_periode'] ?>')" data-toggle="tooltip"
+                                                    title="Klik untuk Edit" <?php endif; ?>>
                                                 <?= strtoupper($row['status_periode']); ?>
                                             </button>
                                         </td>
@@ -121,6 +121,34 @@
                     </div>
                 </form>
             </div>
+            <!-- Modal update Status periode -->
+            <div class="modal fade" id="m-act" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Perbaharui Status Periode</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form
+                            action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-periode') . '/' . bin2hex('set-status')) ?>"
+                            method="post">
+                            <div class="modal-body">
+                                <input type="hidden" name="id" required id="inp-u-status">
+                                Perubahan status periode, Harus dilakukan ketika tahun ajaran sebelumnya telah berakhir.
+                                "Aktifkan"
+                                periode terpilih?
+                            </div>
+                            <div class="modal-footer bg-whitesmoke br">
+                                <button type="submit" class="btn btn-primary">Aktifkan</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -139,7 +167,7 @@
 
     function set_act(id) {
         $('#inp-u-status').val(id);
-        $('#m-act').modal('show');
+        $('#m-act').appendTo("body").modal('show');
     }
 
     //update periode
