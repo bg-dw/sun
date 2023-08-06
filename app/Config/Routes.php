@@ -68,8 +68,12 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('up
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('delete'), 'admin\MasterGuru::delete');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('set-status'), 'admin\MasterGuru::ac_update_status');
 
-$routes->get('/admin/data-siswa', 'admin\MasterSiswa::index');
-$routes->post('/admin/import/siswa', 'admin\MasterSiswa::importCsv');
+//data master siswa
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-siswa'), 'admin\MasterSiswa::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('import') . '/' . bin2hex('siswa'), 'admin\MasterSiswa::importCsv');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('add'), 'admin\MasterSiswa::ac_add');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('update'), 'admin\MasterSiswa::ac_update');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('delete'), 'admin\MasterSiswa::ac_delete');
 
 //data master kelas
 $routes->get('/admin/data-kelas', 'admin\MasterKelas::index');

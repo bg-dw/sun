@@ -79,21 +79,82 @@ class MasterSiswa extends BaseController
                 }
             }
             session()->setFlashdata('success', $i . ' Data berhasil diimport.');
-            return redirect()->route('admin/data-siswa');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
         } else {
             return redirect()->back()->with('error', 'File harus berupa Excel.');
         }
     }
 
-    //tambah RFID
-    public function add_rfid()
+    //tambah siswa
+    public function ac_add()
     {
-        $this->siswa->save([
-            'id_siswa' => $this->request->getVar('id_siswa'),
-            'rfid' => $this->request->getVar('rfid')
-        ]);
-        session()->setFlashdata('success', ' Data berhasil disimpan.');
-        return redirect()->route('admin/data-siswa');
+        $data = [
+            'id_siswa' => md5(random_int(0, 9) . date('U')),
+            'nis' => $this->request->getVar('nis'),
+            'nisn' => $this->request->getVar('nisn'),
+            'nama' => strtoupper($this->request->getVar('nama')),
+            'jk' => strtoupper($this->request->getVar('jk')),
+            'tmp_lahir' => strtoupper($this->request->getVar('tl')),
+            'tgl_lahir' => date('Y-m-d', strtotime($this->request->getVar('tgl'))),
+            'alamat_siswa' => $this->request->getVar('alamat'),
+            'ayah_kandung' => strtoupper($this->request->getVar('bapak')),
+            'ibu_kandung' => strtoupper($this->request->getVar('ibu')),
+            'p_ayah' => strtoupper($this->request->getVar('p_bapak')),
+            'p_ibu' => strtoupper($this->request->getVar('p_ibu')),
+            'alamat_ortu' => $this->request->getVar('alamat_o'),
+            'nama_wali' => strtoupper($this->request->getVar('wali')),
+            'alamat_wali' => $this->request->getVar('alamat_wl')
+        ];
+        $send = $this->siswa->save($data);
+        if ($send) {
+            session()->setFlashdata('success', ' Data berhasil disimpan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
+        } else {
+            session()->setFlashdata('warning', ' Data gagal ditambahkan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
+        }
+    }
+
+    //update siswa
+    public function ac_update()
+    {
+        $data = [
+            'id_siswa' => $this->request->getVar('id'),
+            'nis' => $this->request->getVar('nis'),
+            'nisn' => $this->request->getVar('nisn'),
+            'nama' => strtoupper($this->request->getVar('nama')),
+            'jk' => strtoupper($this->request->getVar('jk')),
+            'tmp_lahir' => strtoupper($this->request->getVar('tl')),
+            'tgl_lahir' => date('Y-m-d', strtotime($this->request->getVar('tgl'))),
+            'alamat_siswa' => $this->request->getVar('alamat'),
+            'ayah_kandung' => strtoupper($this->request->getVar('bapak')),
+            'ibu_kandung' => strtoupper($this->request->getVar('ibu')),
+            'p_ayah' => strtoupper($this->request->getVar('p_bapak')),
+            'p_ibu' => strtoupper($this->request->getVar('p_ibu')),
+            'alamat_ortu' => $this->request->getVar('alamat_o'),
+            'nama_wali' => strtoupper($this->request->getVar('wali')),
+            'alamat_wali' => $this->request->getVar('alamat_wl')
+        ];
+        $send = $this->siswa->save($data);
+        if ($send) {
+            session()->setFlashdata('success', ' Data berhasil disimpan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
+        } else {
+            session()->setFlashdata('warning', ' Perubahan Data gagal!');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
+        }
+    }
+
+    //delete guru
+    public function ac_delete()
+    {
+        $send = $this->siswa->where('id_siswa', $this->request->getVar('id'))->delete();
+        if ($send):
+            session()->setFlashdata('success', ' Data berhasil dihapus.');
+        else:
+            session()->setFlashdata('warning', ' Data gagal dihapus.');
+        endif;
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
     }
 
 }
