@@ -25,7 +25,7 @@ class BaseController extends Controller
 	public function is_session_available()
 	{
 		if (session()->get('passed') != true):
-			session()->setFlashdata('warning', 'Tidak Memiliki Hak Akses!');
+			session()->setFlashdata('warning', 'Silahkan Login!');
 			header('Location: ' . base_url());
 			exit();
 		endif;

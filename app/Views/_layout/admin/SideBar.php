@@ -55,10 +55,10 @@ $segments = $uri->getSegments(); ?>
                 <i data-feather="users"></i><span> Data Peserta Didik</span>
             </a>
         </li>
-        <li class="dropdown <?php if ($segments[0] === 'admin' && ($segments[1] === 'data-kelas')) {
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('data-kelas'))) {
             echo "active";
         } ?>">
-            <a href="<?= base_url('admin/data-kelas') ?>" class="nav-link">
+            <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-kelas')) ?>" class="nav-link">
                 <i data-feather="home"></i><span>Data Kelas</span>
             </a>
         </li>

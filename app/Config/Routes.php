@@ -42,9 +42,9 @@ $routes->post('/inp', 'Dashboard::put_absen');
 $routes->post('/get_last', 'Dashboard::get_total');
 
 //Login
-$routes->get(bin2hex('/login'), 'Login::index');
-$routes->post(bin2hex('/auth'), 'Login::auth');
-$routes->get(bin2hex('/logout'), 'Login::logout');
+$routes->get('/' . bin2hex('login'), 'Login::index');
+$routes->post('/' . bin2hex('auth'), 'Login::auth');
+$routes->get('/' . bin2hex('logout'), 'Login::logout');
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('home'), 'admin\Home::index');
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('get_siswa_kelas'), 'admin\Home::get_siswa_kelas');
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('get_absen_today'), 'admin\Home::get_absen_today');
@@ -76,7 +76,7 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('u
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('delete'), 'admin\MasterSiswa::ac_delete');
 
 //data master kelas
-$routes->get('/admin/data-kelas', 'admin\MasterKelas::index');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-kelas'), 'admin\MasterKelas::index');
 $routes->post('/admin/kelas/add', 'admin\MasterKelas::add');
 
 //data master presensi

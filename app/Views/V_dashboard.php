@@ -47,7 +47,7 @@
 						style="margin-top:-500px;" />
 				</div>
 				<button class="btnFloat btn btn-icon btn-lg shadow__btn"
-					onclick="location.href='<?= base_url(bin2hex('/login')) ?>'">
+					onclick="location.href='<?= base_url('/' . bin2hex('login')) ?>'">
 					<i class="my-float fas fa-fingerprint"> Login</i>
 				</button>
 			</div>
