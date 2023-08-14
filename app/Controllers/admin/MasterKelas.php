@@ -30,11 +30,46 @@ class MasterKelas extends BaseController
     //tambah kelas
     public function add()
     {
-        $this->kelas->save([
+        $send = $this->kelas->save([
             'id_periode' => $this->request->getVar('periode'),
-            'id_guru' => strtoupper($this->request->getVar('guru')),
+            'id_guru' => $this->request->getVar('guru'),
             'kelas' => $this->request->getVar('kelas')
         ]);
-        return redirect()->route('admin/data-kelas');
+        if ($send) {
+            session()->setFlashdata('success', ' Data berhasil disimpan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-kelas'));
+        } else {
+            session()->setFlashdata('warning', ' Data gagal ditambahkan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-kelas'));
+        }
+    }
+
+    //update Kelas
+    public function update()
+    {
+        $send = $this->kelas->save([
+            'id_kelas' => $this->request->getVar('id'),
+            'id_guru' => $this->request->getVar('guru'),
+            'kelas' => $this->request->getVar('kelas')
+        ]);
+        if ($send) {
+            session()->setFlashdata('success', ' Data berhasil disimpan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-kelas'));
+        } else {
+            session()->setFlashdata('warning', ' Data gagal diperbaharui.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-kelas'));
+        }
+    }
+
+    //delete kelas
+    public function delete()
+    {
+        $send = $this->kelas->where('id_kelas', $this->request->getVar('id'))->delete();
+        if ($send):
+            session()->setFlashdata('success', ' Data berhasil dihapus.');
+        else:
+            session()->setFlashdata('warning', ' Data gagal dihapus.');
+        endif;
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-kelas'));
     }
 }

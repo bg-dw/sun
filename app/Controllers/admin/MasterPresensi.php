@@ -34,12 +34,12 @@ class MasterPresensi extends BaseController
 
         if ($cek) {
             session()->setFlashdata('warning', ' Data sudah ada!');
-            return redirect()->route('admin/data-presensi');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
         } else {
             $cek_rfid = $this->presensi->cek_rfid_by_period($this->request->getVar('rfid'));
             if ($cek_rfid) {
                 session()->setFlashdata('warning', ' RFID Terpakai!');
-                return redirect()->route('admin/data-presensi');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
             } else {
                 $data = [
                     'id_absensi' => base64_encode($this->request->getVar('rfid') . date('U')),
@@ -50,23 +50,71 @@ class MasterPresensi extends BaseController
                 $send = $this->presensi->simpan($data);
                 if ($send) {
                     session()->setFlashdata('success', ' Data berhasil disimpan.');
-                    return redirect()->route('admin/data-presensi');
+                    return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
                 } else {
                     session()->setFlashdata('warning', ' Data gagal ditambahkan.');
-                    return redirect()->route('admin/data-presensi');
+                    return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
                 }
             }
         }
     }
 
+    // update presensi
+    public function update()
+    {
+        $cek = $this->presensi->where(['id_siswa' => $this->request->getVar('siswa'), 'id_kelas' => $this->request->getVar('kelas')])->first();
+
+        if ($cek) {
+            session()->setFlashdata('warning', ' Data sudah ada!');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
+        } else {
+            $cek_rfid = $this->presensi->cek_rfid_by_period($this->request->getVar('rfid'));
+            if ($cek_rfid) {
+                session()->setFlashdata('warning', ' RFID Terpakai!');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
+            } else {
+                $data = [
+                    'id_absensi' => $this->request->getVar('id'),
+                    'id_siswa' => $this->request->getVar('siswa'),
+                    'id_kelas' => $this->request->getVar('kelas')
+                ];
+                $send = $this->presensi->save($data);
+                if ($send) {
+                    session()->setFlashdata('success', ' Data berhasil disimpan.');
+                    return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
+                } else {
+                    session()->setFlashdata('warning', ' Data gagal perbaharui.');
+                    return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
+                }
+            }
+        }
+    }
+
+    //delete presensi
+    public function delete()
+    {
+        $send = $this->presensi->where('id_absensi', $this->request->getVar('id'))->delete();
+        if ($send):
+            session()->setFlashdata('success', ' Data berhasil dihapus.');
+        else:
+            session()->setFlashdata('warning', ' Data gagal dihapus.');
+        endif;
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
+    }
+
     //edit rfid
     public function edit_rfid()
     {
-        $this->presensi->save([
+        $send = $this->presensi->save([
             'id_absensi' => $this->request->getVar('id_absensi'),
             'rfid' => $this->request->getVar('rfid')
         ]);
-        session()->setFlashdata('success', ' Data berhasil diperbaharui.');
-        return redirect()->route('admin/data-presensi');
+        if ($send) {
+            session()->setFlashdata('success', ' Data berhasil disimpan.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
+        } else {
+            session()->setFlashdata('warning', ' Data gagal diperbaharui.');
+            return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
+        }
     }
 }

@@ -77,12 +77,16 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('d
 
 //data master kelas
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-kelas'), 'admin\MasterKelas::index');
-$routes->post('/admin/kelas/add', 'admin\MasterKelas::add');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('add'), 'admin\MasterKelas::add');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('update'), 'admin\MasterKelas::update');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('delete'), 'admin\MasterKelas::delete');
 
 //data master presensi
-$routes->get('/admin/data-presensi', 'admin\MasterPresensi::index');
-$routes->post('/admin/presensi/add', 'admin\MasterPresensi::add');
-$routes->post('/admin/edit/rfid', 'admin\MasterPresensi::edit_rfid');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-presensi'), 'admin\MasterPresensi::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('add'), 'admin\MasterPresensi::add');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('update'), 'admin\MasterPresensi::update');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('delete'), 'admin\MasterPresensi::delete');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('edit') . '/' . bin2hex('rfid'), 'admin\MasterPresensi::edit_rfid');
 
 
 //Guru

@@ -37,10 +37,12 @@
                                             <?= ($i++) . "."; ?>
                                         </td>
                                         <td class="text-center" style="width: 10%">
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Data">
+                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Data"
+                                                onclick="update('<?= $row['id_absensi'] ?>','<?= $row['id_siswa'] ?>','<?= $row['id_kelas'] ?>')">
                                                 <i class="fas fa-pen"></i>
                                             </button>
-                                            <button class="btn btn-danger" data-toggle="tooltip" title="Hapus Data">
+                                            <button class="btn btn-danger" data-toggle="tooltip" title="Hapus Data"
+                                                onclick="hapus('<?= $row['id_absensi'] ?>','<?= $row['nama'] ?>','<?= $row['kelas'] ?>')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -77,7 +79,9 @@
                 </div>
             </div>
             <div class="card-body" id="f-add" style="display:none;">
-                <form action="<?= base_url('admin/presensi/add') ?>" method="post">
+                <form
+                    action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('add')) ?>"
+                    method="post">
                     <?= csrf_field(); ?>
                     <div class="form-row">
                         <div class="form-group col-md-4">
@@ -110,6 +114,37 @@
                     </div>
                 </form>
             </div>
+            <div class="card-body" id="f-update" style="display:none;">
+                <form
+                    action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('update')) ?>"
+                    method="post">
+                    <?= csrf_field(); ?>
+                    <div class="form-row">
+                        <input type="hidden" name="id" id="u-id">
+                        <div class="form-group col-md-4">
+                            <label>Nama Siswa/Siswi</label>
+                            <select name="siswa" class="form-control select2" style="width:100%;" required id="u-nama">
+                                <?php foreach ($siswa as $row): ?>
+                                    <option value="<?= $row['id_siswa'] ?>"><?= $row['nama'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Kelas</label>
+                            <select name="kelas" class="form-control select2" style="width:100%;" required id="u-kelas">
+                                <?php foreach ($kelas as $bar): ?>
+                                    <option value="<?= $bar['id_kelas'] ?>"><?= $bar['kelas'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="submit">Simpan</button>
+                        <button class="btn btn-secondary" type="button" onclick="batal()">Batal</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -123,7 +158,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('admin/edit/rfid') ?>" method="post">
+            <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('edit') . '/' . bin2hex('rfid')) ?>"
+                method="post">
                 <?= csrf_field(); ?>
                 <input type="hidden" name="id_absensi" class="form-control" required id="ed-id">
                 <div class="modal-body">
@@ -136,6 +172,36 @@
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="submit" class="btn btn-primary">Simpan</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-modal" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('delete')) ?>"
+                method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="id" class="form-control" required id="d-id">
+                    <center>
+                        <h3 id="d-kelas"></h3>
+                        <h3 id="d-nama"></h3>
+                        <label class="text-danger">Seluruh data yang Presensi siswa tersebut akan terhapus. Hapus
+                            data?</label>
+                    </center>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Ya</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
                 </div>
             </form>
         </div>
@@ -155,7 +221,6 @@
         $('#tbl-data').hide('slow');
         $('#btn-add').hide('slow');
         $('#f-add').show('slow');
-        $('#inp-rfid').focus();
     });
     $('#btn-cancel').click(function () {
         $('#f-add').hide('slow');
@@ -173,5 +238,29 @@
         $('#ed-id').val(id);
         setTimeout(function () { $('#ed-rfid').focus() }, 500);
     }
+
+    function update(id_p, id_siswa, id_kelas) {
+        $('#tbl-data').hide('slow');
+        $('#btn-add').hide('slow');
+        $('#f-update').show('slow');
+        $('#inp-rfid').focus();
+        $('#u-id').val(id_p);
+        $('#u-nama').val(id_siswa).trigger('change');
+        $('#u-kelas').val(id_kelas).trigger('change');
+    }
+
+    function batal() {
+        $('#f-update').hide('slow');
+        $('#btn-add').show('slow');
+        $('#tbl-data').show('slow');
+    }
+
+    function hapus(id, nama, kelas) {
+        $('#d-id').val(id);
+        $('#d-nama').text(nama);
+        $('#d-kelas').text("KELAS : " + kelas);
+        $('#delete-modal').appendTo('body').modal('show');
+    }
+
 </script>
 <?= $this->endSection() ?>
