@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>/public/assets/css/shadow__btn.css">
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url() ?>/public/assets/img/favicon.ico">
     <link rel="stylesheet" href="<?= base_url() ?>/public/assets/bundles/izitoast/css/iziToast.min.css">
+    <script src="<?= base_url() ?>/public/assets/js/jquery-3.7.0.js"></script>
     <style>
     </style>
 </head>
@@ -28,30 +29,76 @@
         </section>
         <section class="section">
             <div class="row">
-                <div class="col-md-12" style="margin-top: 15%;">
+                <div class="col-md-12" style="margin-top: 2%;">
                     <center>
                         <h4>Dimohon untuk tidak <br> menggunakan mouse dan keyboard selama proses Absensi</h4>
                     </center>
                 </div>
-                <div class="col-md-12 mt-5">
+            </div>
+            <div class="row m-2 mt-5">
+                <div class="col-md-12">
                     <center>
                         <h1 id="sh_inp"></h1>
                     </center>
                 </div>
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-right"><input id="tot_text" type="number" value="<?= $total_siswa; ?>"
+                                    readonly style="display: none;">
+                            </div>
+                            <div class="text-center">
+                                <h2 class="progress-text">0%</h2>
+                                <div class="progress" data-height="15">
+                                    <div id="status" class="progress-bar bg-success" data-width="0%"></div>
+                                </div>
+                                <table width="100%" class="table table-striped">
+                                    <tbody id="parent"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="author-box-center">
+                        <center>
+                            <img alt="image" id="pic" src="<?= base_url() ?>/public/assets/img/default.png" class=""
+                                width="300px">
+                        </center>
+                    </div>
+                    <div class="card author-box">
+                        <div class="card-body">
+                            <div class="author-box-center">
+                                <div class="clearfix"></div>
+                                <div class="author-box-name">
+                                    <h2 style="color:black;" id="nama">Nama</h2>
+                                </div>
+                                <div class="author-box-job">
+                                    <h4 id="kelas">Kelas</h4>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <h3 id="jam">Jam absen</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
-    <!-- General JS Scripts -->
-    <script src="<?= base_url() ?>/public/assets/js/jquery-3.7.0.js"></script>
     <!-- JS Libraies -->
     <script src="<?= base_url() ?>/public/assets/js/app.min.js"></script>
     <!-- Page Specific JS File -->
+    <script src="<?= base_url() ?>/public/assets/bundles/apexcharts/apexcharts.min.js"></script>
     <script src="<?= base_url() ?>/public/assets/bundles/izitoast/js/iziToast.min.js"></script>
     <!-- tamplate JS File -->
     <script src="<?= base_url() ?>/public/assets/js/scripts.js"></script>
     <!-- Custom JS File -->
     <script src="<?= base_url() ?>/public/assets/js/custom.js"></script>
     <script>
+        var a = x = 0;
+        var total = 0;
+
         $(function () {
             input.focus();
         });
@@ -65,25 +112,20 @@
                 success: function (result) {
                     let data = JSON.parse(result);
                     if (data['status'] == 'success') {
-                        if (data['kelas'] == 'I') {
-                            reload_satu();
-                        } else if (data['kelas'] == 'II') {
-                            reload_dua();
-                        } else if (data['kelas'] == 'III') {
-                            reload_tiga();
-                        } else if (data['kelas'] == 'IV') {
-                            reload_empat();
-                        } else if (data['kelas'] == 'V') {
-                            reload_lima();
-                        } else if (data['kelas'] == 'VI') {
-                            reload_enam();
-                        }
+                        $('#sh_inp').css({ 'color': 'green' });
+                        $('#sh_inp').text("Berhasil");
+                        add_list(data['nama'], data['kelas'], data['jam'], data['pic'], data['total']);
+                    } else {
+                        $('#sh_inp').css({ 'color': 'red' });
+                        $('#sh_inp').text(data['isi']);
                     }
+                },
+                error: function (data) {
+                    console.log("[" + rfid + "] Gagal");
                 }
             });
         }
         input.addEventListener("keypress", function (event) {
-            // If the user presses the "Enter" key on the keyboard
             $('#sh_inp').text(input.value);
             if (event.key === "Enter") {
                 // Cancel the default action, if needed
@@ -92,6 +134,33 @@
                 input.value = '';
             }
         });
+
+        x = $('#tot_text').val();
+        function add_list(nama, kelas, jam, pic, total) {
+            if (!total) {
+                total = 0;
+            }
+            $('#nama').text(nama);
+            $('#kelas').text(kelas);
+            $('#jam').text(jam);
+            if (pic) {
+                $('#pic').attr("src", "<?= base_url() ?>/public/assets/img/siswa/" + pic);
+            } else {
+                $('#pic').attr("src", "<?= base_url() ?>/public/assets/img/default.png");
+            }
+            $('#parent').prepend('<tr><td><h2>' + nama + '</h2></td><td><b>' + jam + '</b></td> </tr>');
+            $('.progress-text').text(((total / x) * 100).toFixed(2) + "%");
+            $('#status').css('width', ((total / x) * 100).toFixed(2) + "%");
+
+            var z = $("#parent").children().length;
+            if (z > 5) {
+                $("#parent").children("tr:last").remove();
+                $('.progress-text').text(((total / x) * 100).toFixed(2) + "%");
+                $('#status').css('width', ((total / x) * 100).toFixed(2) + "%");
+            }
+        }
+
+
     </script>
 </body>
 

@@ -15,6 +15,7 @@ class M_siswa extends Model
         'nis',
         'nisn',
         'nama',
+        'pic_siswa',
         'jk',
         'tmp_lahir',
         'tgl_lahir',
@@ -44,5 +45,12 @@ class M_siswa extends Model
         $this->where('tbl_kelas.kelas', $kelas);
         $this->orderBy('tbl_siswa.nama', 'ASC');
         return $this->findAll();
+    }
+
+    function get_pic($id)
+    {
+        $this->select('tbl_siswa.pic_siswa,tbl_siswa.nama');
+        $this->where('tbl_siswa.id_siswa', $id);
+        return $this->first();
     }
 }

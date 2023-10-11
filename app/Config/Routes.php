@@ -71,6 +71,7 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('guru') . '/' . bin2hex('se
 //data master siswa
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-siswa'), 'admin\MasterSiswa::index');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('import') . '/' . bin2hex('siswa'), 'admin\MasterSiswa::importCsv');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('upload_foto') . '/' . bin2hex('siswa'), 'admin\MasterSiswa::ac_upload_foto');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('add'), 'admin\MasterSiswa::ac_add');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('update'), 'admin\MasterSiswa::ac_update');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('delete'), 'admin\MasterSiswa::ac_delete');

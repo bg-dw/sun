@@ -115,6 +115,13 @@
                                     Alpha
                                 </label>
                             </div>
+                            <div class="form-check">
+                                <input class="form-check-input pil" type="radio" name="absensi" id="none" value="-"
+                                    required>
+                                <label class="form-check-label" for="kosong">
+                                    Kosong
+                                </label>
+                            </div>
                         </div>
                         <div class="float-right">
                             <button class="btn btn-primary mr-1" type="submit">Simpan</button>

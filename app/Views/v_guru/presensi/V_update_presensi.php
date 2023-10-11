@@ -135,7 +135,7 @@ function isSunday($date)
                                 <div class="form-row">
                                     <input type="hidden" name="id_absen" id="e-id" readonly required>
                                     <div class="form-group col-md-6">
-                                        <label for="inputBulan">Tanggal</label>
+                                        <label for="inputBulan">Tanggal ( Tahun-Bulan-Hari )</label>
                                         <input type="text" name="tgl" class="form-control" id="e-tgl" readonly required>
                                     </div>
                                     <div class="form-group col-md-6">
@@ -181,6 +181,13 @@ function isSunday($date)
                                                 Alpha
                                             </label>
                                         </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input pil" type="radio" name="absensi" id="none"
+                                                value="-" required>
+                                            <label class="form-check-label" for="kosong">
+                                                Kosong
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -218,6 +225,8 @@ function isSunday($date)
             $('#ijin').prop('checked', true);
         } else if (presensi == "alpha") {
             $('#alpha').prop('checked', true);
+        } else {
+            $('#none').prop('checked', true);
         }
         $('#list').hide('slow');
         $('#f-update').show('slow');

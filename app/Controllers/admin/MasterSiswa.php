@@ -9,9 +9,10 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class MasterSiswa extends BaseController
 {
-    protected $siswa;
+    protected $siswa, $validation;
     public function __construct()
     {
+        $this->validation = \Config\Services::validation();
         $this->is_session_available();
         $this->siswa = new M_siswa();
     }
@@ -105,7 +106,7 @@ class MasterSiswa extends BaseController
             'nama_wali' => strtoupper($this->request->getVar('wali')),
             'alamat_wali' => $this->request->getVar('alamat_wl')
         ];
-        $send = $this->siswa->save($data);
+        $send = $this->siswa->inp($data);
         if ($send) {
             session()->setFlashdata('success', ' Data berhasil disimpan.');
             return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
@@ -113,6 +114,7 @@ class MasterSiswa extends BaseController
             session()->setFlashdata('warning', ' Data gagal ditambahkan.');
             return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
         }
+        // dd($send);
     }
 
     //update siswa
@@ -145,16 +147,55 @@ class MasterSiswa extends BaseController
         }
     }
 
-    //delete guru
+    //delete siswa
     public function ac_delete()
     {
+        $pic = $this->siswa->find($this->request->getVar('id'));
         $send = $this->siswa->where('id_siswa', $this->request->getVar('id'))->delete();
         if ($send):
+            if ($pic['pic_siswa']) { //if image exist
+                unlink('public/assets/img/siswa/' . $pic['pic_siswa']);
+            }
             session()->setFlashdata('success', ' Data berhasil dihapus.');
         else:
             session()->setFlashdata('warning', ' Data gagal dihapus.');
         endif;
         return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
+    }
+
+    //update foto siswa
+    public function ac_upload_foto()
+    {
+        $dataBerkas = $this->request->getFile('foto');
+        $id = $this->request->getVar('id');
+        $temp_name = md5($id . $dataBerkas->getRandomName());
+        $ext = $dataBerkas->getExtension(); //get file extension
+        $valid = $this->validate([
+            'foto' => [
+                'uploaded[foto]',
+                'max_size[foto,1000]',
+                'mime_in[foto,image/png,image/jpg,image/gif]',
+                'ext_in[foto,png,jpg,gif]'
+            ],
+        ]);
+        $fileName = $temp_name . "." . $ext;
+        $dataBerkas->move('public/assets/img/siswa/', $fileName); //move file and rename
+        if ($dataBerkas->hasMoved()) {
+            $data = [
+                'id_siswa' => $this->request->getVar('id'),
+                'pic_siswa' => $fileName
+            ];
+            $send = $this->siswa->save($data);
+            if ($send) {
+                session()->setFlashdata('success', ' Berhasil Upload Foto.');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
+            } else {
+                session()->setFlashdata('warning', ' Perubahan Foto gagal!');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
+            }
+        } else {
+            session()->setFlashdata('warning', 'Gagal Upload foto.');
+        }
     }
 
 }

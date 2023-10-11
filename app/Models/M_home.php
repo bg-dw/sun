@@ -97,7 +97,7 @@ class M_home extends Model
     }
     function get_presensi_by_rfid($rfid)
     {
-        $sql = $this->db->query("select tbl_periode.status_periode,tbl_kelas.kelas,tbl_absensi.id_absensi,tbl_absensi.rfid from tbl_absensi join tbl_kelas on tbl_absensi.id_kelas = tbl_kelas.id_kelas join tbl_periode on tbl_kelas.id_periode = tbl_periode.id_periode where tbl_periode.status_periode='aktif'and tbl_absensi.rfid='" . $rfid . "'");
+        $sql = $this->db->query("select tbl_periode.status_periode,tbl_kelas.kelas,tbl_absensi.id_absensi,tbl_absensi.rfid,tbl_absensi.id_siswa from tbl_absensi join tbl_kelas on tbl_absensi.id_kelas = tbl_kelas.id_kelas join tbl_periode on tbl_kelas.id_periode = tbl_periode.id_periode where tbl_periode.status_periode='aktif'and tbl_absensi.rfid='" . $rfid . "'");
         return $sql->getResult();
     }
 
@@ -111,6 +111,17 @@ class M_home extends Model
     {
         $this->select('id_absensi,id_detail_absensi');
         $this->where(['id_absensi' => $id, 'tgl_absensi' => $tgl]);
+        return $this->first();
+    }
+
+    function get_tot_today()
+    {
+        $this->select('COUNT(tbl_detail_absensi.id_detail_absensi) as total');
+        $this->join('tbl_absensi', 'tbl_detail_absensi.id_absensi = tbl_absensi.id_absensi');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+        $this->join('tbl_siswa', 'tbl_absensi.id_siswa = tbl_siswa.id_siswa');
+        $this->where(['tbl_periode.status_periode' => 'aktif', 'tbl_detail_absensi.tgl_absensi' => date('Y-m-d')]);
         return $this->first();
     }
 }

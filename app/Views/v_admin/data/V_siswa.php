@@ -24,6 +24,7 @@
                                     No.
                                 </th>
                                 <th class="text-center">Aksi</th>
+                                <th class="text-center">FOTO</th>
                                 <th class="text-center">NIS</th>
                                 <th class="text-center">NISN</th>
                                 <th class="text-center">Nama</th>
@@ -47,6 +48,14 @@
                                                 onclick="hapus('<?= $row['id_siswa'] ?>','<?= $row['nama'] ?>')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
+                                        </td>
+                                        <td class="text-center" style="width: 13%">
+                                            <img src="<?= base_url() ?>/public/assets/img/<?php if ($row['pic_siswa']):
+                                                  echo "siswa/" . $row['pic_siswa'];
+                                              else: ?>default.png<?php endif; ?>"
+                                                class="user-img mr-2" alt="" width="100px" data-toggle="tooltip"
+                                                title="Klik Untuk Merubah"
+                                                onclick="update_foto(this,'<?= $row['id_siswa'] ?>')">
                                         </td>
                                         <td class="text-center" style="width: 13%">
                                             <?= $row['nis'] ?>
@@ -88,7 +97,7 @@
                                 required>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inp-jk">Jenis Kelamin</label><br>
+                            <label>Jenis Kelamin</label><br>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" name="jk" type="radio" id="jk-l" value="L" checked>
                                 <label class="form-check-label" for="jk-l">Laki - Laki</label>
@@ -181,7 +190,7 @@
                                 required>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="u-inp-jk">Jenis Kelamin</label><br>
+                            <label>Jenis Kelamin</label><br>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" name="jk" type="radio" id="u-jk-l" value="L">
                                 <label class="form-check-label" for="u-jk-l">Laki - Laki</label>
@@ -310,6 +319,41 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="update-foto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Foto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form
+                action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('upload_foto') . '/' . bin2hex('siswa')) ?>"
+                method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="u-id-siswa" required>
+                <div class="modal-body">
+                    <center>
+                        <img src="<?= base_url() ?>/public/assets/img/default.png" class="user-img mr-2" alt=""
+                            width="200px" id="foto-dinamis">
+                    </center>
+                    <center>
+                        <input type='file' class="form-control" name="foto" id="upload"
+                            onchange="document.getElementById('foto-dinamis').src = window.URL.createObjectURL(this.files[0])"
+                            required accept="image/*" />
+                    </center>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     // $(function () {
     // });
@@ -362,6 +406,12 @@
         $('#d-id').val(id);
         $('#d-nama').val(nama);
         $('#delete-modal').appendTo('body').modal('show');
+    }
+    function update_foto(e, id) {
+        $("#foto-dinamis").attr("src", e.src);
+        $("#upload").val("");
+        $("#u-id-siswa").val(id);
+        $('#update-foto').appendTo('body').modal('show');
     }
 </script>
 <?= $this->endSection() ?>
