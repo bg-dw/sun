@@ -50,11 +50,10 @@
                                             </button>
                                         </td>
                                         <td class="text-center" style="width: 13%">
-                                            <img src="<?= base_url() ?>/public/assets/img/<?php if ($row['pic_siswa']):
+                                            <img src="<?= base_url() ?>/assets/img/<?php if ($row['pic_siswa']):
                                                   echo "siswa/" . $row['pic_siswa'];
-                                              else: ?>default.png<?php endif; ?>"
-                                                class="user-img mr-2" alt="" width="100px" data-toggle="tooltip"
-                                                title="Klik Untuk Merubah"
+                                              else: ?>default.png<?php endif; ?>" class="user-img mr-2" alt=""
+                                                width="100px" data-toggle="tooltip" title="Klik Untuk Merubah"
                                                 onclick="update_foto(this,'<?= $row['id_siswa'] ?>')">
                                         </td>
                                         <td class="text-center" style="width: 13%">
@@ -336,8 +335,8 @@
                 <input type="hidden" name="id" id="u-id-siswa" required>
                 <div class="modal-body">
                     <center>
-                        <img src="<?= base_url() ?>/public/assets/img/default.png" class="user-img mr-2" alt=""
-                            width="200px" id="foto-dinamis">
+                        <img src="<?= base_url() ?>/assets/img/default.png" class="user-img mr-2" alt="" width="200px"
+                            id="foto-dinamis">
                     </center>
                     <center>
                         <input type='file' class="form-control" name="foto" id="upload"

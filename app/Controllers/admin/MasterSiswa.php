@@ -154,7 +154,7 @@ class MasterSiswa extends BaseController
         $send = $this->siswa->where('id_siswa', $this->request->getVar('id'))->delete();
         if ($send):
             if ($pic['pic_siswa']) { //if image exist
-                unlink('public/assets/img/siswa/' . $pic['pic_siswa']);
+                unlink('assets/img/siswa/' . $pic['pic_siswa']);
             }
             session()->setFlashdata('success', ' Data berhasil dihapus.');
         else:
@@ -179,7 +179,7 @@ class MasterSiswa extends BaseController
             ],
         ]);
         $fileName = $temp_name . "." . $ext;
-        $dataBerkas->move('public/assets/img/siswa/', $fileName); //move file and rename
+        $dataBerkas->move('assets/img/siswa/', $fileName); //move file and rename
         if ($dataBerkas->hasMoved()) {
             $data = [
                 'id_siswa' => $this->request->getVar('id'),
