@@ -96,7 +96,7 @@ function isSunday($date)
         <div class="card" id="print-halaman" style="color:black;">
             <div class="card-body">
                 <div class="float-right" style="margin-right: 20px;">Bulan :
-                    <?= $bulan[intval($sel_bulan)] . " " . $sel_tahun; ?>
+                    <?= $bulan[intval($sel_bulan) - 1] . " " . $sel_tahun; ?>
                 </div>
                 <div class="table-responsive mt-2">
                     <table border="1" width="100%">
@@ -240,82 +240,78 @@ function isSunday($date)
                     </table>
                 </div>
                 <div class="row">
-                    <div class="col-md-5">
-                        <table style="font-weight: bold;">
-                            <tr>
-                                <td>Keterangan</td>
-                                <td>:</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td align="center"><span class='fas fa-check'></span></td>
-                                <td>&nbsp;:</td>
-                                <td>Hadir</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td align="center"><span class='fas fa-times'></span></td>
-                                <td>&nbsp;:</td>
-                                <td>Telat</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td align="center">S</td>
-                                <td>&nbsp;:</td>
-                                <td>Sakit</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td align="center">I</td>
-                                <td>&nbsp;:</td>
-                                <td>Izin</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td align="center">A</td>
-                                <td>&nbsp;:</td>
-                                <td>Alpha</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-7">
-                        <table style="margin-left: 5%;">
-                            <tr>
-                                <td>Mengetahui</td>
-                                <td></td>
-                            </tr>
-                            <tr valign="top">
-                                <td height="100px;">Kepala Sekolah</td>
-                                <td>Guru Kelas
-                                    <?= $sel_kelas ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="350px">
-                                    <u>
-                                        <?= $kepsek['nama_guru'] . ", " . $kepsek['gelar_guru'] ?>
-                                    </u>
-                                </td>
-                                <td>
-                                    <u>
-                                        <?= $guru['nama_guru'] . ", " . $guru['gelar_guru'] ?>
-                                    </u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    NIP.
-                                    <?= $kepsek['nip'] ?>
-                                </td>
-                                <td>
-                                    NIP.
-                                    <?= $guru['nip'] ?>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                    <table style="font-weight: bold;">
+                        <tr>
+                            <td>Keterangan</td>
+                            <td>:</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center"><span class='fas fa-check'></span></td>
+                            <td>&nbsp;:</td>
+                            <td>Hadir</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center"><span class='fas fa-times'></span></td>
+                            <td>&nbsp;:</td>
+                            <td>Telat</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center">S</td>
+                            <td>&nbsp;:</td>
+                            <td>Sakit</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center">I</td>
+                            <td>&nbsp;:</td>
+                            <td>Izin</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center">A</td>
+                            <td>&nbsp;:</td>
+                            <td>Alpha</td>
+                        </tr>
+                    </table>
+                    <table style="margin-left: 35%;">
+                        <tr>
+                            <td>Mengetahui</td>
+                            <td></td>
+                        </tr>
+                        <tr valign="top">
+                            <td height="100px;">Kepala Sekolah</td>
+                            <td>Guru Kelas
+                                <?= $sel_kelas ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="350px">
+                                <u>
+                                    <?= $kepsek['nama_guru'] . ", " . $kepsek['gelar_guru'] ?>
+                                </u>
+                            </td>
+                            <td>
+                                <u>
+                                    <?= $guru['nama_guru'] . ", " . $guru['gelar_guru'] ?>
+                                </u>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                NIP.
+                                <?= $kepsek['nip'] ?>
+                            </td>
+                            <td>
+                                NIP.
+                                <?= $guru['nip'] ?>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -343,7 +339,6 @@ function isSunday($date)
         console.log(pembilang);
         console.log(hari);
         console.log(siswa);
-        // if (pembilang === "0") { pembilang = 1; }
         $('#v-alpha').text(pembilang);
         $('#v-pembagi').text(hari + " x " + siswa);
         $('#v-hasil').text(((pembilang / (hari * siswa)) * 100).toFixed(1));
@@ -356,20 +351,17 @@ function isSunday($date)
         myWindow.document.write('<link href="<?= base_url() ?>/public/assets/css/components.css" rel="stylesheet" />');
         myWindow.document.write('</head><body style="background-color:white;color:black;">');
         myWindow.document.write('<style>');
-        myWindow.document.write('@media print {@page {size: A3 landscape;max-height:100%; max-width:100%}body{width:100%;height:100%; font-size: 12pt; scale(.90,.90);}}');
+        myWindow.document.write('@media print {@page {size: A3 landscape;max-height:100%; max-width:100%}body{margin:0px;width:100%;height:100%; font-size: 12pt; scale(.90,.90);}}');
         myWindow.document.write('</style>');
         myWindow.document.write($('#print-halaman').html());
         myWindow.document.write('</body>');
         myWindow.document.write('</html>');
 
-        myWindow.document.close();
-        // myWindow.focus();
-        // print();
+        // myWindow.document.close();
 
         setTimeout(function () {
-            // moveTop_satu();
             myWindow.print();
-            myWindow.close();
+            // myWindow.close();
         }, 500);
 
     }

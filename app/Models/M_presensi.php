@@ -35,6 +35,36 @@ class M_presensi extends Model
         return $this->findAll();
     }
 
+    function get_id_presensi()
+    {
+        $this->select('tbl_absensi.id_absensi');
+        $this->join('tbl_siswa', 'tbl_absensi.id_siswa = tbl_siswa.id_siswa');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_periode.id_periode = tbl_kelas.id_periode');
+        $this->where(['tbl_periode.status_periode' => 'aktif']);
+        return $this->findAll();
+    }
+
+    function get_today()
+    {
+        $this->select('tbl_detail_absensi.id_absensi');
+        $this->join('tbl_detail_absensi', 'tbl_absensi.id_absensi=tbl_detail_absensi.id_absensi');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_periode.id_periode = tbl_kelas.id_periode');
+        $this->where(['tbl_periode.status_periode' => "aktif", 'tbl_detail_absensi.tgl_absensi' => date("Y-m-d")]);
+        return $this->findAll();
+    }
+    // function get_data_presensi_k()
+    // {
+    //     $this->select('tbl_absensi.id_absensi,tbl_absensi.rfid,tbl_siswa.id_siswa,tbl_siswa.nis,tbl_siswa.nama,tbl_siswa.jk,tbl_kelas.kelas');
+    //     $this->join('tbl_siswa', 'tbl_absensi.id_siswa = tbl_siswa.id_siswa');
+    //     $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+    //     $this->join('tbl_periode', 'tbl_periode.id_periode = tbl_kelas.id_periode');
+    //     $this->where(['tbl_periode.status_periode' => 'aktif']);
+    //     $this->orderBy('tbl_siswa.nama', 'ASC');
+    //     return $this->findAll();
+    // }
+
     function get_data_presensi_kelas()
     {
         $sql = $this->db->query("select count(tbl_siswa.id_siswa) as tot, tbl_kelas.kelas from tbl_absensi join tbl_siswa on tbl_absensi.id_siswa = tbl_siswa.id_siswa join tbl_kelas on tbl_absensi.id_kelas = tbl_kelas.id_kelas join tbl_periode on tbl_kelas.id_periode = tbl_periode.id_periode where tbl_periode.status_periode='aktif'group by tbl_kelas.kelas ORDER BY tbl_kelas.kelas ASC");

@@ -28,7 +28,9 @@ function isSunday($date)
                                     <div class="form-group col-md-3">
                                         <label for="inputKelas">Kelas</label>
                                         <select id="inputKelas" class="form-control" name="kelas" required>
-                                            <option value="<?= $sel_kelas ?>">Kelas <?= $sel_kelas ?></option>
+                                            <option value="<?= $sel_kelas ?>">Kelas
+                                                <?= $sel_kelas ?>
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -89,7 +91,7 @@ function isSunday($date)
         <div class="card" id="print-halaman" style="color:black;">
             <div class="card-body">
                 <div class="float-right" style="margin-right: 20px;">Bulan :
-                    <?= $bulan[intval($sel_bulan)] . " " . $sel_tahun; ?>
+                    <?= $bulan[intval($sel_bulan) - 1] . " " . $sel_tahun; ?>
                 </div>
                 <div class="table-responsive mt-2">
                     <table border="1" width="100%">

@@ -4,16 +4,18 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\M_home;
+use App\Models\M_presensi;
 use App\Models\M_kelas;
 use App\Models\M_siswa;
 use App\Models\M_dashboard;
 
 class Dashboard extends BaseController
 {
-	protected $home, $dashboard, $kelas, $siswa;
+	protected $home, $presensi, $dashboard, $kelas, $siswa;
 	public function __construct()
 	{
 		$this->home = new M_home();
+		$this->presensi = new M_presensi();
 		$this->dashboard = new M_dashboard();
 		$this->kelas = new M_kelas();
 		$this->siswa = new M_siswa();
@@ -32,7 +34,48 @@ class Dashboard extends BaseController
 		}
 		$data['total_siswa'] = $total;
 		return view('V_scan', $data);
-		// return view('V_scan');
+	}
+
+	public function auto_task()
+	{
+		$rec = $this->presensi->get_today(); //id yang sudah absen
+		foreach ($rec as $aV) {
+			$aTmp1[] = $aV['id_absensi'];
+		}
+		$master = $this->presensi->get_id_presensi(); //semua data id
+		foreach ($master as $aV) {
+			$aTmp2[] = $aV['id_absensi'];
+		}
+
+		$tmp = array_diff($aTmp2, $aTmp1); //id yang belum absen
+		$data_input = array_values($tmp); //reindex array
+		$suc = 0;
+		$err = 0;
+		$skip = 0;
+		if ($data_input) {
+			for ($i = 0; $i < count($data_input); $i++) { //looping sebanyak id_absensi
+				$cek = $this->home->sudah_absen($data_input[$i]);
+				if ($cek) {
+					$skip += 1;
+				} else {
+					$data = [
+						'id_detail_absensi' => md5(microtime()),
+						'id_absensi' => $data_input[$i],
+						'jam_absensi' => date('H:i:s'),
+						'tgl_absensi' => date('Y-m-d'),
+						'absensi' => "alpha",
+						'jenis_absensi' => 'auto'
+					];
+					$set_data = $this->home->simpan($data);
+					if ($set_data) {
+						$suc += 1;
+					} else {
+						$err += 1;
+					}
+				}
+			}
+		}
+		return json_encode(['success' => $suc, 'failed' => $err, 'skiped' => $skip]);
 	}
 
 	//get absensi hari ini
@@ -51,7 +94,7 @@ class Dashboard extends BaseController
 		if ($this->request->isAJAX()) {
 			$rfid = $this->request->getPost('in_rfid');
 			$get_data = $this->home->get_presensi_by_rfid($rfid);
-			$end = strtotime('14:30:00');
+			$end = strtotime('08:00:00');
 			$start = strtotime('04:59:00');
 			$batas = strtotime('07:00:59');
 			$now = strtotime(date('H:i:s'));

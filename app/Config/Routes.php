@@ -37,6 +37,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Dashboard::index');
 $routes->get('/beranda', 'Dashboard::index');
 $routes->get('/scan', 'Dashboard::scan');
+$routes->get('/auto', 'Dashboard::auto_task');
 $routes->post('/show', 'Dashboard::get_absen');
 $routes->post('/inp', 'Dashboard::put_absen');
 $routes->post('/get_last', 'Dashboard::get_total');
