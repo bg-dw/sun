@@ -39,6 +39,8 @@ class Dashboard extends BaseController
 	public function auto_task()
 	{
 		$rec = $this->presensi->get_today(); //id yang sudah absen
+		$aTmp1[] = "";
+		$aTmp2[] = "";
 		foreach ($rec as $aV) {
 			$aTmp1[] = $aV['id_absensi'];
 		}
@@ -58,19 +60,21 @@ class Dashboard extends BaseController
 				if ($cek) {
 					$skip += 1;
 				} else {
-					$data = [
-						'id_detail_absensi' => md5(microtime()),
-						'id_absensi' => $data_input[$i],
-						'jam_absensi' => date('H:i:s'),
-						'tgl_absensi' => date('Y-m-d'),
-						'absensi' => "alpha",
-						'jenis_absensi' => 'auto'
-					];
-					$set_data = $this->home->simpan($data);
-					if ($set_data) {
-						$suc += 1;
-					} else {
-						$err += 1;
+					if ($data_input[$i] != "") {
+						$data = [
+							'id_detail_absensi' => md5(microtime()),
+							'id_absensi' => $data_input[$i],
+							'jam_absensi' => date('H:i:s'),
+							'tgl_absensi' => date('Y-m-d'),
+							'absensi' => "alpha",
+							'jenis_absensi' => 'auto'
+						];
+						$set_data = $this->home->simpan($data);
+						if ($set_data) {
+							$suc += 1;
+						} else {
+							$err += 1;
+						}
 					}
 				}
 			}
