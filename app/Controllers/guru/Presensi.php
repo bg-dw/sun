@@ -253,37 +253,41 @@ class Presensi extends BaseController
     //aksi update
     function ac_update($bulan = '', $tahun = '')
     {
-        $cek = $this->home->sudah_absen_by($this->request->getVar('id_absen'), $this->request->getVar('tgl'));
-        $id = $this->request->getVar('id_absen');
-        if ($cek):
-            $data = [
-                'id_detail_absensi' => $cek['id_detail_absensi'],
-                'id_absensi' => $this->request->getVar('id_absen'),
-                'jam_absensi' => "07:00:59",
-                'tgl_absensi' => $this->request->getVar('tgl'),
-                'absensi' => $this->request->getVar('absensi'),
-                'jenis_absensi' => "manual"
-            ];
-            $send = $this->detail->save($data);
-            if ($send):
-                session()->setFlashdata('success', ' Data berhasil diperbaharui.');
-            else:
-                session()->setFlashdata('warning', ' Data gagal diperbaharui.');
-            endif;
+        if (strtotime(date($this->request->getVar('tgl'))) > time()): //cek jika taggal lebih dari hari ini
+            session()->setFlashdata('warning', 'Masa Depan Terdeteksi!');
         else:
-            $data = [
-                'id_detail_absensi' => md5(microtime()),
-                'id_absensi' => $this->request->getVar('id_absen'),
-                'jam_absensi' => "07:01:00",
-                'tgl_absensi' => $this->request->getVar('tgl'),
-                'absensi' => $this->request->getVar('absensi'),
-                'jenis_absensi' => "manual"
-            ];
-            $send = $this->detail->simpan($data);
-            if ($send):
-                session()->setFlashdata('success', ' Data berhasil diperbaharui.');
+            $cek = $this->home->sudah_absen_by($this->request->getVar('id_absen'), $this->request->getVar('tgl'));
+            $id = $this->request->getVar('id_absen');
+            if ($cek):
+                $data = [
+                    'id_detail_absensi' => $cek['id_detail_absensi'],
+                    'id_absensi' => $this->request->getVar('id_absen'),
+                    'jam_absensi' => "07:00:59",
+                    'tgl_absensi' => $this->request->getVar('tgl'),
+                    'absensi' => $this->request->getVar('absensi'),
+                    'jenis_absensi' => "manual"
+                ];
+                $send = $this->detail->save($data);
+                if ($send):
+                    session()->setFlashdata('success', ' Data berhasil diperbaharui.');
+                else:
+                    session()->setFlashdata('warning', ' Data gagal diperbaharui.');
+                endif;
             else:
-                session()->setFlashdata('warning', ' Data gagal diperbaharui.');
+                $data = [
+                    'id_detail_absensi' => md5(microtime()),
+                    'id_absensi' => $this->request->getVar('id_absen'),
+                    'jam_absensi' => "07:01:00",
+                    'tgl_absensi' => $this->request->getVar('tgl'),
+                    'absensi' => $this->request->getVar('absensi'),
+                    'jenis_absensi' => "manual"
+                ];
+                $send = $this->detail->simpan($data);
+                if ($send):
+                    session()->setFlashdata('success', ' Data berhasil diperbaharui.');
+                else:
+                    session()->setFlashdata('warning', ' Data gagal diperbaharui.');
+                endif;
             endif;
         endif;
         return redirect()->to('/' . bin2hex('guru') . '/' . bin2hex('edit-presensi') . '/' . $bulan . '/' . $tahun . '/' . $id);

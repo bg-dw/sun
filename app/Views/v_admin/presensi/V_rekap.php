@@ -19,7 +19,7 @@ function isSunday($date)
     <div class="col-md-12">
         <div class="card d-print-none">
             <div class="card-body">
-                <div class="row" style="margin-bottom: -25px;">
+                <div class="row">
                     <div class="col-md-7">
                         <div class="">
                             <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi')) ?>"
@@ -73,8 +73,9 @@ function isSunday($date)
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label>Hari Efektif</label>
-                                <input type="number" min="1" max="32" class="form-control" value="1" name=""
-                                    onchange="set_day();" id="inp-hari">
+                                <input type="number" min="1" max="32" class="form-control" value="<?php if ($rec) {
+                                    echo count(max($rec));
+                                } ?>" name="" onchange="set_day();" id="inp-hari">
                             </div>
                         </div>
                     </div>
@@ -87,18 +88,28 @@ function isSunday($date)
                         </div>
                     </div>
                 </div>
+                <div class="alert alert-info alert-has-icon">
+                    <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
+                    <div class="alert-body">
+                        <div class="alert-title">Info</div>
+                        <b> Untuk mencetak Presensi, harap isi hari efektif dan tanggal tutup absen terlebih dahulu.</b>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-12">
-        <div class="card" id="print-halaman" style="color:black;">
+        <div class="card d-print-none" id="print-halaman" style="color:black;">
             <div class="card-body">
                 <div class="float-right" style="margin-right: 20px;">Bulan :
                     <?= $bulan[intval($sel_bulan) - 1] . " " . $sel_tahun; ?>
                 </div>
                 <div class="table-responsive mt-2">
+                    <?php
+                    // dd($rec); 
+                    ?>
                     <table border="1" width="100%">
                         <tr>
                             <th class="text-center" rowspan="2">NO</th>
@@ -111,7 +122,7 @@ function isSunday($date)
                             <?php
                             for ($x = 0; $x < $tot_hari; $x++): ?>
                                 <th class="text-center" style="<?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($x + 1)) == 1) {
-                                    echo 'background-color:red;color:white;';
+                                    echo 'color:red;';
                                 } ?>">
                                     <?= $x + 1; ?>
                                 </th>
@@ -125,6 +136,7 @@ function isSunday($date)
                         // dd($rec);
                         $i = $sakit = $ijin = $alpha = $tot_sakit = $tot_ijin = $tot_alpha = 0;
                         if ($rec):
+                            $h = 0;
                             foreach ($siswa as $row): ?>
                                 <tr>
                                     <td class="text-center">
@@ -143,36 +155,83 @@ function isSunday($date)
                                     $sakit = $ijin = $alpha = 0;
                                     $bar_sakit = $bar_ijin = $bar_alpha = 0;
                                     for ($j = 0; $j < $tot_hari; $j++): ?>
-                                        <td class="text-center" style="min-width: 20px;<?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) {
-                                            echo 'background-color:red;color:white;';
-                                        } ?>">
+                                        <?php if ((isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) && ($h == 0)) { ?>
+                                            <!-- hari minggu untuk rowspan -->
+                                            <td class="text-center"
+                                                style="min-width: 20px;background-color:red;color:white;writing-mode: tb-rl;transform: rotate(-180deg);"
+                                                <?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) {
+                                                    echo 'rowspan="' . count($rec) . '"';
+                                                } ?>> MINGGU
+                                            </td>
                                             <?php
-                                            for ($x = 0; $x < $tot_hari; $x++): ?>
+                                        } elseif ((isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) != 1) && ($h != 0)) { ?>
+                                            <!-- presensi untuk record ke-2 dan seterusnya -->
+                                            <td class="text-center" style="min-width: 20px;<?php if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) {
+                                                echo 'background-color:red;color:white;';
+                                            } ?>">
                                                 <?php
-                                                if (isset($rec[$i][$x])):
-                                                    $get_tgl = explode("-", $rec[$i][$x]["tgl"]);
-                                                    if (intval($get_tgl[2]) == $hari[$i][$j]):
-                                                        if ($rec[$i][$x]["absensi"] == "hadir"):
-                                                            echo "<span class='fas fa-check'></span>";
-                                                        elseif ($rec[$i][$x]["absensi"] == "telat"):
-                                                            echo "<span class='fas fa-times'></span>";
-                                                        elseif ($rec[$i][$x]["absensi"] == "sakit"):
-                                                            $sakit++;
-                                                            echo "<b>S</b>";
-                                                        elseif ($rec[$i][$x]["absensi"] == "ijin"):
-                                                            $ijin++;
-                                                            echo "<b>I</b>";
-                                                        elseif ($rec[$i][$x]["absensi"] == "alpha"):
-                                                            $alpha++;
-                                                            echo "<b>A</b>";
+                                                for ($x = 0; $x < $tot_hari; $x++): ?>
+                                                    <?php
+                                                    if (isset($rec[$i][$x])):
+                                                        if ($rec[$i][$x]["nama"] != ""):
+                                                            $get_tgl = explode("-", $rec[$i][$x]["tgl"]);
+                                                            if (intval($get_tgl[2]) == $hari[$i][$j]):
+                                                                if ($rec[$i][$x]["absensi"] == "hadir"):
+                                                                    echo "<span class='fas fa-check'></span>";
+                                                                elseif ($rec[$i][$x]["absensi"] == "telat"):
+                                                                    echo "<span class='fas fa-times'></span>";
+                                                                elseif ($rec[$i][$x]["absensi"] == "sakit"):
+                                                                    $sakit++;
+                                                                    echo "<b>S</b>";
+                                                                elseif ($rec[$i][$x]["absensi"] == "ijin"):
+                                                                    $ijin++;
+                                                                    echo "<b>I</b>";
+                                                                elseif ($rec[$i][$x]["absensi"] == "alpha"):
+                                                                    $alpha++;
+                                                                    echo "<b>A</b>";
+                                                                endif;
+                                                            endif;
                                                         endif;
-                                                    endif;
-                                                endif; ?>
-                                                <?php
-                                            endfor;
-                                            ?>
-                                        </td>
-                                        <?php
+                                                    endif; ?>
+                                                    <?php
+                                                endfor;
+                                                ?>
+                                            </td>
+                                            <?php
+                                        } else {
+                                            if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 0) { ?>
+                                                <!-- presensi untuk record ke-1 -->
+                                                <td class="text-center" style="min-width: 20px;">
+                                                    <?php
+                                                    for ($x = 0; $x < $tot_hari; $x++): ?>
+                                                        <?php
+                                                        if (isset($rec[$i][$x])):
+                                                            if ($rec[$i][$x]["nama"] != ""):
+                                                                $get_tgl = explode("-", $rec[$i][$x]["tgl"]);
+                                                                if (intval($get_tgl[2]) == $hari[$i][$j]):
+                                                                    if ($rec[$i][$x]["absensi"] == "hadir"):
+                                                                        echo "<span class='fas fa-check'></span>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "telat"):
+                                                                        echo "<span class='fas fa-times'></span>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "sakit"):
+                                                                        $sakit++;
+                                                                        echo "<b>S</b>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "ijin"):
+                                                                        $ijin++;
+                                                                        echo "<b>I</b>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "alpha"):
+                                                                        $alpha++;
+                                                                        echo "<b>A</b>";
+                                                                    endif;
+                                                                endif;
+                                                            endif;
+                                                        endif; ?>
+                                                        <?php
+                                                    endfor;
+                                                    ?>
+                                                </td>
+                                            <?php }
+                                        }
                                     endfor;
                                     $i++;
                                     ?>
@@ -193,6 +252,7 @@ function isSunday($date)
                                 $tot_sakit += $bar_sakit;
                                 $tot_ijin += $bar_ijin;
                                 $tot_alpha += $bar_alpha;
+                                $h++;
                             endforeach;
                         endif;
                         ?>
@@ -212,7 +272,7 @@ function isSunday($date)
                             </td>
                         </tr>
                     </table>
-                    <input type="hidden" id="inp-pembilang" value="<?= $sakit + $ijin + $alpha; ?>">
+                    <input type="hidden" id="inp-pembilang" value="<?= $tot_sakit + $tot_ijin + $tot_alpha; ?>">
                     <input type="hidden" id="inp-siswa" value="<?= $i; ?>">
                     <table style="margin-left: 20%;margin-top: 20px;">
                         <tr>
@@ -336,9 +396,6 @@ function isSunday($date)
         var pembilang = $('#inp-pembilang').val();
         var hari = $('#inp-hari').val();
         var siswa = $('#inp-siswa').val();
-        console.log(pembilang);
-        console.log(hari);
-        console.log(siswa);
         $('#v-alpha').text(pembilang);
         $('#v-pembagi').text(hari + " x " + siswa);
         $('#v-hasil').text(((pembilang / (hari * siswa)) * 100).toFixed(1));
@@ -357,11 +414,11 @@ function isSunday($date)
         myWindow.document.write('</body>');
         myWindow.document.write('</html>');
 
-        // myWindow.document.close();
+        myWindow.document.close();
 
         setTimeout(function () {
             myWindow.print();
-            // myWindow.close();
+            myWindow.close();
         }, 500);
 
     }

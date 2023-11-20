@@ -107,7 +107,11 @@ function isSunday($date)
                             for ($i = 0; $i < count($rec); $i++):
                                 if (isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($i + 1)) == 1):
                                     ?>
-                                    <button class="btn btn-lg btn-dark mt-2 mr-2">
+                                    <button class="btn btn-lg btn-dark mt-2 mr-2" <?php
+                                    if (strtotime(date($sel_tahun . '-' . $sel_bulan . '-' . ($i + 1))) > time()):
+                                        echo "disabled";
+                                    endif;
+                                    ?>>
                                         <?= "<h6>[" . ($i + 1) . "]</h6>" ?> Minggu
                                     </button>
                                     <?php
@@ -119,8 +123,12 @@ function isSunday($date)
                                         echo "light";
                                     endif; ?> mt-2 mr-2"
                                         onclick="update_absen('<?= $sel_tahun . '-' . $sel_bulan . '-' . ($i + 1); ?>','<?= $rec[$i]['absensi']; ?>')"
-                                        type="button">
-                                        <?= "<h6>[" . ($i + 1) . "]</h6> " . $rec[$i]['absensi'] ?>
+                                        type="button" <?php
+                                        if (strtotime(date($sel_tahun . '-' . $sel_bulan . '-' . ($i + 1))) > time()):
+                                            echo "disabled";
+                                        endif;
+                                        ?>>
+                                        <?= "<h6>[" . ($i + 1) . "]</h6> " . strtoupper($rec[$i]['absensi']) ?>
                                     </button>
                                 <?php endif;
                             endfor; ?>

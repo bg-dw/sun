@@ -335,10 +335,6 @@ function isSunday($date)
         var pembilang = $('#inp-pembilang').val();
         var hari = $('#inp-hari').val();
         var siswa = $('#inp-siswa').val();
-        console.log(pembilang);
-        console.log(hari);
-        console.log(siswa);
-        // if (pembilang === "0") { pembilang = 1; }
         $('#v-alpha').text(pembilang);
         $('#v-pembagi').text(hari + " x " + siswa);
         $('#v-hasil').text(((pembilang / (hari * siswa)) * 100).toFixed(1));
@@ -358,11 +354,8 @@ function isSunday($date)
         myWindow.document.write('</html>');
 
         myWindow.document.close();
-        // myWindow.focus();
-        // print();
 
         setTimeout(function () {
-            // moveTop_satu();
             myWindow.print();
             myWindow.close();
         }, 500);

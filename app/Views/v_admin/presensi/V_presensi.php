@@ -31,7 +31,6 @@
                                 <th class="text-center">
                                     #
                                 </th>
-                                <th class="text-center">Aksi</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Nama</th>
                                 <th class="text-center">Jam</th>
@@ -49,7 +48,6 @@
                                         <td class="text-center" width="5%">
                                             <?= $i + 1 . "."; ?>
                                         </td>
-                                        <td class="text-center"><button class="btn btn-sm btn-warning">Edit</button></td>
                                         <td class="text-center">
                                             <?php
                                             if ($absen[$i]['absensi'] != ""):

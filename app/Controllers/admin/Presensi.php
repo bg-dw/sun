@@ -94,6 +94,14 @@ class Presensi extends BaseController
                         "absensi" => $col["absensi"]
                     ];
                     $j++;
+                else:
+                    $rec[$i][$j] = [
+                        "nama" => "",
+                        "jk" => "",
+                        "jam" => "",
+                        "tgl" => "",
+                        "absensi" => ""
+                    ];
                 endif;
             }
             $i++;
