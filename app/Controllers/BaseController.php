@@ -26,9 +26,13 @@ class BaseController extends Controller
 	{
 		if (session()->get('passed') != true):
 			session()->setFlashdata('warning', 'Silahkan Login!');
-			header('Location: ' . base_url());
+			header('Location: ' . base_url() . '/' . bin2hex('login'));
 			exit();
 		endif;
+	}
+	public function isSunday($date)
+	{
+		return (date('N', strtotime($date)) > 6);
 	}
 	/**
 	 * An array of helpers to be loaded automatically upon

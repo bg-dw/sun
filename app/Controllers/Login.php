@@ -10,6 +10,7 @@ class Login extends BaseController
     protected $guru;
     public function __construct()
     {
+        // $this->is_session_available();
         $this->guru = new M_guru();
     }
 
@@ -50,6 +51,6 @@ class Login extends BaseController
     public function logout()
     {
         $this->session->destroy();
-        return redirect()->route('/');
+        return redirect()->route(bin2hex('login'));
     }
 }
