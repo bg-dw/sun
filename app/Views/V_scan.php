@@ -14,10 +14,34 @@
     <link rel="stylesheet" href="<?= base_url() ?>/public/assets/bundles/izitoast/css/iziToast.min.css">
     <script src="<?= base_url() ?>/public/assets/js/jquery-3.7.0.js"></script>
     <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .Tg {
+            /* font-size: 3rem; */
+            color: white;
+            /* font-family: 'Merienda', cursive; */
+            animation-name: glow;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0px 0px 5px #fff, 0px 0px 5px #614ad3;
+            }
+
+            to {
+                text-shadow: 0px 0px 20px #fff, 0px 0px 20px #614ad3;
+            }
+        }
     </style>
+    <style></style>
 </head>
 
-<body>
+<body class="dark theme-black">
     <div id="app">
         <section class="section" style="overflow: hidden;">
             <div class="row list m-2">
@@ -29,7 +53,7 @@
         </section>
         <section class="section">
             <div class="row">
-                <div class="col-md-12" style="margin-top: 2%;">
+                <div class="col-md-12 Tg" style="margin-top: 2%;">
                     <center>
                         <h4>Dimohon untuk tidak <br> menggunakan mouse dan keyboard selama proses Absensi</h4>
                     </center>
@@ -71,7 +95,7 @@
                             <div class="author-box-center">
                                 <div class="clearfix"></div>
                                 <div class="author-box-name">
-                                    <h2 style="color:black;" id="nama">Nama</h2>
+                                    <h2 id="nama" class="text-white Tg">Nama</h2>
                                 </div>
                                 <div class="author-box-job">
                                     <h4 id="kelas">Kelas</h4>

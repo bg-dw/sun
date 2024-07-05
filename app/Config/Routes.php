@@ -35,6 +35,8 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Dashboard::index');
+$routes->get('/generate_code', 'Dashboard::generate');
+$routes->post('/unlock', 'Dashboard::unlock');
 $routes->get('/beranda', 'Dashboard::index');
 $routes->get('/scan', 'Dashboard::scan');
 $routes->get('/auto', 'Dashboard::auto_task');

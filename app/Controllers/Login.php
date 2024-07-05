@@ -10,13 +10,16 @@ class Login extends BaseController
     protected $guru;
     public function __construct()
     {
-        // $this->is_session_available();
         $this->guru = new M_guru();
     }
 
     public function index()
     {
-        return view('V_login');
+        if ($this->itr()) {
+            return view('V_login');
+        } else {
+            return redirect()->route('/');
+        }
     }
     public function auth()
     {

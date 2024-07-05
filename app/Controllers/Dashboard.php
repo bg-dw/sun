@@ -23,7 +23,54 @@ class Dashboard extends BaseController
 
 	public function index()
 	{
-		return view('V_dashboard');
+		$x = exec('getmac');
+		$str = explode(' ', $x);
+		$data['key'] = $str[0];
+		if ($this->itr()) {
+			return redirect()->route(bin2hex('login'));
+		} else {
+			return view('V_reg', $data);
+		}
+	}
+
+	public function generate()
+	{
+		$res = $this->gen_code();
+
+		if ($res["cek"]) {
+			$data["status"] = 1;
+			$data["pesan"] = "Kode Berhasil Dibuat!";
+		} else {
+			$data["status"] = 0;
+			$data["pesan"] = "Kode Gagal Dibuat!";
+		}
+
+		return json_encode($data);
+	}
+	public function unlock()
+	{
+		if ($this->request->isAJAX()) {
+			$inp_key = $this->request->getPost('in_key');
+			$get_key = explode('.', $this->dec($inp_key));
+			$res = $this->gen_code();
+			$mc = explode('.', $this->dec($res['unc']));
+
+			//dir key
+			$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\app\Code';
+
+			$cek = false;
+			if ($res['cek']) {
+				if ($this->enc($mc[0]) === $this->enc($get_key[0])) {
+					$file = $dir . '\key.txt';
+					$hash = $res['unc'];
+					// using the FILE_APPEND flag to append the content to the end of the file
+					// and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+					file_put_contents($file, $hash, FILE_APPEND | LOCK_EX);
+					$cek = true;
+				}
+			}
+			return json_encode($cek);
+		}
 	}
 
 	public function scan()
