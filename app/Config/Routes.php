@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Models\M_guru;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -78,6 +80,7 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('upload_foto') . '/' . bin2
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('add'), 'admin\MasterSiswa::ac_add');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('update'), 'admin\MasterSiswa::ac_update');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('siswa') . '/' . bin2hex('delete'), 'admin\MasterSiswa::ac_delete');
+$routes->post('/' . bin2hex('admin/siswa/get/foto'), 'admin\MasterSiswa::get_foto');
 
 //data master kelas
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-kelas'), 'admin\MasterKelas::index');
@@ -91,6 +94,17 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('update'), 'admin\MasterPresensi::update');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('delete'), 'admin\MasterPresensi::delete');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('edit') . '/' . bin2hex('rfid'), 'admin\MasterPresensi::edit_rfid');
+
+//Akun ADMIN
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('update-username'), 'admin\Akun::update_uname');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('update-password'), 'admin\Akun::update_pass');
+$routes->post('/' . bin2hex('admin/cek-username-lama'), 'admin\Akun::cek_uname_lama');
+$routes->post('/' . bin2hex('admin/update/username'), 'admin\Akun::ac_set_uname');
+$routes->post('/' . bin2hex('admin/cek-password-lama'), 'admin\Akun::cek_pass_lama');
+$routes->post('/' . bin2hex('admin/update/password'), 'admin\Akun::ac_set_password');
+$routes->post('/' . bin2hex('admin/guru/cek-username'), 'admin\MasterGuru::cek_uname');
+$routes->post('/' . bin2hex('admin/guru/update/username'), 'admin\MasterGuru::ac_set_uname');
+$routes->post('/' . bin2hex('admin/guru/update/password'), 'admin\MasterGuru::ac_set_password');
 
 
 //Guru
@@ -109,6 +123,15 @@ $routes->get('/' . bin2hex('guru') . '/' . bin2hex('rekap-presensi'), 'guru\Pres
 $routes->post('/' . bin2hex('guru') . '/' . bin2hex('rekap-presensi'), 'guru\Presensi::rekap');
 $routes->get('/' . bin2hex('guru') . '/' . bin2hex('data-siswa'), 'guru\MasterSiswa::index');
 $routes->post('/' . bin2hex('guru') . '/' . bin2hex('set-presensi'), 'guru\Presensi::set_presensi');
+
+// Akun Guru
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('update-username'), 'guru\Akun::update_uname');
+$routes->post('/' . bin2hex('guru/cek-username-lama'), 'guru\Akun::cek_uname_lama');
+$routes->post('/' . bin2hex('guru/cek-username'), 'guru\Akun::cek_uname');
+$routes->post('/' . bin2hex('guru/update/username'), 'guru\Akun::ac_set_uname');
+$routes->get('/' . bin2hex('guru') . '/' . bin2hex('update-password'), 'guru\Akun::update_pass');
+$routes->post('/' . bin2hex('guru/cek-password-lama'), 'guru\Akun::cek_pass_lama');
+$routes->post('/' . bin2hex('guru/update/password'), 'guru\Akun::ac_set_password');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

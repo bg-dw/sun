@@ -60,13 +60,17 @@ class BaseController extends Controller
 		return $encryption; //return value enc
 	}
 
+	//mac addr
+	public $mac;
+	public function get_mac()
+	{
+		$str = explode(' ', exec('getmac'));
+		return $this->mac = $str[0];
+	}
 	public function gen_code()
 	{
-		//mac addr
-		$x = exec('getmac');
-		$str = explode(' ', $x);
-		$data['in_key'] = $this->enc($str[0]);
-		$data['unc'] = $this->enc($str[0] . ".BUDI-UTOMO");
+		$data['in_key'] = $this->enc($this->get_mac());
+		$data['unc'] = $this->enc($this->get_mac() . ".BUDI-UTOMO");
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'https://raw.githubusercontent.com/bg-dw/key/master/activation_code.json');
@@ -89,7 +93,6 @@ class BaseController extends Controller
 		$res["unc"] = $unc;
 
 		return $res;
-		// return $data;
 	}
 
 	public function dir_is_empty()
@@ -108,24 +111,28 @@ class BaseController extends Controller
 
 	public function itr()
 	{
-		$x = exec('getmac');
-		$str = explode(' ', $x);
-		$data['key'] = $str[0];
-		$auth = $this->enc($str[0]);
-		if ($this->dir_is_empty() == 1) {
+		$auth = $this->enc($this->get_mac());
+		if ($this->dir_is_empty() === 1) {
 			return false;
 		} else {
-			$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\app\Code';
-			$temp_file = $dir . "\key.txt";
-			$cek_file = file_exists($temp_file);
+			$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\app\Code';//path of file
+			$temp_file = strval($dir) . "\key.txt";
+			$cek_file = file_exists($temp_file);//file is exist? true|false
 			if ($cek_file) {
 				$file = file_get_contents($temp_file, FILE_USE_INCLUDE_PATH);
-				$tfile = $this->dec($file);
-				$mc = explode('.', $tfile);
-				if ($this->enc($mc[0]) === $auth) {
-					return true;
-				} else {
-					return false;
+				$list_key = explode(PHP_EOL, $file);
+				foreach ($list_key as $x) {
+					$string = preg_replace("/\s+/", '', $x);//delete all whitespace
+
+					$tfile = $this->dec($string);//decrypt key
+					$mc = explode('.', $tfile);//make an array of key
+
+					return $this->get_mac();
+					if ($this->enc($mc[0]) === $auth) {//check first array of key
+						return true;
+					} else {
+						return false;
+					}
 				}
 			} else {
 				return false;

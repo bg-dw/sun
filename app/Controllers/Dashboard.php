@@ -23,9 +23,7 @@ class Dashboard extends BaseController
 
 	public function index()
 	{
-		$x = exec('getmac');
-		$str = explode(' ', $x);
-		$data['key'] = $str[0];
+		$data['key'] = $this->get_mac();
 		if ($this->itr()) {
 			return redirect()->route(bin2hex('login'));
 		} else {
@@ -36,6 +34,8 @@ class Dashboard extends BaseController
 	public function generate()
 	{
 		$res = $this->gen_code();
+		$data['in_key'] = $this->enc($this->get_mac());
+		$data['unc'] = $this->enc($this->get_mac() . ".BUDI-UTOMO");
 
 		if ($res["cek"]) {
 			$data["status"] = 1;

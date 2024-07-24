@@ -16,6 +16,7 @@ class MasterGuru extends BaseController
     //index presensi
     public function index()
     {
+        $data['proc'] = $this;
         $data['title'] = 'Data Guru';
         $data['guru'] = $this->guru->findAll();
         return view('v_admin/data/V_guru', $data);
@@ -84,5 +85,62 @@ class MasterGuru extends BaseController
             session()->setFlashdata('warning', ' Data gagal ditambahkan.');
             return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
         }
+    }
+
+    public function cek_uname()
+    {
+        if ($this->request->isAJAX()) {
+            $uname = $this->request->getVar('uname');
+            $get_data = $this->guru->where('username', md5($uname))->first();
+            return json_encode($get_data);
+        } else {
+            return json_encode("Bukan Ajax Req");
+        }
+    }
+
+    public function ac_set_uname()
+    {
+        $id = $this->dec($this->request->getVar('id'));
+        $uname = $this->request->getVar('uname');
+        if (strlen($uname) < 5):
+            session()->setFlashdata('warning', ' Username Kurang dari 5 Karakter!.');
+        else:
+            $data = [
+                'id_guru' => $id,
+                'username' => md5($uname)
+            ];
+            $cek_uname = $this->guru->where('username', md5($uname))->first();
+            if (!$cek_uname):
+                $send = $this->guru->save($data);
+                if ($send):
+                    session()->setFlashdata('success', ' Data berhasil disimpan.');
+                else:
+                    session()->setFlashdata('warning', 'Gagal Menyimpan Data!.');
+                endif;
+            else:
+                session()->setFlashdata('warning', ' Pilih Username yang Lain!.');
+            endif;
+        endif;
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
+    }
+    public function ac_set_password()
+    {
+        $id = $this->dec($this->request->getVar('id'));
+        $pwd = $this->request->getVar('pwd');
+        if (strlen($pwd) < 6):
+            session()->setFlashdata('warning', ' Password Kurang dari 6 Karakter!.');
+        else:
+            $data = [
+                'id_guru' => $id,
+                'password' => md5($pwd)
+            ];
+            $send = $this->guru->save($data);
+            if ($send):
+                session()->setFlashdata('success', ' Data berhasil disimpan.');
+            else:
+                session()->setFlashdata('warning', 'Gagal Menyimpan Data!.');
+            endif;
+        endif;
+        return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-guru'));
     }
 }

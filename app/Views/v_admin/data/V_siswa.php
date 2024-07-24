@@ -39,7 +39,7 @@
                                         <td class="text-center" style="width: 7%">
                                             <?= $i++; ?>
                                         </td>
-                                        <td class="text-center" style="width: 10%">
+                                        <td class="text-center" style="width: 13%">
                                             <button class="btn btn-warning" data-toggle="tooltip" title="Edit Siswa"
                                                 onclick="update_siswa('<?= $row['id_siswa'] ?>','<?= $row['nis'] ?>','<?= $row['nisn'] ?>','<?= $row['nama'] ?>','<?= $row['jk'] ?>','<?= $row['tmp_lahir'] ?>','<?= $row['tgl_lahir'] ?>','<?= $row['alamat_siswa'] ?>','<?= $row['ayah_kandung'] ?>','<?= $row['ibu_kandung'] ?>','<?= $row['p_ayah'] ?>','<?= $row['p_ibu'] ?>','<?= $row['alamat_ortu'] ?>','<?= $row['nama_wali'] ?>','<?= $row['alamat_wali'] ?>')">
                                                 <i class="fas fa-pen"></i>
@@ -49,12 +49,11 @@
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
-                                        <td class="text-center" style="width: 13%">
-                                            <img src="<?= base_url() ?>/assets/img/<?php if ($row['pic_siswa']):
-                                                  echo "siswa/" . $row['pic_siswa'];
-                                              else: ?>default.png<?php endif; ?>" class="user-img mr-2" alt=""
-                                                width="100px" data-toggle="tooltip" title="Klik Untuk Merubah"
+                                        <td class="text-center" style="width: 10%">
+                                            <button class="btn btn-primary" data-toggle="tooltip" title="Foto Siswa"
                                                 onclick="update_foto(this,'<?= $row['id_siswa'] ?>')">
+                                                <i class="fas fa-image"></i>
+                                            </button>
                                         </td>
                                         <td class="text-center" style="width: 13%">
                                             <?= $row['nis'] ?>
@@ -317,8 +316,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="update-foto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -354,8 +351,6 @@
 </div>
 
 <script>
-    // $(function () {
-    // });
     $('#btn-import').click(function () {
         $('#add-modal').appendTo('body').modal('show');
     });
@@ -406,10 +401,35 @@
         $('#d-nama').val(nama);
         $('#delete-modal').appendTo('body').modal('show');
     }
+    // function show_foto(e, id) {
+    //     $("#foto-dinamis").attr("src", e.src);
+    //     $("#upload").val("");
+    //     $("#u-id-siswa").val(id);
+    //     $('#show-foto').appendTo('body').modal('show');
+    // }
+
+    $(function () {
+        $('#update-foto').on('hidden.bs.modal', function () {
+            $("#foto-dinamis").attr("src", "<?= base_url() ?>/assets/img/default.png");
+        })
+    });
     function update_foto(e, id) {
-        $("#foto-dinamis").attr("src", e.src);
-        $("#upload").val("");
-        $("#u-id-siswa").val(id);
+        $.ajax({
+            url: "<?= base_url('/' . bin2hex('admin/siswa/get/foto')); ?>",
+            type: 'post',
+            data: { id: id },
+            success: function (result) {
+                let data = JSON.parse(result);
+                if (data) {
+                    $("#foto-dinamis").attr("src", '<?= base_url() ?>/assets/img/siswa/' + data);
+                }
+                $("#upload").val("");
+                $("#u-id-siswa").val(id);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
         $('#update-foto').appendTo('body').modal('show');
     }
 </script>

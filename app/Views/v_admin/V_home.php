@@ -18,7 +18,7 @@
                                     } ?> Orang
                                 </h2>
                                 <p class="mb-0">
-                                    <?php if (isset($home)) {
+                                    <?php if (isset($home) && ($home["L"] != null || $home["P"] != null)) {
                                         echo number_format((($home["L"] / ($home["L"] + $home["P"])) * 100), 1);
                                     } ?>%
                                 </p>
@@ -50,7 +50,7 @@
                                 </h2>
                                 <p class="mb-0">
                                     <span class="col-orange">
-                                        <?php if (isset($home)) {
+                                        <?php if (isset($home) && ($home["L"] != null || $home["P"] != null)) {
                                             echo number_format((($home["P"] / ($home["L"] + $home["P"])) * 100), 1);
                                         } ?>%
                                     </span>

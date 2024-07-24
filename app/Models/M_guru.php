@@ -11,6 +11,8 @@ class M_guru extends Model
     protected $useTimestamps = true;
     protected $allowedFields = [
         'id_guru',
+        'username',
+        'password',
         'nip',
         'nama_guru',
         'gelar_guru',

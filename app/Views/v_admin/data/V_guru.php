@@ -1,3 +1,4 @@
+//.app/Views/v_admin/data/=V_guru
 <?= $this->extend('v_admin/Main') ?>
 <?= $this->section('content') ?>
 <div class="row">
@@ -43,7 +44,26 @@
                                         <td class="text-center" style="width: 7%">
                                             <?= $i++; ?>
                                         </td>
-                                        <td class="text-center" style="width: 10%">
+                                        <td class="text-center" style="width: 18%">
+                                            <?php if ($row['status_guru'] == 'aktif'): ?>
+                                                <div class="dropdown d-inline">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Akun
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item has-icon" href="#"
+                                                            onclick="set_username('<?= $proc->enc($row['id_guru']) ?>','<?= $row['nama_guru'] ?>');"><i
+                                                                class="far fa-user"></i>
+                                                            Username</a>
+                                                        <a class="dropdown-item has-icon" href="#"
+                                                            onclick="set_pwd('<?= $proc->enc($row['id_guru']) ?>','<?= $row['nama_guru'] ?>');"><i
+                                                                class="fas fa-lock"></i>
+                                                            Password</a>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
                                             <button class="btn btn-warning" data-toggle="tooltip" title="Edit Guru"
                                                 onclick="edit('<?= $row['id_guru'] ?>','<?= $row['nip'] ?>','<?= $row['nama_guru'] ?>','<?= $row['gelar_guru'] ?>','<?= $row['level_login'] ?>','<?= $row['status_guru'] ?>');">
                                                 <i class="fas fa-pen"></i>
@@ -65,7 +85,7 @@
                                         <td class="text-center" style="width: 10%">
                                             <?= $row['level_login'] ?>
                                         </td>
-                                        <td class="text-center" style="width: 15%">
+                                        <td class="text-center" style="width: 7%">
                                             <button
                                                 class="btn btn-<?= ($row['status_guru'] == 'aktif') ? 'success' : 'secondary'; ?>"
                                                 onclick="set_act_guru('<?= $row['id_guru'] ?>','<?= $row['status_guru'] ?>')"
@@ -149,6 +169,50 @@
                     <div class="text-right">
                         <button class="btn btn-primary" type="submit">Simpan</button>
                         <button class="btn btn-secondary" type="button" id="btn-cancel-edit">Batal</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body" id="f-username" style="display:none;">
+                <form action="<?= base_url('/' . bin2hex('admin/guru/update/username')) ?>" method="post"
+                    onsubmit="return confirm('Simpan data?')">
+                    <?= csrf_field(); ?>
+                    <input type="hidden" name="id" id="ak-id" required>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Username Baru</label>
+                            <input type="text" name="uname" minlength="5" class="form-control"
+                                placeholder="Minimal 5 Karakter" onkeyup="cek_uname()" id="ak-uname" required>
+                            <div class="" id="color-info">
+                                <span id="text-info"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="submit" id="btn-simpan-username"
+                            style="display: none;">Simpan</button>
+                        <button class="btn btn-secondary" type="button" id="btn-cancel-username">Batal</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body" id="f-password" style="display:none;">
+                <form action="<?= base_url('/' . bin2hex('admin/guru/update/password')) ?>" method="post"
+                    onsubmit="return confirm('Simpan data?')">
+                    <?= csrf_field(); ?>
+                    <input type="hidden" name="id" id="pw-id" required>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Password Baru</label>
+                            <input type="text" name="pwd" minlength="6" class="form-control"
+                                placeholder="Minimal 6 Karakter" onkeyup="cek_pwd()" id="up-pwd" required>
+                            <div class="" id="pw-color-info">
+                                <span id="pw-text-info"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="submit" id="btn-simpan-pwd"
+                            style="display: none;">Simpan</button>
+                        <button class="btn btn-secondary" type="button" id="btn-cancel-pwd">Batal</button>
                     </div>
                 </form>
             </div>
@@ -248,6 +312,33 @@
         $('#card-title').text('Data Guru');
     });
 
+    function set_username(id, nama) {
+        $('#tbl-data').hide('slow');
+        $('#group-btn').hide('slow');
+        $('#ak-id').val(id);
+        $('#f-username').show('slow');
+        $('#card-title').text('Akun ' + nama);
+    }
+    $('#btn-cancel-username').click(function () {
+        $('#f-username').hide('slow');
+        $('#group-btn').show('slow');
+        $('#tbl-data').show('slow');
+        $('#card-title').text('Data Guru');
+    });
+    function set_pwd(id, nama) {
+        $('#tbl-data').hide('slow');
+        $('#group-btn').hide('slow');
+        $('#pw-id').val(id);
+        $('#f-password').show('slow');
+        $('#card-title').text('Akun ' + nama);
+    }
+    $('#btn-cancel-pwd').click(function () {
+        $('#f-password').hide('slow');
+        $('#group-btn').show('slow');
+        $('#tbl-data').show('slow');
+        $('#card-title').text('Data Guru');
+    });
+
     function set_act_guru(id, status) {
         let stat = status;
         if (stat === "aktif") {
@@ -267,6 +358,52 @@
         $('#h-id').val(id);
         $('#h-nama').text(nama);
         $('#modal-delete').appendTo('body').modal('show');
+    }
+    function cek_pwd() {
+        var pwd = $('#up-pwd').val();
+        if (pwd.length > 5) {
+            $('#up-pwd').attr("class", "form-control is-valid");
+            $('#pw-color-info').attr("class", "valid-feedback");
+            $('#pw-text-info').text("Bisa digunakan!");
+            $('#btn-simpan-pwd').show();
+
+        } else {
+            $('#btn-simpan-pwd').hide();
+            $('#up-pwd').attr("class", "form-control is-invalid");
+            $('#pw-color-info').attr("class", "invalid-feedback");
+            $('#pw-text-info').text("Kurang dari 6 Karakter!");
+        }
+    }
+
+    function cek_uname() {
+        var usern = $('#ak-uname').val();
+        if (usern.length > 4) {
+            $.ajax({
+                url: "<?= base_url('/' . bin2hex('admin/guru/cek-username')); ?>",
+                type: 'post',
+                data: { uname: usern },
+                success: function (result) {
+                    let data = JSON.parse(result);
+                    if (data === null) {
+                        $('#ak-uname').attr("class", "form-control is-valid");
+                        $('#color-info').attr("class", "valid-feedback");
+                        $('#text-info').text("Bisa digunakan!");
+                        $('#btn-simpan-username').show();
+                    } else {
+                        $('#btn-simpan-username').hide();
+                        $('#ak-uname').attr("class", "form-control is-invalid");
+                        $('#color-info').attr("class", "invalid-feedback");
+                        $('#text-info').text("Cari Username Lain!");
+                    }
+                },
+                error: function (data) {
+                    $('#btn-simpan-username').hide();
+                    $('#ak-uname').attr("class", "form-control is-invalid");
+                    $('#color-info').attr("class", "invalid-feedback");
+                    $('#text-info').text("Gagal Cek Username!");
+                }
+            });
+        }
     }
 </script>
 <?= $this->endSection() ?>

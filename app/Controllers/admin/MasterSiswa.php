@@ -198,4 +198,12 @@ class MasterSiswa extends BaseController
         }
     }
 
+    public function get_foto()
+    {
+        $id = $this->request->getVar('id');
+        $data = $this->siswa->where('id_siswa', $id)->first();
+        $pic = $data['pic_siswa'];
+        return json_encode($pic);
+    }
+
 }

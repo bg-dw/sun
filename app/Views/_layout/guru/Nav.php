@@ -16,9 +16,11 @@
             <div class="dropdown-title">
                 <?= session()->get('nama') ?>
             </div>
-            <a href="#" class="dropdown-item has-icon"> <i class="far fa-user"></i> Ganti Username
+            <a href="<?= base_url('/' . bin2hex('guru') . '/' . bin2hex('update-username')); ?>"
+                class="dropdown-item has-icon"> <i class="far fa-user"></i> Ganti Username
             </a>
-            <a href="#" class="dropdown-item has-icon"> <i class="fas fa-lock"></i>
+            <a href="<?= base_url('/' . bin2hex('guru') . '/' . bin2hex('update-password')) ?>"
+                class="dropdown-item has-icon"> <i class="fas fa-lock"></i>
                 Ganti Password
             </a>
             <div class="dropdown-divider"></div>
