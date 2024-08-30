@@ -42,12 +42,12 @@
                                     ?>
                                     <tr>
                                         <td class="text-center" style="width: 7%">
-                                            <?= $i++; ?>
+                                            <?= $i++ . "."; ?>
                                         </td>
                                         <td class="text-center" style="width: 18%">
                                             <?php if ($row['status_guru'] == 'aktif'): ?>
                                                 <div class="dropdown d-inline">
-                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button"
                                                         id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
                                                         Akun
@@ -64,11 +64,11 @@
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Guru"
+                                            <button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit Guru"
                                                 onclick="edit('<?= $row['id_guru'] ?>','<?= $row['nip'] ?>','<?= $row['nama_guru'] ?>','<?= $row['gelar_guru'] ?>','<?= $row['level_login'] ?>','<?= $row['status_guru'] ?>');">
                                                 <i class="fas fa-pen"></i>
                                             </button>
-                                            <button class="btn btn-danger" title="Hapus Guru"
+                                            <button class="btn btn-sm btn-danger" title="Hapus Guru"
                                                 onclick="del('<?= $row['id_guru'] ?>','<?= $row['nama_guru'] ?>')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -87,7 +87,7 @@
                                         </td>
                                         <td class="text-center" style="width: 7%">
                                             <button
-                                                class="btn btn-<?= ($row['status_guru'] == 'aktif') ? 'success' : 'secondary'; ?>"
+                                                class="btn btn-sm btn-<?= ($row['status_guru'] == 'aktif') ? 'success' : 'secondary'; ?>"
                                                 onclick="set_act_guru('<?= $row['id_guru'] ?>','<?= $row['status_guru'] ?>')"
                                                 data-toggle="tooltip" title="Klik untuk Edit">
                                                 <?= strtoupper($row['status_guru']); ?>

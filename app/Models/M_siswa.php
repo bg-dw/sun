@@ -12,6 +12,7 @@ class M_siswa extends Model
     protected $allowedFields = [
         'id_siswa',
         'status_siswa',
+        'nik',
         'nis',
         'nisn',
         'nama',
@@ -46,6 +47,39 @@ class M_siswa extends Model
         $this->orderBy('tbl_siswa.nama', 'ASC');
         return $this->findAll();
     }
+    function get_siswa_periode($id_k)
+    {
+        $this->select('tbl_kelas.id_kelas,tbl_kelas.kelas,tbl_siswa.id_siswa,tbl_siswa.nis,tbl_siswa.nisn,tbl_siswa.nama');
+        $this->join('tbl_absensi', 'tbl_siswa.id_siswa = tbl_absensi.id_siswa');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+        $this->where('tbl_kelas.id_kelas', $id_k);
+        $this->where('tbl_periode.status_periode', 'aktif');
+        $this->orderBy('tbl_siswa.nama', 'ASC');
+        return $this->findAll();
+    }
+    function get_siswa_lama($tingkat, $tahun_awal)
+    {
+        $this->select('tbl_kelas.id_kelas,tbl_kelas.kelas,tbl_kelas.tingkat,tbl_siswa.id_siswa,tbl_siswa.nis,tbl_siswa.nisn,tbl_siswa.nama');
+        $this->join('tbl_absensi', 'tbl_siswa.id_siswa = tbl_absensi.id_siswa');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+        $this->where('tbl_kelas.tingkat', $tingkat);
+        $this->where('tbl_periode.tahun_awal', $tahun_awal);
+        $this->orderBy('tbl_siswa.nama', 'ASC');
+        return $this->findAll();
+    }
+    // function get_siswa_t1($tahun)
+    // {
+    //     $this->select('tbl_kelas.id_kelas,tbl_kelas.kelas,tbl_kelas.tingkat,tbl_siswa.id_siswa,tbl_siswa.nis,tbl_siswa.nisn,tbl_siswa.nama');
+    //     $this->join('tbl_absensi', 'tbl_siswa.id_siswa = tbl_absensi.id_siswa');
+    //     $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+    //     $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
+    //     $this->where('tbl_kelas.tingkat', 1);
+    //     $this->whereIn('tbl_periode.tahun_awal', $tahun);
+    //     $this->orderBy('tbl_siswa.nama', 'ASC');
+    //     return $this->findAll();
+    // }
 
     function get_pic($id)
     {

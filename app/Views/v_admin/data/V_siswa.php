@@ -37,20 +37,20 @@
                                     ?>
                                     <tr>
                                         <td class="text-center" style="width: 7%">
-                                            <?= $i++; ?>
+                                            <?= $i++ . "."; ?>
                                         </td>
                                         <td class="text-center" style="width: 13%">
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Siswa"
+                                            <button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit Siswa"
                                                 onclick="update_siswa('<?= $row['id_siswa'] ?>','<?= $row['nis'] ?>','<?= $row['nisn'] ?>','<?= $row['nama'] ?>','<?= $row['jk'] ?>','<?= $row['tmp_lahir'] ?>','<?= $row['tgl_lahir'] ?>','<?= $row['alamat_siswa'] ?>','<?= $row['ayah_kandung'] ?>','<?= $row['ibu_kandung'] ?>','<?= $row['p_ayah'] ?>','<?= $row['p_ibu'] ?>','<?= $row['alamat_ortu'] ?>','<?= $row['nama_wali'] ?>','<?= $row['alamat_wali'] ?>')">
                                                 <i class="fas fa-pen"></i>
                                             </button>
-                                            <button class="btn btn-danger" data-toggle="tooltip" title="Hapus Siswa"
+                                            <button class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Siswa"
                                                 onclick="hapus('<?= $row['id_siswa'] ?>','<?= $row['nama'] ?>')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
                                         <td class="text-center" style="width: 10%">
-                                            <button class="btn btn-primary" data-toggle="tooltip" title="Foto Siswa"
+                                            <button class="btn btn-sm btn-primary" data-toggle="tooltip" title="Foto Siswa"
                                                 onclick="update_foto(this,'<?= $row['id_siswa'] ?>')">
                                                 <i class="fas fa-image"></i>
                                             </button>
@@ -270,8 +270,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('import') . '/' . bin2hex('siswa')) ?>"
-                method="post" enctype="multipart/form-data">
+            <button type="button" onclick="import_proc()" class="btn btn-primary">Proses</button>
+            <form action="#" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>File Excel Siswa (.xls/.xlsx)</label>
@@ -279,7 +279,8 @@
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Proses</button>
+                    <button type="button" onclick="import_proc()" data-dismiss="modal"
+                        class="btn btn-primary">Proses</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 </div>
             </form>
@@ -401,13 +402,6 @@
         $('#d-nama').val(nama);
         $('#delete-modal').appendTo('body').modal('show');
     }
-    // function show_foto(e, id) {
-    //     $("#foto-dinamis").attr("src", e.src);
-    //     $("#upload").val("");
-    //     $("#u-id-siswa").val(id);
-    //     $('#show-foto').appendTo('body').modal('show');
-    // }
-
     $(function () {
         $('#update-foto').on('hidden.bs.modal', function () {
             $("#foto-dinamis").attr("src", "<?= base_url() ?>/assets/img/default.png");

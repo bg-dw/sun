@@ -88,6 +88,14 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('a
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('update'), 'admin\MasterKelas::update');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('delete'), 'admin\MasterKelas::delete');
 
+//data master siswa kelas
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-siswa-kelas'), 'admin\MasterKelasSiswa::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('data-siswa-kelas'), 'admin\MasterKelasSiswa::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('update-siswa-kelas'), 'admin\MasterKelasSiswa::update_siswa_kelas');
+$routes->post('/' . bin2hex('admin/get_kelas'), 'admin\MasterKelasSiswa::get_kelas');
+// $routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('update'), 'admin\MasterKelas::update');
+// $routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('delete'), 'admin\MasterKelas::delete');
+
 //data master presensi
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-presensi'), 'admin\MasterPresensi::index');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi') . '/' . bin2hex('add'), 'admin\MasterPresensi::add');

@@ -32,11 +32,11 @@
                                     ?>
                                     <tr>
                                         <td class="text-center" style="width: 4%">
-                                            <?= $i++; ?>
+                                            <?= $i++ . "."; ?>
                                         </td>
                                         <td class="text-center" style="width: 11%">
                                             <?php if ($row['status_periode'] === "non-aktif"): ?>
-                                                <button class="btn btn-warning" data-toggle="tooltip" title="Edit Periode"
+                                                <button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit Periode"
                                                     onclick="update_periode('<?= $row['id_periode'] ?>','<?= $row['tahun_awal'] ?>','<?= $row['tahun_akhir'] ?>','<?= $row['status_periode'] ?>')">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
@@ -50,7 +50,7 @@
                                         </td>
                                         <td class="text-center" style="width: 15%">
                                             <button
-                                                class="btn btn-<?= ($row['status_periode'] == 'aktif') ? 'success' : 'secondary'; ?>"
+                                                class="btn btn-sm btn-<?= ($row['status_periode'] == 'aktif') ? 'success' : 'secondary'; ?>"
                                                 <?php if ($row['status_periode'] == 'non-aktif'): ?>onclick="set_act('<?= $row['id_periode'] ?>')" data-toggle="tooltip"
                                                     title="Klik untuk Edit" <?php endif; ?>>
                                                 <?= strtoupper($row['status_periode']); ?>

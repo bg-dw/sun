@@ -55,12 +55,23 @@ $segments = $uri->getSegments(); ?>
                 <i data-feather="users"></i><span> Data Peserta Didik</span>
             </a>
         </li>
-        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('data-kelas'))) {
+
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('data-kelas') || $segments[1] === bin2hex('data-siswa-kelas'))) {
             echo "active";
         } ?>">
-            <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-kelas')) ?>" class="nav-link">
-                <i data-feather="home"></i><span>Data Kelas</span>
-            </a>
+            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="home"></i><span>Data
+                    Rombel</span></a>
+            <ul class="dropdown-menu">
+                <li class="<?php if ($segments[0] === bin2hex('admin') && $segments[1] === bin2hex('data-kelas')) {
+                    echo "active";
+                } ?>"><a class="nav-link"
+                        href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-kelas')) ?>">Wali Kelas</a></li>
+                <li class="<?php if ($segments[0] === bin2hex('admin') && $segments[1] === bin2hex('data-siswa-kelas')) {
+                    echo "active";
+                } ?>"><a class="nav-link"
+                        href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('data-siswa-kelas')) ?>">Anggota
+                        Rombel</a></li>
+            </ul>
         </li>
         <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('data-presensi'))) {
             echo "active";

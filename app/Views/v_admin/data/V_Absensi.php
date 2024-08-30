@@ -37,11 +37,11 @@
                                             <?= ($i++) . "."; ?>
                                         </td>
                                         <td class="text-center" style="width: 10%">
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Data"
+                                            <button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit Data"
                                                 onclick="update('<?= $row['id_absensi'] ?>','<?= $row['id_siswa'] ?>','<?= $row['id_kelas'] ?>')">
                                                 <i class="fas fa-pen"></i>
                                             </button>
-                                            <button class="btn btn-danger" data-toggle="tooltip" title="Hapus Data"
+                                            <button class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Data"
                                                 onclick="hapus('<?= $row['id_absensi'] ?>','<?= $row['nama'] ?>','<?= $row['kelas'] ?>')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -54,16 +54,16 @@
                                         </td>
                                         <td class="text-center" style="width: 15%">
                                             <?php if ($row['rfid']): ?>
-                                                <button class="btn btn-icon btn-info" data-toggle="tooltip" title="
+                                                <button class="btn btn-sm btn-icon btn-info" data-toggle="tooltip" title="
                                             <?= $row['rfid'] ?>">
                                                     <i class="fas fa-check"></i>
                                                 </button>
-                                                <button class="btn btn-icon btn-outline-warning" data-toggle="tooltip"
+                                                <button class="btn btn-sm btn-icon btn-outline-warning" data-toggle="tooltip"
                                                     title="Edit RFID" onclick="edit_rfid('<?= $row['id_absensi'] ?>')">
                                                     <i class="far fa-edit"></i>
                                                 </button>
                                             <?php else: ?>
-                                                <button class="btn btn-icon btn-outline-primary" data-toggle="tooltip"
+                                                <button class="btn btn-sm btn-icon btn-outline-primary" data-toggle="tooltip"
                                                     title="Tambah RFID" onclick="add_rfid('<?= $row['id_absensi'] ?>')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>

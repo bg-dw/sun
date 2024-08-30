@@ -33,6 +33,7 @@ class MasterKelas extends BaseController
         $send = $this->kelas->save([
             'id_periode' => $this->request->getVar('periode'),
             'id_guru' => $this->request->getVar('guru'),
+            'tingkat' => $this->request->getVar('tingkat'),
             'kelas' => $this->request->getVar('kelas')
         ]);
         if ($send) {
@@ -50,6 +51,7 @@ class MasterKelas extends BaseController
         $send = $this->kelas->save([
             'id_kelas' => $this->request->getVar('id'),
             'id_guru' => $this->request->getVar('guru'),
+            'tingkat' => $this->request->getVar('tingkat'),
             'kelas' => $this->request->getVar('kelas')
         ]);
         if ($send) {

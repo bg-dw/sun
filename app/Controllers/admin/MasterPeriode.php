@@ -88,7 +88,7 @@ class MasterPeriode extends BaseController
             $send = $this->periode->save($data);
             if ($send) {
                 session()->setFlashdata('success', ' Data berhasil disimpan.');
-                return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-periode'));
+                return redirect()->route(bin2hex('logout'));
             } else {
                 session()->setFlashdata('warning', ' Data gagal ditambahkan.');
                 return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-periode'));

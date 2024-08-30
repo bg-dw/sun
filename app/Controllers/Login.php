@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\M_guru;
+use App\Models\M_periode;
 
 class Login extends BaseController
 {
@@ -11,6 +12,7 @@ class Login extends BaseController
     public function __construct()
     {
         $this->guru = new M_guru();
+        $this->periode = new M_periode();
     }
 
     public function index()
@@ -27,12 +29,17 @@ class Login extends BaseController
         if ($cek):
             $kelas = $this->guru->get_guru_by($cek['id_guru']);
             $set = $kelas['kelas'];
+            $periode = $this->periode->where('status_periode', "aktif")->first();
+            $set_id_p = $periode['id_periode'];
+            $set_periode = $periode['tahun_awal'] . "-" . $periode['tahun_akhir'];
             $ses = [
                 'id' => $cek['id_guru'],
                 'nama' => $cek['nama_guru'],
                 'user' => $cek['username'],
                 'pass' => $cek['password'],
                 'level' => $cek['level_login'],
+                'id_periode' => $set_id_p,
+                'periode' => $set_periode,
                 'kelas' => $set,
                 'passed' => true,
             ];

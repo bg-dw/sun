@@ -38,9 +38,12 @@ class MasterSiswa extends BaseController
             $spreadsheet = $reader->load($file);
             $excel_data = $spreadsheet->getActiveSheet()->toArray();
             $arr = array();
-            $i = 0;
-            $nis = $nisn = $tmpt = $tgl = $asis = $ayah = $ibu = $p_ayah = $p_ibu = $al_ort = $nm_wali = $al_wali = "-";
+            echo count($excel_data) - 6;
+            dd($excel_data);
+            $i = $j = 0;
+            $nik = $nis = $nisn = $tmpt = $tgl = $asis = $ayah = $ibu = $p_ayah = $p_ibu = $al_ort = $nm_wali = $al_wali = "-";
             foreach ($excel_data as $key => $value) {
+                $nik = empty($value[7]) ? "-" : $value[7];
                 $nis = empty($value[2]) ? "-" : $value[2];
                 $nisn = empty($value[4]) ? "-" : $value[4];
                 $tmpt = empty($value[5]) ? "-" : strtoupper($value[5]);
@@ -57,8 +60,14 @@ class MasterSiswa extends BaseController
                 if ($key <= 5) {
                     continue;
                 }
+                $where = "nik=" . $nik . " OR nisn=" . $nisn;
+                $cek_dup = $this->siswa->where($where)->first();//cek nik and nisn
+                if ($cek_dup) {
+                    $id = $cek_dup['id_siswa'];
+                }
                 $arr = [
                     'id_siswa' => ($id),
+                    'nik' => ($nik),
                     'nama' => strtoupper($value[1]),
                     'nis' => $nis,
                     'jk' => $value[3],
@@ -74,12 +83,19 @@ class MasterSiswa extends BaseController
                     'nama_wali' => $nm_wali,
                     'alamat_wali' => $al_wali
                 ];
-                $result = $this->siswa->inp($arr);
-                if ($result) {
-                    $i++;
+                if ($cek_dup) {
+                    $ex = $this->siswa->save($arr);
+                    if ($ex) {
+                        $j++;
+                    }
+                } else {
+                    $result = $this->siswa->inp($arr);
+                    if ($result) {
+                        $i++;
+                    }
                 }
             }
-            session()->setFlashdata('success', $i . ' Data berhasil diimport.');
+            session()->setFlashdata('success', $i . ' Data berhasil diimport, dan ' . $j . ' diperbaharui!');
             return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-siswa'));
         } else {
             return redirect()->back()->with('error', 'File harus berupa Excel.');

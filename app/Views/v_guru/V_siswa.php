@@ -4,7 +4,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Data Peserta Didik</h4>
+                <h4>Data Anggota Rombel</h4>
             </div>
             <div class="card-body" id="tbl-data">
                 <?php
@@ -47,16 +47,6 @@
                             ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="card-body" id="f-add" style="display:none;">
-                <div class="form-group">
-                    <label>Default Input Text</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="text-right">
-                    <button class="btn btn-primary" type="submit">Simpan</button>
-                    <button class="btn btn-secondary" type="button" id="btn-cancel">Batal</button>
                 </div>
             </div>
         </div>

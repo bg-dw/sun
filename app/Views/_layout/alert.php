@@ -26,3 +26,21 @@ endif; ?>
     <script>swal('Error', "<?= session()->getFlashdata('error') ?>", 'error');</script>
     <?php
 endif; ?>
+
+<script>
+    function notif(msg, title) {
+        if (title == "suc") {
+            iziToast.success({
+                title: 'Success!',
+                message: msg,
+                position: 'topCenter'
+            });
+        } else {
+            iziToast.error({
+                title: 'error!',
+                message: msg,
+                position: 'topCenter'
+            });
+        }
+    }
+</script>

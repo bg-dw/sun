@@ -54,16 +54,6 @@ class M_presensi extends Model
         $this->where(['tbl_periode.status_periode' => "aktif", 'tbl_detail_absensi.tgl_absensi' => date("Y-m-d")]);
         return $this->findAll();
     }
-    // function get_data_presensi_k()
-    // {
-    //     $this->select('tbl_absensi.id_absensi,tbl_absensi.rfid,tbl_siswa.id_siswa,tbl_siswa.nis,tbl_siswa.nama,tbl_siswa.jk,tbl_kelas.kelas');
-    //     $this->join('tbl_siswa', 'tbl_absensi.id_siswa = tbl_siswa.id_siswa');
-    //     $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
-    //     $this->join('tbl_periode', 'tbl_periode.id_periode = tbl_kelas.id_periode');
-    //     $this->where(['tbl_periode.status_periode' => 'aktif']);
-    //     $this->orderBy('tbl_siswa.nama', 'ASC');
-    //     return $this->findAll();
-    // }
 
     function get_data_presensi_kelas()
     {

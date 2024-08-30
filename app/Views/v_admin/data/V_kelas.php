@@ -4,7 +4,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 id="card-title">Data Kelas</h4>
+                <h4 id="card-title">Wali Kelas</h4>
                 <div class="card-header-action" role="group" aria-label="Basic example" id="group-btn">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal"
                         id="btn-import">
@@ -25,7 +25,8 @@
                                 </th>
                                 <th class="text-center">Aksi</th>
                                 <th class="text-center">Periode</th>
-                                <th class="text-center">Kelas</th>
+                                <th class="text-center">Tingkatan</th>
+                                <th class="text-center">Nama Kelas</th>
                                 <th class="text-center">Guru Kelas</th>
                             </tr>
                         </thead>
@@ -36,14 +37,14 @@
                                     ?>
                                     <tr>
                                         <td class="text-center" style="width: 7%">
-                                            <?= $i++; ?>
+                                            <?= $i++ . "."; ?>
                                         </td>
                                         <td class="text-center" style="width: 10%">
-                                            <button class="btn btn-warning" data-toggle="tooltip" title="Edit Kelas"
+                                            <button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit Kelas"
                                                 onclick="update('<?= $row['id_kelas'] ?>','<?= $row['id_periode'] ?>','<?= $row['id_guru'] ?>','<?= $row['kelas'] ?>')">
                                                 <i class="fas fa-pen"></i>
                                             </button>
-                                            <button class="btn btn-danger" data-toggle="tooltip" title="Hapus Kelas"
+                                            <button class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Kelas"
                                                 onclick="hapus('<?= $row['id_kelas'] ?>','<?= $row['nama_guru'] ?>','<?= $row['kelas'] ?>')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -52,6 +53,9 @@
                                             <?= $row['tahun_awal'] . " - " . $row['tahun_akhir'] ?>
                                         </td>
                                         <td class="text-center" style="width: 5%">
+                                            <?= $row['tingkat'] ?>
+                                        </td>
+                                        <td class="text-center" style="width: 10%">
                                             <?= $row['kelas'] ?>
                                         </td>
                                         <td>
@@ -72,11 +76,13 @@
                     method="post" onsubmit="return confirm('Simpan data?')">
                     <?= csrf_field(); ?>
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label>Periode</label>
                             <select name="periode" class="form-control" required>
                                 <?php foreach ($periode as $row): ?>
-                                    <option value="<?= $row['id_periode'] ?>"><?= $row['tahun_awal'] . " - " . $row['tahun_akhir'] ?></option>
+                                    <option value="<?= $row['id_periode'] ?>">
+                                        <?= $row['tahun_awal'] . " - " . $row['tahun_akhir'] ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -84,9 +90,17 @@
                             <label>Guru Kelas</label>
                             <select name="guru" class="form-control select2" style="width:100%;" required>
                                 <?php foreach ($guru as $bar): ?>
-                                    <option value="<?= $bar['id_guru'] ?>"><?= $bar['nama_guru'] ?><?= empty($bar['gelar_guru']) ? "" : ", " . $bar['gelar_guru']; ?></option>
+                                    <option value="<?= $bar['id_guru'] ?>">
+                                        <?= $bar['nama_guru'] ?>
+                                        <?= empty($bar['gelar_guru']) ? "" : ", " . $bar['gelar_guru']; ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Tingkatan</label>
+                            <input type="number" min="1" max="6" name="tingkat" class="form-control" value="1"
+                                placeholder="Ex: 1" required>
                         </div>
                         <div class="form-group col-md-3">
                             <label>Nama Kelas</label>
@@ -110,7 +124,8 @@
                             <label>Periode</label>
                             <select name="periode" class="form-control" required id="u-opt-periode">
                                 <?php foreach ($periode as $row): ?>
-                                    <option value="<?= $row['id_periode'] ?>"><?= $row['tahun_awal'] . " - " . $row['tahun_akhir'] ?>
+                                    <option value="<?= $row['id_periode'] ?>">
+                                        <?= $row['tahun_awal'] . " - " . $row['tahun_akhir'] ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -120,7 +135,10 @@
                             <select name="guru" class="form-control select2" style="width:100%;" required
                                 id="u-opt-guru">
                                 <?php foreach ($guru as $bar): ?>
-                                    <option value="<?= $bar['id_guru'] ?>"><?= $bar['nama_guru'] ?><?= empty($bar['gelar_guru']) ? "" : ", " . $bar['gelar_guru']; ?></option>
+                                    <option value="<?= $bar['id_guru'] ?>">
+                                        <?= $bar['nama_guru'] ?>
+                                        <?= empty($bar['gelar_guru']) ? "" : ", " . $bar['gelar_guru']; ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
