@@ -1,5 +1,4 @@
 <?php if (session()->has('success')): ?>
-    ?>
     <script>
         iziToast.success({
             title: 'Success!',

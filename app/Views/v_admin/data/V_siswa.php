@@ -270,8 +270,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <button type="button" onclick="import_proc()" class="btn btn-primary">Proses</button>
-            <form action="#" method="post" enctype="multipart/form-data">
+            <form action="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('import') . '/' . bin2hex('siswa')) ?>"
+                method="post" enctype="multipart/form-data" id="f-import">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>File Excel Siswa (.xls/.xlsx)</label>
@@ -279,7 +279,7 @@
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
-                    <button type="button" onclick="import_proc()" data-dismiss="modal"
+                    <button type="submit" data-dismiss="modal" onclick="$('#f-import').submit()"
                         class="btn btn-primary">Proses</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 </div>

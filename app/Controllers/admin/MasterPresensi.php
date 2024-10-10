@@ -24,6 +24,7 @@ class MasterPresensi extends BaseController
         $data['presensi'] = $this->presensi->get_data_presensi();
         $data['kelas'] = $this->kelas->get_data_kelas();
         $data['siswa'] = $this->siswa->findAll();
+        // SELECT nama FROM tbl_siswa WHERE id_siswa NOT IN (SELECT id_siswa FROM tbl_absensi);
         return view('v_admin/data/V_absensi', $data);
     }
 

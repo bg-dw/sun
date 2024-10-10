@@ -55,7 +55,7 @@ class MasterKelasSiswa extends BaseController
     {
         $id_kelas = $this->request->getVar('id_kelas');
         $id_siswa = $this->request->getVar('id_siswa');
-        // return json_encode($id_siswa);
+
         if ($id_kelas) {
             $sql = $this->presensi->whereIn('id_siswa', $id_siswa)->set(['id_kelas' => $id_kelas])->update();
             if ($sql) {

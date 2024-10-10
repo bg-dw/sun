@@ -132,6 +132,61 @@ class Dashboard extends BaseController
 			return json_encode(['success' => $suc, 'failed' => $err, 'skiped' => $skip]);
 		endif;
 	}
+	public function auto_task_by()
+	{
+		if (!$this->isSunday("Y-m-d")): //jika bukan hari minggu
+			$rec = $this->presensi->get_today(); //id yang sudah absen
+			$aTmp1[] = "";
+			$aTmp2[] = "";
+			foreach ($rec as $aV) {
+				$aTmp1[] = $aV['id_absensi'];
+			}
+			$master = $this->presensi->get_id_presensi(); //semua data id
+			foreach ($master as $aV) {
+				$aTmp2[] = $aV['id_absensi'];
+			}
+
+			$tmp = array_diff($aTmp2, $aTmp1); //id yang belum absen
+			$data_input = array_values($tmp); //reindex array
+			$suc = 0;
+			$err = 0;
+			$skip = 0;
+			if ($data_input) {
+				for ($i = 0; $i < count($data_input); $i++) { //looping sebanyak id_absensi
+					$cek = $this->home->sudah_absen($data_input[$i]);
+					if ($cek) {
+						$skip += 1;
+					} else {
+						if ($data_input[$i] != "") {
+							$data = [
+								'id_detail_absensi' => md5(microtime()),
+								'id_absensi' => $data_input[$i],
+								'jam_absensi' => date('08:00:01'),
+								'tgl_absensi' => date('2023-10-13'),
+								// 'jam_absensi' => date('H:i:s'),
+								// 'tgl_absensi' => date('Y-m-d'),
+								'absensi' => "hadir",
+								'jenis_absensi' => 'auto'
+							];
+							$set_data = $this->home->simpan($data);
+							if ($set_data) {
+								$suc += 1;
+							} else {
+								$err += 1;
+							}
+						}
+					}
+				}
+			}
+			echo $suc;
+			echo "<br>";
+			echo $err;
+			echo "<br>";
+			echo $skip;
+			echo "<br>";
+			// return json_encode(['success' => $suc, 'failed' => $err, 'skiped' => $skip]);
+		endif;
+	}
 
 	//get absensi hari ini
 	public function get_absen()

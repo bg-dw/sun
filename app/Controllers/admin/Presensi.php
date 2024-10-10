@@ -9,10 +9,11 @@ use App\Models\M_home;
 use App\Models\M_kelas;
 use App\Models\M_guru;
 use App\Models\M_presensi;
+use App\Models\M_libur;
 
 class Presensi extends BaseController
 {
-    protected $periode, $home, $guru, $kelas, $presensi;
+    protected $periode, $home, $guru, $kelas, $presensi, $libur;
     public function __construct()
     {
         $this->is_session_available();
@@ -21,6 +22,7 @@ class Presensi extends BaseController
         $this->kelas = new M_kelas();
         $this->guru = new M_guru();
         $this->presensi = new M_presensi();
+        $this->libur = new M_libur();
     }
     //index presensi
     public function index()
@@ -61,10 +63,26 @@ class Presensi extends BaseController
     //rekap presensi
     public function rekap()
     {
+
         $daftar_bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $set = $this->request->getPost('kelas');
         $bulan = $this->request->getPost('bulan');
         $tahun = $this->request->getPost('tahun');
+
+        $list_libur = $this->libur->get_data_libur($bulan, $tahun);
+        $tgl_libur = array();
+        foreach ($list_libur as $val) {//create array of hari libur
+            $tgl_1 = date("d", strtotime($val['tgl_awal']));
+            $tgl_2 = date("d", strtotime($val['tgl_akhir']));
+            if ($tgl_1 != $tgl_2) {// if there is an range between two date
+                for ($i = $tgl_1; $i <= $tgl_2; $i++) {
+                    array_push($tgl_libur, intval($i));
+                }
+            } else {
+                array_push($tgl_libur, intval($tgl_1));
+            }
+        }
+
         $bulan_now = date('m');
         $tahun_now = date('Y');
         if (isset($bulan) && isset($tahun)) {
@@ -118,6 +136,8 @@ class Presensi extends BaseController
         }
 
         $data['title'] = 'Data Rekap';
+        $data['list_libur'] = $list_libur;
+        $data['libur'] = $tgl_libur;
         $data['sel_kelas'] = $set;
         $data['sel_bulan'] = $bulan_now;
         $data['sel_tahun'] = $tahun_now;

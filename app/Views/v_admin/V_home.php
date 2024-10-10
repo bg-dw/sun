@@ -5,7 +5,7 @@
 ?>
 <div class="row m-t--40">
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="card">
+        <div class="card  card-primary">
             <div class="card-statistic-4">
                 <div class="align-items-center justify-content-between">
                     <div class="row ">
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="card">
+        <div class="card  card-primary">
             <div class="card-statistic-4">
                 <div class="align-items-center justify-content-between">
                     <div class="row ">
@@ -69,7 +69,7 @@
         </div>
     </div>
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="card">
+        <div class="card  card-primary">
             <div class="card-statistic-4">
                 <div class="align-items-center justify-content-between">
                     <div class="row ">
@@ -100,7 +100,7 @@
         </div>
     </div>
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="card">
+        <div class="card  card-primary">
             <div class="card-statistic-4">
                 <div class="align-items-center justify-content-between">
                     <div class="row ">
@@ -127,7 +127,7 @@
 </div>
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
-        <div class="card">
+        <div class="card  card-primary">
             <div class="card-header">
                 <h4>Absensi Hari Ini ( Per-Kelas )</h4>
             </div>
@@ -139,7 +139,7 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
-        <div class="card">
+        <div class="card  card-primary">
             <div class="card-header">
                 <h4>Siswa Per-Kelas</h4>
             </div>

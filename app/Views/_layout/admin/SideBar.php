@@ -80,5 +80,20 @@ $segments = $uri->getSegments(); ?>
                 <i data-feather="book-open"></i><span>Data Presensi</span>
             </a>
         </li>
+        <li class="menu-header">Pengaturan</li>
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('hari-libur'))) {
+            echo "active";
+        } ?>">
+            <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('hari-libur')) ?>" class="nav-link">
+                <i data-feather="calendar"></i><span>Hari Libur Nasional</span>
+            </a>
+        </li>
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('pembaruan'))) {
+            echo "active";
+        } ?>">
+            <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('pembaruan')) ?>" class="nav-link">
+                <i data-feather="download"></i><span>Pembaruan</span>
+            </a>
+        </li>
     </ul>
 </aside>

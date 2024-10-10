@@ -41,7 +41,7 @@
                                         </td>
                                         <td class="text-center" style="width: 10%">
                                             <button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit Kelas"
-                                                onclick="update('<?= $row['id_kelas'] ?>','<?= $row['id_periode'] ?>','<?= $row['id_guru'] ?>','<?= $row['kelas'] ?>')">
+                                                onclick="update('<?= $row['id_kelas'] ?>','<?= $row['id_periode'] ?>','<?= $row['id_guru'] ?>','<?= $row['tingkat'] ?>','<?= $row['kelas'] ?>')">
                                                 <i class="fas fa-pen"></i>
                                             </button>
                                             <button class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Kelas"
@@ -120,7 +120,7 @@
                     <?= csrf_field(); ?>
                     <div class="form-row">
                         <input type="hidden" name="id" id="u-id">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label>Periode</label>
                             <select name="periode" class="form-control" required id="u-opt-periode">
                                 <?php foreach ($periode as $row): ?>
@@ -141,6 +141,11 @@
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Tingkatan</label>
+                            <input type="number" min="1" max="6" name="tingkat" class="form-control" value="1"
+                                placeholder="Ex: 1" required id="u-tingkat">
                         </div>
                         <div class="form-group col-md-3">
                             <label>Nama Kelas</label>
@@ -203,10 +208,11 @@
         $('#card-title').text('Data Kelas');
     });
 
-    function update(id_k, id_p, id_g, kelas, nama) {
+    function update(id_k, id_p, id_g, tingkat, kelas, nama) {
         $('#u-id').val(id_k);
         $('#u-opt-periode').val(id_p).trigger('change');
         $('#u-opt-guru').val(id_g).trigger('change');
+        $('#u-tingkat').val(tingkat);
         $('#u-kelas').val(kelas);
         $('#tbl-data').hide('slow');
         $('#group-btn').hide('slow');

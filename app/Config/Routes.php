@@ -42,6 +42,7 @@ $routes->post('/unlock', 'Dashboard::unlock');
 $routes->get('/beranda', 'Dashboard::index');
 $routes->get('/scan', 'Dashboard::scan');
 $routes->get('/auto', 'Dashboard::auto_task');
+$routes->get('/auto_by', 'Dashboard::auto_task_by');
 $routes->post('/show', 'Dashboard::get_absen');
 $routes->post('/inp', 'Dashboard::put_absen');
 $routes->post('/get_last', 'Dashboard::get_total');
@@ -93,8 +94,6 @@ $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-siswa-kelas'), 'admin\
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('data-siswa-kelas'), 'admin\MasterKelasSiswa::index');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('update-siswa-kelas'), 'admin\MasterKelasSiswa::update_siswa_kelas');
 $routes->post('/' . bin2hex('admin/get_kelas'), 'admin\MasterKelasSiswa::get_kelas');
-// $routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('update'), 'admin\MasterKelas::update');
-// $routes->post('/' . bin2hex('admin') . '/' . bin2hex('kelas') . '/' . bin2hex('delete'), 'admin\MasterKelas::delete');
 
 //data master presensi
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-presensi'), 'admin\MasterPresensi::index');
@@ -140,6 +139,18 @@ $routes->post('/' . bin2hex('guru/update/username'), 'guru\Akun::ac_set_uname');
 $routes->get('/' . bin2hex('guru') . '/' . bin2hex('update-password'), 'guru\Akun::update_pass');
 $routes->post('/' . bin2hex('guru/cek-password-lama'), 'guru\Akun::cek_pass_lama');
 $routes->post('/' . bin2hex('guru/update/password'), 'guru\Akun::ac_set_password');
+
+// libur
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('hari-libur'), 'admin\MasterLibur::index');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('add-libur'), 'admin\MasterLibur::ac_add');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('update-libur'), 'admin\MasterLibur::ac_update');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('delete-libur'), 'admin\MasterLibur::ac_delete');
+
+//pembaruan
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('pembaruan'), 'admin\MasterUpdate::index');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('cek-pembaruan'), 'admin\MasterUpdate::cek_pembaruan');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('unduh-pembaruan'), 'admin\MasterUpdate::unduh_pembaruan');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan'), 'admin\MasterUpdate::terapkan_pembaruan');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

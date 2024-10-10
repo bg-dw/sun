@@ -133,7 +133,7 @@ function isSunday($date)
                             <th class="text-center">JML</th>
                         </tr>
                         <?php
-                        // dd($rec);
+
                         $i = $sakit = $ijin = $alpha = $tot_sakit = $tot_ijin = $tot_alpha = 0;
                         if ($rec):
                             $h = 0;
@@ -155,7 +155,8 @@ function isSunday($date)
                                     $sakit = $ijin = $alpha = 0;
                                     $bar_sakit = $bar_ijin = $bar_alpha = 0;
                                     for ($j = 0; $j < $tot_hari; $j++): ?>
-                                        <?php if ((isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) && ($h == 0)) { ?>
+                                        <?php
+                                        if ((isSunday($sel_tahun . "-" . $sel_bulan . "-" . ($j + 1)) == 1) && ($h == 0)) { ?>
                                             <!-- hari minggu untuk rowspan -->
                                             <td class="text-center"
                                                 style="min-width: 20px;background-color:red;color:white;writing-mode: tb-rl;transform: rotate(-180deg);"
@@ -174,21 +175,31 @@ function isSunday($date)
                                                     <?php
                                                     if (isset($rec[$i][$x])):
                                                         if ($rec[$i][$x]["nama"] != ""):
+                                                            $cek = array_search(intval($hari[$i][$j]), $libur);//cek hari libur
+                                                            if (($cek !== false) && $x === 0)://jika hari libur
+                                                                echo "<span class='fas fa-circle'></span>";
+                                                            else:
+                                                            endif;
                                                             $get_tgl = explode("-", $rec[$i][$x]["tgl"]);
                                                             if (intval($get_tgl[2]) == $hari[$i][$j]):
-                                                                if ($rec[$i][$x]["absensi"] == "hadir"):
-                                                                    echo "<span class='fas fa-check'></span>";
-                                                                elseif ($rec[$i][$x]["absensi"] == "telat"):
-                                                                    echo "<span class='fas fa-times'></span>";
-                                                                elseif ($rec[$i][$x]["absensi"] == "sakit"):
-                                                                    $sakit++;
-                                                                    echo "<b>S</b>";
-                                                                elseif ($rec[$i][$x]["absensi"] == "ijin"):
-                                                                    $ijin++;
-                                                                    echo "<b>I</b>";
-                                                                elseif ($rec[$i][$x]["absensi"] == "alpha"):
-                                                                    $alpha++;
-                                                                    echo "<b>A</b>";
+                                                                $cek = array_search(intval($get_tgl[2]), $libur);//cek hari libur
+                                                                if ($cek !== false)://jika hari libur
+                                                                    echo "<span class='fas fa-circle'></span>";
+                                                                else:
+                                                                    if ($rec[$i][$x]["absensi"] == "hadir"):
+                                                                        echo "<span class='fas fa-check'></span>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "telat"):
+                                                                        echo "<span class='fas fa-times'></span>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "sakit"):
+                                                                        $sakit++;
+                                                                        echo "<b>S</b>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "ijin"):
+                                                                        $ijin++;
+                                                                        echo "<b>I</b>";
+                                                                    elseif ($rec[$i][$x]["absensi"] == "alpha"):
+                                                                        $alpha++;
+                                                                        echo "<b>A</b>";
+                                                                    endif;
                                                                 endif;
                                                             endif;
                                                         endif;
@@ -208,20 +219,30 @@ function isSunday($date)
                                                         if (isset($rec[$i][$x])):
                                                             if ($rec[$i][$x]["nama"] != ""):
                                                                 $get_tgl = explode("-", $rec[$i][$x]["tgl"]);
+                                                                $cek = array_search(intval($hari[$i][$j]), $libur);//cek hari libur
+                                                                if (($cek !== false) && $x === 0)://jika hari libur
+                                                                    echo "<span class='fas fa-circle'></span>";
+                                                                else:
+                                                                endif;
                                                                 if (intval($get_tgl[2]) == $hari[$i][$j]):
-                                                                    if ($rec[$i][$x]["absensi"] == "hadir"):
-                                                                        echo "<span class='fas fa-check'></span>";
-                                                                    elseif ($rec[$i][$x]["absensi"] == "telat"):
-                                                                        echo "<span class='fas fa-times'></span>";
-                                                                    elseif ($rec[$i][$x]["absensi"] == "sakit"):
-                                                                        $sakit++;
-                                                                        echo "<b>S</b>";
-                                                                    elseif ($rec[$i][$x]["absensi"] == "ijin"):
-                                                                        $ijin++;
-                                                                        echo "<b>I</b>";
-                                                                    elseif ($rec[$i][$x]["absensi"] == "alpha"):
-                                                                        $alpha++;
-                                                                        echo "<b>A</b>";
+                                                                    $cek = array_search(intval($get_tgl[2]), $libur);//cek hari libur
+                                                                    if ($cek !== false)://jika hari libur
+                                                                        echo "<span class='fas fa-circle'></span>";
+                                                                    else:
+                                                                        if ($rec[$i][$x]["absensi"] == "hadir"):
+                                                                            echo "<span class='fas fa-check'></span>";
+                                                                        elseif ($rec[$i][$x]["absensi"] == "telat"):
+                                                                            echo "<span class='fas fa-times'></span>";
+                                                                        elseif ($rec[$i][$x]["absensi"] == "sakit"):
+                                                                            $sakit++;
+                                                                            echo "<b>S</b>";
+                                                                        elseif ($rec[$i][$x]["absensi"] == "ijin"):
+                                                                            $ijin++;
+                                                                            echo "<b>I</b>";
+                                                                        elseif ($rec[$i][$x]["absensi"] == "alpha"):
+                                                                            $alpha++;
+                                                                            echo "<b>A</b>";
+                                                                        endif;
                                                                     endif;
                                                                 endif;
                                                             endif;
@@ -300,7 +321,7 @@ function isSunday($date)
                     </table>
                 </div>
                 <div class="row">
-                    <table style="font-weight: bold;">
+                    <table style="font-weight: bold; margin-right: 10px;">
                         <tr>
                             <td>Keterangan</td>
                             <td>:</td>
@@ -337,8 +358,25 @@ function isSunday($date)
                             <td>&nbsp;:</td>
                             <td>Alpha</td>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center"><span class='fas fa-circle'></span></td>
+                            <td>&nbsp;:</td>
+                            <td>Hari Libur</td>
+                        </tr>
                     </table>
-                    <table style="margin-left: 35%;">
+                    <div style="margin-left: 40px;margin-top: 25px;">
+                        <?php
+                        foreach ($list_libur as $row): ?>
+                            <label style="font-weight: bold;"><?php if (date('d', strtotime($row["tgl_awal"])) != date('d', strtotime($row["tgl_akhir"]))) {
+                                echo date('d', strtotime($row["tgl_awal"])) . "-" . date('d', strtotime($row["tgl_akhir"])) . "&nbsp;";
+                            } else {
+                                echo date('d', strtotime($row["tgl_awal"])) . "&emsp;&emsp;";
+                            } ?></label>
+                            <span><?= $row["ket_libur"] ?></span><br>
+                        <?php endforeach; ?>
+                    </div>
+                    <table style="margin-left: auto;margin-right: 0;">
                         <tr>
                             <td>Mengetahui</td>
                             <td></td>

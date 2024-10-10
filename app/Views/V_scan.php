@@ -16,32 +16,21 @@
     <style>
         body {
             overflow-x: hidden;
+            overflow-y: hidden;
         }
 
-        .Tg {
-            /* font-size: 3rem; */
-            color: white;
-            /* font-family: 'Merienda', cursive; */
-            animation-name: glow;
-            animation-duration: 1s;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0px 0px 5px #fff, 0px 0px 5px #614ad3;
-            }
-
-            to {
-                text-shadow: 0px 0px 20px #fff, 0px 0px 20px #614ad3;
-            }
+        .card {
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(6.6px);
+            -webkit-backdrop-filter: blur(6.6px);
         }
     </style>
-    <style></style>
 </head>
 
-<body class="dark theme-black">
+<body class="light theme-light">
     <div id="app">
         <section class="section" style="overflow: hidden;">
             <div class="row list m-2">
@@ -53,10 +42,14 @@
         </section>
         <section class="section">
             <div class="row">
-                <div class="col-md-12 Tg" style="margin-top: 2%;">
-                    <center>
-                        <h4>Dimohon untuk tidak <br> menggunakan mouse dan keyboard selama proses Absensi</h4>
-                    </center>
+                <div class="card card-primary mx-auto">
+                    <div class="card-body">
+                        <div class="col-md-12" style="margin-top: 2%;">
+                            <center>
+                                <h4>Dimohon untuk tidak <br> menggunakan mouse dan keyboard selama proses Absensi</h4>
+                            </center>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row m-2 mt-5">
@@ -66,7 +59,7 @@
                     </center>
                 </div>
                 <div class="col-md-7">
-                    <div class="card">
+                    <div class="card card-primary">
                         <div class="card-body">
                             <div class="text-right"><input id="tot_text" type="number" value="<?= $total_siswa; ?>"
                                     readonly style="display: none;">
@@ -90,12 +83,12 @@
                                 width="300px">
                         </center>
                     </div>
-                    <div class="card author-box">
+                    <div class="card card-primary author-box">
                         <div class="card-body">
                             <div class="author-box-center">
                                 <div class="clearfix"></div>
                                 <div class="author-box-name">
-                                    <h2 id="nama" class="text-white Tg">Nama</h2>
+                                    <h2 id="nama" class="">Nama</h2>
                                 </div>
                                 <div class="author-box-job">
                                     <h4 id="kelas">Kelas</h4>

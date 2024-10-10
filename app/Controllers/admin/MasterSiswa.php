@@ -38,8 +38,6 @@ class MasterSiswa extends BaseController
             $spreadsheet = $reader->load($file);
             $excel_data = $spreadsheet->getActiveSheet()->toArray();
             $arr = array();
-            echo count($excel_data) - 6;
-            dd($excel_data);
             $i = $j = 0;
             $nik = $nis = $nisn = $tmpt = $tgl = $asis = $ayah = $ibu = $p_ayah = $p_ibu = $al_ort = $nm_wali = $al_wali = "-";
             foreach ($excel_data as $key => $value) {
@@ -60,7 +58,7 @@ class MasterSiswa extends BaseController
                 if ($key <= 5) {
                     continue;
                 }
-                $where = "nik=" . $nik . " OR nisn=" . $nisn;
+                $where = "nik='" . $nik . "' AND nisn='" . $nisn . "'";
                 $cek_dup = $this->siswa->where($where)->first();//cek nik and nisn
                 if ($cek_dup) {
                     $id = $cek_dup['id_siswa'];

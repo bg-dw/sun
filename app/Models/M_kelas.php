@@ -23,6 +23,7 @@ class M_kelas extends Model
         $this->select('tbl_kelas.id_kelas,tbl_kelas.tingkat,tbl_kelas.kelas,tbl_periode.id_periode,tbl_periode.tahun_awal,tbl_periode.tahun_akhir,tbl_guru.id_guru,tbl_guru.nama_guru,tbl_guru.gelar_guru');
         $this->join('tbl_periode', 'tbl_kelas.id_periode = tbl_periode.id_periode');
         $this->join('tbl_guru', 'tbl_kelas.id_guru = tbl_guru.id_guru');
+        $this->where(['tbl_periode.status_periode' => "aktif"]);
         return $this->findAll();
     }
     function get_data_guru($kelas)

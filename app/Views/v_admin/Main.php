@@ -9,7 +9,9 @@
 </head>
 
 <body>
-    <div class="loader"></div>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
     <div id="app d-print-none">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
@@ -37,9 +39,6 @@
     <script src="<?= base_url() ?>/public/assets/js/app.min.js"></script>
     <!-- JS Libraies -->
     <script src="<?= base_url() ?>/public/assets/bundles/apexcharts/apexcharts.min.js"></script>
-    <!-- Page Specific JS File -->
-    <!-- <script src="<?= base_url() ?>/public/assets/js/page/chart-apexcharts.js"></script> -->
-    <!-- Template JS File -->
     <script src="<?= base_url() ?>/public/assets/bundles/datatables/datatables.min.js"></script>
     <script src="<?= base_url() ?>/public/assets/bundles/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script
@@ -53,22 +52,6 @@
     <!-- Custom JS File -->
     <script src="<?= base_url() ?>/public/assets/js/custom.js"></script>
     <?= $this->include('_layout/alert') ?>
-    <script>
-        $(function () {
-            // $('.date-d').datepicker({
-            //     changeMonth: true,
-            //     changeYear: true,
-            //     showButtonPanel: true,
-            //     dateFormat: 'dd'
-            // });
-            // $(".datepicker-d").daterangepicker(
-            //     {
-            //         dateFormat: 'dd',
-            //         singleDatePicker: true
-            //     }
-            // );
-        });
-    </script>
 </body>
 
 
