@@ -82,16 +82,6 @@ class MasterUpdate extends BaseController
         return json_encode($data);
     }
 
-    // public function unduh_pembaruan()
-    // {
-    //     $to = "app/Temp/Update/";
-    //     $url = $this->request->getPost('url');
-    //     $file_name = $to . basename($url);
-    //     if (!file_put_contents($file_name, file_get_contents($url))) {
-    //         return json_encode("Gagal Download Pembaruan!");
-    //     }
-    //     return json_encode($file_name);
-    // }
     public function terapkan_pembaruan()
     {
         $file_path = $this->request->getPost('path');

@@ -7,9 +7,6 @@
                 <h4 id="card-title">Pembaruan Website</h4>
             </div>
             <div class="card-body">
-                <!-- <button
-                    onclick="location.href='<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('cek-pembaruan')); ?>'">
-                    CEK </button> -->
                 <button class="btn btn-primary" onclick="get_update()" id="btn-cek-update">Cek
                     Pembaruan</button>
                 <div class="empty-state" style="display: none;" id="info-suc">
@@ -26,7 +23,7 @@
                         <div class="loader-inframe" id="loader-icon"></div>
                         <h4 id="loader-text"></h4>
                     </div>
-                    <button class="btn btn-primary mt-2" id="btn-apply" onclick="apply()">Terapkan
+                    <button class="btn btn-primary mt-2" id="btn-apply" onclick="download_update()">Terapkan
                         Pembaruan</button>
                 </div>
                 <div class="empty-state" style="display: none;" id="info-err">
@@ -74,7 +71,9 @@
     // function disableF5(e) {
     //     if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();
     // }
-    // let temp_url = "";
+    let temp_url = "";
+    let temp_path = "";
+    let temp_filename = "";
     function get_update() {
         $(".loader").show();
         $("#btn-cek-update").hide();
@@ -94,7 +93,10 @@
                     $('#msg').html(detail);
                     console.log(data);
                     $("#info-suc").show();
-                    download_update(data);
+                    temp_url = data.files.url;
+                    temp_path = data.files.filepath;
+                    temp_filename = data.files.filename;
+                    // download_update(data.files.url, data.files.filepath, data.files.filename);
                     notif("Berhasil mendapatkan data server!", "suc");
                 }
             },
@@ -107,13 +109,13 @@
         });
     }
 
-    function download_update(data) {
+    function download_update(url, path, filename) {
+        // console.log(temp_url);
         $("#text-apply").hide();
         $("#loader-text").html("Mengunduh Pembaruan");
         $("#load-data").show();
-        for (let index = 0; index < data.files.url.length; index++) {
-            const element = array[index];
-            $("#loader-text").html(apply(data.files.filepath[index], data.files.url[index], data.files.filename[index]));
+        for (let index = 0; index < url; index++) {
+            $("#loader-text").html(apply(path[index], url[index], filename[index]));
         }
     }
     function apply(path, url, file_name) {
@@ -125,14 +127,14 @@
                 let data = JSON.parse(result);
                 if (!data) {
                     console.log(result);
-                    return notif("Galat!", "err");
+                    return "GALAT!";
                 } else {
                     console.log(data);
                     return data;
                 }
             },
             error: function (result) {
-                return notif("Gagal menerapkan pembaruan!", "err");
+                return "Gagal menerapkan pembaruan!";
                 console.log(result);
             }
         });
