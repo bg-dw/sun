@@ -94,19 +94,14 @@ class MasterUpdate extends BaseController
     // }
     public function terapkan_pembaruan()
     {
-        $dir = "app/Temp/Update/";
         $file_path = $this->request->getPost('path');
-        $zip = new ZipArchive;
-        $res = $zip->open($file_path);
-        if ($res === TRUE) {
-            $zip->extractTo($dir);
-            $zip->close();
-            // unlink($dir . "*");
-        } else {
-            return json_encode($res);
-        }
-        $path = scandir($dir);
-        return json_encode($path);
+        $file_url = $this->request->getPost('url');
+        $file_name = $this->request->getPost('name');
+
+        $path = $file_path . "/";
+        $Content = file_get_contents($file_url);
+        file_put_contents($path, $Content);
+        return json_encode($file_name);
     }
 
 

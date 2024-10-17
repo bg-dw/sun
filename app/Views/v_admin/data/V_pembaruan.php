@@ -26,7 +26,7 @@
                         <div class="loader-inframe" id="loader-icon"></div>
                         <h4 id="loader-text"></h4>
                     </div>
-                    <button class="btn btn-primary mt-2" id="btn-apply" onclick="download_update()">Terapkan
+                    <button class="btn btn-primary mt-2" id="btn-apply" onclick="apply()">Terapkan
                         Pembaruan</button>
                 </div>
                 <div class="empty-state" style="display: none;" id="info-err">
@@ -113,15 +113,14 @@
         $("#load-data").show();
         for (let index = 0; index < data.files.url.length; index++) {
             const element = array[index];
-            apply(data.files.filepath[index], data.files.url[index]);
-
+            $("#loader-text").html(apply(data.files.filepath[index], data.files.url[index], data.files.filename[index]));
         }
     }
-    function apply(path, url) {
+    function apply(path, url, file_name) {
         $.ajax({
             url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan')); ?>",
             type: 'post',
-            data: { path: path, url: url },
+            data: { path: path, url: url, name: file_name },
             success: function (result) {
                 let data = JSON.parse(result);
                 if (!data) {
@@ -129,6 +128,7 @@
                     return notif("Galat!", "err");
                 } else {
                     console.log(data);
+                    return data;
                 }
             },
             error: function (result) {
