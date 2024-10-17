@@ -149,7 +149,7 @@ $routes->post('/' . bin2hex('admin') . '/' . bin2hex('delete-libur'), 'admin\Mas
 //pembaruan
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('pembaruan'), 'admin\MasterUpdate::index');
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('cek-pembaruan'), 'admin\MasterUpdate::cek_pembaruan');
-$routes->post('/' . bin2hex('admin') . '/' . bin2hex('unduh-pembaruan'), 'admin\MasterUpdate::unduh_pembaruan');
+// $routes->post('/' . bin2hex('admin') . '/' . bin2hex('unduh-pembaruan'), 'admin\MasterUpdate::unduh_pembaruan');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan'), 'admin\MasterUpdate::terapkan_pembaruan');
 /*
  * --------------------------------------------------------------------

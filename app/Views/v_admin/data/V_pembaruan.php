@@ -7,6 +7,9 @@
                 <h4 id="card-title">Pembaruan Website</h4>
             </div>
             <div class="card-body">
+                <!-- <button
+                    onclick="location.href='<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('cek-pembaruan')); ?>'">
+                    CEK </button> -->
                 <button class="btn btn-primary" onclick="get_update()" id="btn-cek-update">Cek
                     Pembaruan</button>
                 <div class="empty-state" style="display: none;" id="info-suc">
@@ -68,7 +71,10 @@
     </div>
 </div>
 <script>
-    let temp_url = "";
+    // function disableF5(e) {
+    //     if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();
+    // }
+    // let temp_url = "";
     function get_update() {
         $(".loader").show();
         $("#btn-cek-update").hide();
@@ -83,10 +89,12 @@
                     console.log(result);
                 } else {
                     const detail = data.msg.replace(/(\r\n|\r|\n)/g, '<br>');
-                    temp_url = data.url;
+                    console.log(data.files.url.length);
+                    console.log(data.files.filename[0]);
                     $('#msg').html(detail);
                     console.log(data);
                     $("#info-suc").show();
+                    download_update(data);
                     notif("Berhasil mendapatkan data server!", "suc");
                 }
             },
@@ -99,54 +107,61 @@
         });
     }
 
-    function download_update() {
+    function download_update(data) {
         $("#text-apply").hide();
         $("#loader-text").html("Mengunduh Pembaruan");
         $("#load-data").show();
+        for (let index = 0; index < data.files.url.length; index++) {
+            const element = array[index];
+            apply(data.files.filepath[index], data.files.url[index]);
+
+        }
+    }
+    function apply(path, url) {
         $.ajax({
-            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('unduh-pembaruan')); ?>",
+            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan')); ?>",
             type: 'post',
-            data: { url: temp_url },
+            data: { path: path, url: url },
             success: function (result) {
                 let data = JSON.parse(result);
                 if (!data) {
                     console.log(result);
+                    return notif("Galat!", "err");
                 } else {
                     console.log(data);
-                    apply_update(data);
                 }
             },
             error: function (result) {
-                notif("Gagal unduh pembaruan!", "err");
+                return notif("Gagal menerapkan pembaruan!", "err");
                 console.log(result);
             }
         });
     }
 
-    function apply_update(file) {
-        $("#loader-text").html("Menerapkan Pembaruan");
-        $.ajax({
-            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan')); ?>",
-            type: 'post',
-            data: { path: file },
-            success: function (result) {
-                let data = JSON.parse(result);
-                if (!data) {
-                    console.log("1");
-                    console.log(result);
-                } else {
-                    console.log("2");
-                    console.log(data);
-                    $("#loader-icon").hide();
-                    $("#btn-apply").hide();
-                    $("#loader-text").html("Pembaruan berhasil!");
-                }
-            },
-            error: function (result) {
-                notif("Gagal unduh pembaruan!", "err");
-                console.log(result);
-            }
-        });
-    }
+    // function apply_update(file) {
+    //     $("#loader-text").html("Menerapkan Pembaruan");
+    //     $.ajax({
+    //         url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan')); ?>",
+    //         type: 'post',
+    //         data: { path: file },
+    //         success: function (result) {
+    //             let data = JSON.parse(result);
+    //             if (!data) {
+    //                 console.log("1");
+    //                 console.log(result);
+    //             } else {
+    //                 console.log("2");
+    //                 console.log(data);
+    //                 $("#loader-icon").hide();
+    //                 $("#btn-apply").hide();
+    //                 $("#loader-text").html("Pembaruan berhasil!");
+    //             }
+    //         },
+    //         error: function (result) {
+    //             notif("Gagal unduh pembaruan!", "err");
+    //             console.log(result);
+    //         }
+    //     });
+    // }
 </script>
 <?= $this->endSection() ?>
