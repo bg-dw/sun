@@ -28,7 +28,7 @@ class MasterUpdate extends BaseController
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Accept:application/vnd.github+json',
             'User-Agent: bg-dw',
-            'Authorization:token ' . getenv('PAT'),
+            // 'Authorization:token ' . getenv('PAT'),
             'Content-Type: application/json',
         ]);
         // Sending GET request to reqres.in
@@ -60,7 +60,7 @@ class MasterUpdate extends BaseController
         if (!$res) {
             return json_encode("gagal update");
         }
-        dd($res);
+        // dd($res);
         $msg = $res->commit->message;
 
         $files = array();
@@ -122,43 +122,34 @@ class MasterUpdate extends BaseController
         return $response;
     }
 
-    public function downloadFileFromPrivateRepo($apiUrl, $token)
+    function downloadFile($url, $saveTo)
     {
-
         // Inisialisasi cURL
-        $ch = curl_init($apiUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: token ' . $token,
-            'User-Agent: YourAppName' // GitHub API memerlukan User-Agent
-        ]);
+        $ch = curl_init($url);
 
-        // Jalankan cURL dan ambil respons
-        $response = curl_exec($ch);
-        curl_close($ch);
+        // Membuka file untuk ditulis
+        $fp = fopen($saveTo, 'w+');
 
-        // Mengonversi JSON respons menjadi array
-        $data = json_decode($response, true);
-        return $response;
+        // Set opsi cURL
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Ikuti redirect jika ada
+        curl_setopt($ch, CURLOPT_TIMEOUT, 50);  // Set timeout 50 detik
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);  // Beri error jika HTTP status code >= 400
 
-        // Memeriksa apakah ada konten file dalam base64
-        if (isset($data['content'])) {
-            $fileContent = base64_decode($data['content']); // Decode base64 menjadi konten asli
-            $saveTo = "/"; // Path lokal tempat menyimpan file
+        // Jalankan cURL
+        $success = curl_exec($ch);
 
-            // Simpan konten file ke file lokal
-            file_put_contents($saveTo, $fileContent);
-            return "File berhasil disimpan di: $saveTo";
+        // Periksa apakah ada error
+        if ($success === false) {
+            return "Gagal mendownload file: " . curl_error($ch);
         } else {
-            return "Gagal mendapatkan konten file.";
+            return "File berhasil didownload ke: " . $saveTo;
         }
-    }
 
-    // Contoh penggunaan
-    // $username = 'your-username'; // Ganti dengan username GitHub
-    // $repo = 'your-private-repo'; // Ganti dengan nama repository
-    // $path = 'path/to/your/file.txt'; // Path file di dalam repo
-    // $token = 'your-personal-access-token'; // Ganti dengan token akses GitHub
+        // Tutup resource
+        curl_close($ch);
+        fclose($fp);
+    }
 
 
     public function terapkan_pembaruan()
@@ -168,66 +159,17 @@ class MasterUpdate extends BaseController
         $file_url = $this->request->getPost('url');
         $file_name = $this->request->getPost('name');
         $status = $this->request->getPost('status');
-
-        $x = $this->downloadFileFromPrivateRepo($file_url, "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");
-        return json_encode($x);
-        // Cek status file
-        if ($status == "removed") {
-            return json_encode("File " . $file_path . "/" . $file_name . " telah dihapus!");
+        // $url = "https://raw.githubusercontent.com/bg-dw/sun/614bb78aadb709d326ebcbc77c442b138c34d350/app/Controllers/admin/MasterUpdate.php";
+        $save_to = $file_path . "/" . $file_name;
+        // // // Cek apakah direktori dapat ditulis
+        if (!is_writable(dirname($file_path))) {
+            return json_encode("Directory is not writable.");
         }
-
-        // Personal Access Token dari GitHub (pastikan untuk mengamankan token ini)
-        $token = getenv('PAT'); // Ganti dengan token kamu
-
-        // Lokasi untuk menyimpan file
-        // $save_to = $file_path;
-        $save_to = "/";
-
-        // Cek apakah direktori dapat ditulis
-        // if (!is_writable(dirname($save_to))) {
-        //     return json_encode("Directory is not writable.");
-        // }
-
-        // Inisialisasi cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $file_url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: token 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',
-            'User-Agent: bg-dw',  // GitHub API memerlukan user-agent
-        ]);
-        $redirect_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-
-        // Jalankan cURL dan dapatkan respon
-        $response = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        return json_encode($redirect_url);
-
-        // Tutup cURL
-        // Periksa kode HTTP
-        if ($http_code !== 200) {
-            return json_encode("Gagal mendownload file. HTTP Status Code: $http_code");
+        $x = file_put_contents($save_to, file_get_contents($file_url));
+        if (!$x) {
+            return json_encode("Gagal : " . $save_to);
         }
-
-        // Mengubah respon JSON dari GitHub menjadi array
-        $data = json_decode($response, true);
-        if (!isset($data['content'])) {
-            return json_encode("Konten tidak ditemukan dalam respon.");
-        }
-
-        // Data file terkode dalam base64, kita perlu mendekode file tersebut
-        $file_content = base64_decode($data['content']);
-
-        // Simpan file ke folder lokal
-        if (file_put_contents($save_to, $file_content)) {
-            return json_encode("File berhasil didownload dan disimpan di: $save_to");
-        } else {
-            return json_encode("Gagal menyimpan file.");
-        }
-        curl_close($ch);
+        return json_encode($file_name);
     }
 
 }
