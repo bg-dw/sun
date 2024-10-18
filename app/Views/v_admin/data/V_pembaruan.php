@@ -115,9 +115,9 @@
         $("#loader-text").html("Mengunduh Pembaruan");
         $("#load-data").show();
         for (var i = 0; i < temp_url.length; i++) {
+            $("#loader-icon").show();
             apply_update(temp_path[i], temp_url[i], temp_filename[i], temp_status[i]);
         }
-        $("#loader-icon").hide();
     }
     function apply_update(filepath, file_url, file_name, status) {
         $.ajax({
@@ -137,7 +137,9 @@
                 } else {
                     console.log(data);
                     $("#loader-text").html(data);
-                    $("#loader-text").html("Diterapkan!");
+                    $("#loader-text").html("Berhasil diterapkan!");
+                    $("#loader-icon").hide();
+                    $("#btn-apply").hide();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

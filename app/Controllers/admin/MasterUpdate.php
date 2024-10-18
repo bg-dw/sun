@@ -88,70 +88,6 @@ class MasterUpdate extends BaseController
         return json_encode($data);
     }
 
-    public function get_files($file_url)
-    { // Inisialisasi cURL
-        $ch = curl_init();
-
-        // Set opsi cURL untuk mengarahkan output langsung ke file
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept:application/vnd.github+json',
-            'User-Agent: bg-dw',
-            'Authorization:token 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',
-            'Content-Type: application/json',
-        ]);
-        // Sending GET request to reqres.in
-        // server to get JSON data
-        curl_setopt(
-            $ch,
-            CURLOPT_URL,
-            $file_url
-        );
-
-        // Telling curl to store JSON
-        // data in a variable instead
-        // of dumping on screen
-        curl_setopt(
-            $ch,
-            CURLOPT_RETURNTRANSFER,
-            true
-        );
-
-        // Executing curl
-        $response = json_decode(curl_exec($ch));
-        curl_close($ch);
-        return $response;
-    }
-
-    function downloadFile($url, $saveTo)
-    {
-        // Inisialisasi cURL
-        $ch = curl_init($url);
-
-        // Membuka file untuk ditulis
-        $fp = fopen($saveTo, 'w+');
-
-        // Set opsi cURL
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Ikuti redirect jika ada
-        curl_setopt($ch, CURLOPT_TIMEOUT, 50);  // Set timeout 50 detik
-        curl_setopt($ch, CURLOPT_FAILONERROR, true);  // Beri error jika HTTP status code >= 400
-
-        // Jalankan cURL
-        $success = curl_exec($ch);
-
-        // Periksa apakah ada error
-        if ($success === false) {
-            return "Gagal mendownload file: " . curl_error($ch);
-        } else {
-            return "File berhasil didownload ke: " . $saveTo;
-        }
-
-        // Tutup resource
-        curl_close($ch);
-        fclose($fp);
-    }
-
-
     public function terapkan_pembaruan()
     {
         // Mendapatkan data dari POST
@@ -159,7 +95,9 @@ class MasterUpdate extends BaseController
         $file_url = $this->request->getPost('url');
         $file_name = $this->request->getPost('name');
         $status = $this->request->getPost('status');
-        // $url = "https://raw.githubusercontent.com/bg-dw/sun/614bb78aadb709d326ebcbc77c442b138c34d350/app/Controllers/admin/MasterUpdate.php";
+        if ($status == "removed") {
+            return json_encode($file_name . " telah dihapus oleh admin!");
+        }
         $save_to = $file_path . "/" . $file_name;
         // // // Cek apakah direktori dapat ditulis
         if (!is_writable(dirname($file_path))) {
