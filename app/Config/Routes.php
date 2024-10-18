@@ -151,6 +151,7 @@ $routes->get('/' . bin2hex('admin') . '/' . bin2hex('pembaruan'), 'admin\MasterU
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('cek-pembaruan'), 'admin\MasterUpdate::cek_pembaruan');
 // $routes->post('/' . bin2hex('admin') . '/' . bin2hex('unduh-pembaruan'), 'admin\MasterUpdate::unduh_pembaruan');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan'), 'admin\MasterUpdate::terapkan_pembaruan');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan'), 'admin\MasterUpdate::terapkan_pembaruan');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
