@@ -30,7 +30,7 @@
                     <div class="empty-state-icon bg-danger">
                         <i class="fas fa-times"></i>
                     </div>
-                    <h2>Gagal mendapatkan pembaruan</h2>
+                    <h2 id="err-text">Gagal mendapatkan pembaruan</h2>
                     <p class="lead">
                         Coba lagi?
                     </p>
@@ -79,11 +79,16 @@
         $(".loader").show();
         $("#btn-cek-update").hide();
         $("#info-err").hide();
+        if (!window.navigator.onLine) {
+            $("#info-err").show();
+            $("#err-text").html("Anda sedang offline, periksa kembali internet anda!");
+        }
         $.ajax({
             url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('cek-pembaruan')); ?>",
             type: 'get',
             success: function (result) {
                 $(".loader").hide();
+                console.log(result);
                 var data = JSON.parse(result);
                 if (!data) {
                     console.log(result);
@@ -99,6 +104,7 @@
                         temp_status.push(data.files.status[index]);
                     }
                     notif("Berhasil mendapatkan data server!", "suc");
+                    $("#info-err").hide();
                 }
             },
             error: function (result) {

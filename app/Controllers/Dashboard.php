@@ -56,7 +56,7 @@ class Dashboard extends BaseController
 			$mc = explode('.', $this->dec($res['unc']));
 
 			//dir key
-			$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\app\Code';
+			$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\assets\code';
 
 			$cek = false;
 			if ($res['cek']) {

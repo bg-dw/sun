@@ -3,18 +3,14 @@
 namespace App\Controllers\admin;
 
 use App\Controllers\BaseController;
-use ZipArchive;
-// use App\Models\M_libur;
 
 class MasterUpdate extends BaseController
 {
-    // protected $libur;
     public function __construct()
     {
         $this->is_session_available();
-        // $this->libur = new M_libur();
     }
-    //index libur
+    //index Update
     public function index()
     {
         $data['title'] = 'Pembaruan';
@@ -28,7 +24,6 @@ class MasterUpdate extends BaseController
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Accept:application/vnd.github+json',
             'User-Agent: bg-dw',
-            // 'Authorization:token ' . getenv('PAT'),
             'Content-Type: application/json',
         ]);
         // Sending GET request to reqres.in
@@ -58,9 +53,9 @@ class MasterUpdate extends BaseController
     {
         $res = $this->cek_data();
         if (!$res) {
-            return json_encode("gagal update");
+            return json_encode(false);
         }
-        // dd($res);
+
         $msg = $res->commit->message;
 
         $files = array();
@@ -70,17 +65,11 @@ class MasterUpdate extends BaseController
             array_pop($temp_file);// menghilangkan nilai terakhir dari array
             $path_file = implode("/", $temp_file);// membuat array menjadi string
 
-
-            // $x = explode("/", $val->raw_url);
-            // array_splice($x, 5, 1);
-            // $x[2] = "raw.githubusercontent.com";
-            // $temp_url = implode("/", $x);
             $files['url'][] = $val->raw_url;
             $files['filepath'][] = $path_file;
             $files['filename'][] = $name_file;
             $files['status'][] = $val->status;
         }
-        // $x = explode("/", $res->files[0]->raw_url);
 
         $data['msg'] = $msg;
         $data['files'] = $files;

@@ -97,7 +97,7 @@ class BaseController extends Controller
 
 	public function dir_is_empty()
 	{
-		$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\app\Code';
+		$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\assets\code';
 		$handle = opendir($dir);
 		while (false !== ($entry = readdir($handle))) {
 			if ($entry != "." && $entry != "..") {
@@ -115,7 +115,7 @@ class BaseController extends Controller
 		if ($this->dir_is_empty() === 1) {
 			return false;
 		} else {
-			$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\app\Code';//path of file
+			$dir = realpath($_SERVER["DOCUMENT_ROOT"]) . '\sun\assets\code';//path of file
 			$temp_file = strval($dir) . "\key.txt";
 			$cek_file = file_exists($temp_file);//file is exist? true|false
 			if ($cek_file) {
