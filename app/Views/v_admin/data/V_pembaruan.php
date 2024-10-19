@@ -68,13 +68,9 @@
     </div>
 </div>
 <script>
-    // function disableF5(e) {
-    //     if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();
-    // }
-    let temp_url = [];
-    let temp_path = [];
-    let temp_filename = [];
-    let temp_status = [];
+    let temp_data = [];
+    let gagal = 0;
+    let berhasil = 0;
     function get_update() {
         $(".loader").show();
         $("#btn-cek-update").hide();
@@ -88,7 +84,6 @@
             type: 'get',
             success: function (result) {
                 $(".loader").hide();
-                console.log(result);
                 var data = JSON.parse(result);
                 if (!data) {
                     console.log(result);
@@ -98,10 +93,7 @@
                     $("#info-suc").show();
 
                     for (var index = 0; index < data.files.url.length; index++) {
-                        temp_url.push(data.files.url[index]);
-                        temp_path.push(data.files.filepath[index]);
-                        temp_filename.push(data.files.filename[index]);
-                        temp_status.push(data.files.status[index]);
+                        temp_data.push([data.files.filepath[index], data.files.url[index], data.files.filename[index], data.files.status[index]]);
                     }
                     notif("Berhasil mendapatkan data server!", "suc");
                     $("#info-err").hide();
@@ -122,7 +114,7 @@
         $("#load-data").show();
         for (var i = 0; i < temp_url.length; i++) {
             $("#loader-icon").show();
-            apply_update(temp_path[i], temp_url[i], temp_filename[i], temp_status[i]);
+            apply_update(temp_data[i][0], temp_data[i][1], temp_data[i][2], temp_data[i][3],);
         }
     }
     function apply_update(filepath, file_url, file_name, status) {
@@ -141,9 +133,10 @@
                     console.log(result);
                     $("#loader-text").html("GALAT!");
                 } else {
-                    console.log(data);
+                    if (data == false) { gagal++; } else { berhasil++; }
+
                     $("#loader-text").html(data);
-                    $("#loader-text").html("Berhasil diterapkan!");
+                    $("#loader-text").html("Gagal diperbaharui : " + gagal + ", Berhasil diterapkan : " + berhasil);
                     $("#loader-icon").hide();
                     $("#btn-apply").hide();
                 }

@@ -87,6 +87,21 @@ class MasterUpdate extends BaseController
         if ($status == "removed") {
             return json_encode($file_name . " telah dihapus oleh admin!");
         }
+        if (!file_exists($file_path)) {
+            $x = mkdir($file_path, 0777, true);
+            $save_to = $file_path . "/" . $file_name;
+            // // // Cek apakah direktori dapat ditulis
+            if (!is_writable(dirname($file_path))) {
+                return json_encode("Directory is not writable.");
+            }
+            $x = file_put_contents($save_to, file_get_contents($file_url));
+            if (!$x) {
+                return json_encode(false);
+            }
+            return json_encode($file_name);
+        }
+        // return json_encode(file_exists($file_path));
+
         $save_to = $file_path . "/" . $file_name;
         // // // Cek apakah direktori dapat ditulis
         if (!is_writable(dirname($file_path))) {
@@ -94,7 +109,7 @@ class MasterUpdate extends BaseController
         }
         $x = file_put_contents($save_to, file_get_contents($file_url));
         if (!$x) {
-            return json_encode("Gagal : " . $save_to);
+            return json_encode(false);
         }
         return json_encode($file_name);
     }
