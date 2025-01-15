@@ -13,15 +13,14 @@ class Login extends BaseController
     {
         $this->guru = new M_guru();
         $this->periode = new M_periode();
+        if (!$this->itr()) {
+            redirect()->route('/');
+        }
     }
 
     public function index()
     {
-        if ($this->itr()) {
-            return view('V_login');
-        } else {
-            return redirect()->route('/');
-        }
+        return view('V_login');
     }
     public function auth()
     {

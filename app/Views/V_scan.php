@@ -15,8 +15,8 @@
     <script src="<?= base_url() ?>/public/assets/js/jquery-3.7.0.js"></script>
     <style>
         body {
-            overflow-x: hidden;
-            overflow-y: hidden;
+            /* overflow-x: hidden;
+            overflow-y: hidden; */
         }
 
         .card {
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row m-2 mt-5">
+            <div class="row m-2 mt-3">
                 <div class="col-md-12">
                     <center>
                         <h1 id="sh_inp"></h1>
@@ -80,7 +80,7 @@
                     <div class="author-box-center">
                         <center>
                             <img alt="image" id="pic" src="<?= base_url() ?>/public/assets/img/default.png" class=""
-                                width="300px">
+                                width="300vw" height="300vh">
                         </center>
                     </div>
                     <div class="card card-primary author-box">

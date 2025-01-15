@@ -13,6 +13,9 @@ class Home extends BaseController
     protected $dashboard, $guru, $home, $presensi;
     public function __construct()
     {
+        if (!$this->itr()) {
+            redirect()->route('/');
+        }
         $this->is_session_available();
         $this->dashboard = new M_dashboard();
         $this->guru = new M_guru();

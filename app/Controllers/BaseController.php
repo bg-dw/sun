@@ -120,20 +120,20 @@ class BaseController extends Controller
 			$cek_file = file_exists($temp_file);//file is exist? true|false
 			if ($cek_file) {
 				$file = file_get_contents($temp_file, FILE_USE_INCLUDE_PATH);
-				$list_key = explode(PHP_EOL, $file);
+				$list_key = explode(",", $file);
+				$benar = 0;
+				$temp_mc = "";
 				foreach ($list_key as $x) {
 					$string = preg_replace("/\s+/", '', $x);//delete all whitespace
 
 					$tfile = $this->dec($string);//decrypt key
 					$mc = explode('.', $tfile);//make an array of key
-
-					return $this->get_mac();
+					$temp_mc .= $this->enc($mc[0]) . "|";
 					if ($this->enc($mc[0]) === $auth) {//check first array of key
-						return true;
-					} else {
-						return false;
+						$benar = true;
 					}
 				}
+				return $benar;
 			} else {
 				return false;
 			}

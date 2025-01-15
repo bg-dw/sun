@@ -4,27 +4,28 @@
     <div class="col-12">
         <div class="card card-primary">
             <div class="card-header">
-                <h4 id="card-title">Pembaruan Website</h4>
+                <h4 id="card-title">Sinkron File</h4>
             </div>
             <div class="card-body">
-                <button class="btn btn-primary" onclick="get_update()" id="btn-cek-update">Cek
-                    Pembaruan</button>
+                <button class="btn btn-primary" onclick="get_update()" id="btn-cek-update">Sinkron</button>
                 <div class="empty-state" style="display: none;" id="info-suc">
                     <div class="empty-state-icon bg-success">
                         <i class="fas fa-check"></i>
                     </div>
-                    <h2>Pembaruan ditemukan</h2>
+                    <h2>File Ditemukan</h2>
                     <div class="alert alert-success" id="msg">
                     </div>
                     <p class="lead mt-4" id="text-apply">
-                        Apakah anda ingin menerapkan pembaruan?
                     </p>
+                </div>
+                <div class="empty-state" style="display: none;" id="execute">
+                    <div id="timer-box" style="display: none;">
+                        <h4><span id="timer" class="badge badge-secondary"></span></h4>
+                    </div>
                     <div id="load-data" style="display: none;">
                         <div class="loader-inframe" id="loader-icon"></div>
                         <h4 id="loader-text"></h4>
                     </div>
-                    <button class="btn btn-primary mt-2" id="btn-apply" onclick="download_update()">Terapkan
-                        Pembaruan</button>
                 </div>
                 <div class="empty-state" style="display: none;" id="info-err">
                     <div class="empty-state-icon bg-danger">
@@ -69,18 +70,29 @@
 </div>
 <script>
     let temp_data = [];
-    let gagal = 0;
-    let berhasil = 0;
+
+    let startTime = Date.now();
+    let interval;
+    function start() {
+        interval = setInterval(function () {
+            var elapsedTime = Date.now() - startTime;
+            document.getElementById("timer").innerHTML = (elapsedTime / 1000).toFixed(1) + " s";
+        }, 100);
+    }
     function get_update() {
+        start();
         $(".loader").show();
+        $("#execute").show();
         $("#btn-cek-update").hide();
+        $("#timer-box").show();
         $("#info-err").hide();
         if (!window.navigator.onLine) {
             $("#info-err").show();
             $("#err-text").html("Anda sedang offline, periksa kembali internet anda!");
         }
+
         $.ajax({
-            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('cek-pembaruan')); ?>",
+            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('cek-file')); ?>",
             type: 'get',
             success: function (result) {
                 $(".loader").hide();
@@ -91,10 +103,10 @@
                     const detail = data.msg.replace(/(\r\n|\r|\n)/g, '<br>');
                     $('#msg').html(detail);
                     $("#info-suc").show();
-
-                    for (var index = 0; index < data.files.url.length; index++) {
-                        temp_data.push([data.files.filepath[index], data.files.url[index], data.files.filename[index], data.files.status[index]]);
-                    }
+                    temp_data.push(data.ver);
+                    temp_data.push(data.raw);
+                    temp_data.push(data.msg);
+                    download_file();
                     notif("Berhasil mendapatkan data server!", "suc");
                     $("#info-err").hide();
                 }
@@ -107,25 +119,26 @@
             }
         });
     }
-
-    function download_update() {
-        $("#text-apply").hide();
-        $("#loader-text").html("Mengunduh Pembaruan");
-        $("#load-data").show();
-        for (var i = 0; i < temp_data.length; i++) {
-            $("#loader-icon").show();
-            apply_update(temp_data[i][0], temp_data[i][1], temp_data[i][2], temp_data[i][3],);
-        }
+    function stop() {
+        clearInterval(interval);
     }
-    function apply_update(filepath, file_url, file_name, status) {
+
+    function download_file() {
+        $("#text-apply").hide();
+        $("#info-suc").hide();
+        $("#loader-text").html("Mengunduh Sumber File");
+        $("#load-data").show();
+        $("#loader-icon").show();
+        apply_update();
+    }
+    function apply_update() {
         $.ajax({
-            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('terapkan-pembaruan')); ?>",
+            url: "<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('perbaharui')); ?>",
             type: 'POST',
             data: {
-                path: filepath,
-                url: file_url,
-                name: file_name, // Nama file saat disimpan
-                status: status // Status file, sesuaikan dengan kebutuhan 
+                ver: temp_data[0],
+                url: temp_data[1],
+                msg: temp_data[2]
             },
             success: function (result) {
                 var data = JSON.parse(result);
@@ -133,12 +146,10 @@
                     console.log(result);
                     $("#loader-text").html("GALAT!");
                 } else {
-                    if (data == false) { gagal++; } else { berhasil++; }
-
                     $("#loader-text").html(data);
-                    $("#loader-text").html("Gagal diperbaharui : " + gagal + ", Berhasil diterapkan : " + berhasil);
                     $("#loader-icon").hide();
                     $("#btn-apply").hide();
+                    stop();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

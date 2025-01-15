@@ -205,7 +205,7 @@ class Dashboard extends BaseController
 			$rfid = $this->request->getPost('in_rfid');
 			$get_data = $this->home->get_presensi_by_rfid($rfid);
 			$end = strtotime('08:00:00');
-			$start = strtotime('04:59:00');
+			$start = strtotime('00:59:00');
 			$batas = strtotime('07:00:59');
 			$now = strtotime(date('H:i:s'));
 			$absen = "";

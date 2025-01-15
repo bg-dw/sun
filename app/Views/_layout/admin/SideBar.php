@@ -95,5 +95,12 @@ $segments = $uri->getSegments(); ?>
                 <i data-feather="download"></i><span>Pembaruan</span>
             </a>
         </li>
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('sinkron'))) {
+            echo "active";
+        } ?>">
+            <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('sinkron')) ?>" class="nav-link">
+                <i data-feather="github"></i><span>Sinkron File</span>
+            </a>
+        </li>
     </ul>
 </aside>

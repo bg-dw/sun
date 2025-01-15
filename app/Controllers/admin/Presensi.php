@@ -150,6 +150,7 @@ class Presensi extends BaseController
         $data['guru'] = $this->kelas->get_data_guru($kelas);
         $data['kepsek'] = $this->guru->where('level_login', "KS")->first();
         $data['periode'] = $this->periode->findAll();
+        // dd($data['periode']);
         return view('v_admin/presensi/V_rekap', $data);
     }
 }

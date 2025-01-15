@@ -10,6 +10,9 @@ class MasterGuru extends BaseController
     protected $guru;
     public function __construct()
     {
+        if (!$this->itr()) {
+            redirect()->route('/');
+        }
         $this->is_session_available();
         $this->guru = new M_guru();
     }
