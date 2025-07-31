@@ -60,6 +60,8 @@ $routes->get('/' . bin2hex('admin') . '/' . bin2hex('presensi'), 'admin\Presensi
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('presensi'), 'admin\Presensi::index');
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi'), 'admin\Presensi::rekap');
 $routes->post('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi'), 'admin\Presensi::rekap');
+$routes->get('/' . bin2hex('admin') . '/' . bin2hex('edit-presensi'), 'admin\Presensi::edit');
+$routes->post('/' . bin2hex('admin') . '/' . bin2hex('update-presensi') . '/' . bin2hex('multiple'), 'admin\Presensi::update_multiple');
 
 //data master periode
 $routes->get('/' . bin2hex('admin') . '/' . bin2hex('data-periode'), 'admin\MasterPeriode::index');

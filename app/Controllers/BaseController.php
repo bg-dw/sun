@@ -156,6 +156,11 @@ class BaseController extends Controller
 		);
 		return $decryption; //return value dec
 	}
+
+	public function bulan()
+	{
+		return ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+	}
 	/**
 	 * An array of helpers to be loaded automatically upon
 	 * class instantiation. These helpers will be available

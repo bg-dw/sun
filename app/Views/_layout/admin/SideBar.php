@@ -17,7 +17,7 @@ $segments = $uri->getSegments(); ?>
             <a href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('home')) ?>" class="nav-link"><i
                     data-feather="monitor"></i><span>Dashboard</span></a>
         </li>
-        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('presensi') || $segments[1] === bin2hex('rekap-presensi'))) {
+        <li class="dropdown <?php if ($segments[0] === bin2hex('admin') && ($segments[1] === bin2hex('presensi') || $segments[1] === bin2hex('rekap-presensi') || $segments[1] === bin2hex('edit-presensi'))) {
             echo "active";
         } ?>">
             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="list"></i><span>Presensi</span></a>
@@ -30,6 +30,11 @@ $segments = $uri->getSegments(); ?>
                     echo "active";
                 } ?>"><a class="nav-link"
                         href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('rekap-presensi')) ?>">Rekap
+                        Presensi</a></li>
+                <li class="<?php if ($segments[0] === bin2hex('admin') && $segments[1] === bin2hex('edit-presensi')) {
+                    echo "active";
+                } ?>"><a class="nav-link"
+                        href="<?= base_url('/' . bin2hex('admin') . '/' . bin2hex('edit-presensi')) ?>">Edit
                         Presensi</a></li>
             </ul>
         </li>

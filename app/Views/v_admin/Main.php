@@ -51,6 +51,49 @@
     <script src="<?= base_url() ?>/public/assets/js/scripts.js"></script>
     <!-- Custom JS File -->
     <script src="<?= base_url() ?>/public/assets/js/custom.js"></script>
+    <script>
+        $(function () {
+            $('.daterange-cus').daterangepicker({
+                locale: {
+                    format: 'MM/DD/YYYY',
+                    daysOfWeek: ['Min', 'Sen', 'Sel', 'Rabu', 'Kam', 'Jum', 'Sab'],
+                    monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                    firstDay: 0
+                },
+                drops: 'down',
+                opens: 'right',
+                autoApply: false,
+            });
+            $('.daterange-weeks').daterangepicker({
+                locale: {
+                    format: 'MM/DD/YYYY',
+                    daysOfWeek: ['Min', 'Sen', 'Sel', 'Rabu', 'Kam', 'Jum', 'Sab'],
+                    monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                    firstDay: 0
+                },
+                dateLimit: {
+                    'days': 7
+                },
+                drops: 'down',
+                opens: 'right',
+                autoApply: false,
+            });
+            $('.daterange-max').daterangepicker({
+                locale: {
+                    format: 'MM/DD/YYYY',
+                    daysOfWeek: ['Min', 'Sen', 'Sel', 'Rabu', 'Kam', 'Jum', 'Sab'],
+                    monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                    firstDay: 0
+                },
+                dateLimit: {
+                    'months': 1
+                },
+                drops: 'down',
+                opens: 'right',
+                autoApply: false,
+            });
+        });
+    </script>
     <?= $this->include('_layout/alert') ?>
 </body>
 

@@ -118,4 +118,5 @@ class MasterPresensi extends BaseController
             return redirect()->route(bin2hex('admin') . '/' . bin2hex('data-presensi'));
         }
     }
+
 }

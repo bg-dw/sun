@@ -8,6 +8,9 @@
         </li>
     </ul>
 </div>
+<div class="form-inline mr-auto d-print-none d-flex justify-content-center">
+    <h4>PERIODE <?= session()->get('periode') ?></h4>
+</div>
 <ul class="navbar-nav navbar-right d-print-none">
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="<?= base_url() ?>/public/assets/img/user.png" class="user-img-radious-style"> <span

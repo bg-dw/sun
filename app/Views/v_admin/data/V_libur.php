@@ -141,19 +141,6 @@
     </div>
 </div>
 <script>
-    $(function () {
-        $('.daterange-cus').daterangepicker({
-            locale: {
-                format: 'MM/DD/YYYY',
-                daysOfWeek: ['Min', 'Sen', 'Sel', 'Rabu', 'Kam', 'Jum', 'Sab'],
-                monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-                firstDay: 0
-            },
-            drops: 'down',
-            opens: 'right',
-            autoApply: false,
-        });
-    });
     $('#btn-add').click(function () {
         $('#tbl-data').hide('slow');
         $('#btn-add').hide('slow');
