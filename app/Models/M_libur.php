@@ -26,4 +26,11 @@ class M_libur extends Model
         $this->orderBy('tbl_libur.tgl_awal', 'ASC');
         return $this->findAll();
     }
+    function get_data_libur_by($id_periode, $date)
+    {
+        $this->select('tbl_libur.id_libur');
+        $this->where('"' . $date . '" BETWEEN tgl_awal AND tgl_akhir');
+        $this->where('id_periode="' . $id_periode . '"');
+        return $this->findAll();
+    }
 }

@@ -54,6 +54,15 @@ class M_presensi extends Model
         $this->where(['tbl_periode.status_periode' => "aktif", 'tbl_detail_absensi.tgl_absensi' => date("Y-m-d")]);
         return $this->findAll();
     }
+    function get_today_by($date)
+    {
+        $this->select('tbl_detail_absensi.id_absensi');
+        $this->join('tbl_detail_absensi', 'tbl_absensi.id_absensi=tbl_detail_absensi.id_absensi');
+        $this->join('tbl_kelas', 'tbl_absensi.id_kelas = tbl_kelas.id_kelas');
+        $this->join('tbl_periode', 'tbl_periode.id_periode = tbl_kelas.id_periode');
+        $this->where(['tbl_periode.status_periode' => "aktif", 'tbl_detail_absensi.tgl_absensi' => $date]);
+        return $this->findAll();
+    }
 
     function get_data_presensi_kelas()
     {

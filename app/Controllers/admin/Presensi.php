@@ -155,94 +155,85 @@ class Presensi extends BaseController
 
     public function edit()
     {
-        $set = $this->request->getPost('kelas');
-        $bulan = $this->request->getPost('bulan');
-        $tahun = $this->request->getPost('tahun');
-
-        $list_libur = $this->libur->get_data_libur($bulan, $tahun);
-        $tgl_libur = array();
-        foreach ($list_libur as $val) {//create array of hari libur
-            $tgl_1 = date("d", strtotime($val['tgl_awal']));
-            $tgl_2 = date("d", strtotime($val['tgl_akhir']));
-            if ($tgl_1 != $tgl_2) {// if there is an range between two date
-                for ($i = $tgl_1; $i <= $tgl_2; $i++) {
-                    array_push($tgl_libur, intval($i));
-                }
-            } else {
-                array_push($tgl_libur, intval($tgl_1));
-            }
-        }
-
-        $bulan_now = date('m');
-        $tahun_now = date('Y');
-        if (isset($bulan) && isset($tahun)) {
-            $bulan_now = $bulan;
-            $tahun_now = $tahun;
-        }
-        $kelas = "I";
-        if (isset($set)) {
-            $kelas = $set;
-        }
-
-        $tot_hari = cal_days_in_month(CAL_GREGORIAN, $bulan_now, $tahun_now);
-        $siswa = $this->presensi->get_data_presensi_by($kelas);
-        $rekap = $this->home->get_rekap($kelas, $bulan_now, $tahun_now);
-
-        $rec = array();
-        $i = 0;
-        foreach ($siswa as $row) {
-            $j = 0;
-            foreach ($rekap as $col) {
-                if ($row["id_siswa"] == $col["id_siswa"]):
-                    $rec[$i][$j] = [
-                        "nama" => $col["nama"],
-                        "jk" => $col["jk"],
-                        "jam" => $col["jam_absensi"],
-                        "tgl" => $col["tgl_absensi"],
-                        "absensi" => $col["absensi"]
-                    ];
-                    $j++;
-                else:
-                    $rec[$i][$j] = [
-                        "nama" => "",
-                        "jk" => "",
-                        "jam" => "",
-                        "tgl" => "",
-                        "absensi" => ""
-                    ];
-                endif;
-            }
-            $i++;
-        }
-
-
-        $hari = array();
-        $i = 0;
-        foreach ($siswa as $row) {
-            for ($j = 0; $j < $tot_hari; $j++) {
-                $hari[$i][$j] = $j + 1;
-            }
-            $i++;
-        }
-
-        $data['title'] = 'Edit Multiple';
-        $data['list_libur'] = $list_libur;
-        $data['libur'] = $tgl_libur;
-        $data['sel_kelas'] = $set;
-        $data['sel_bulan'] = $bulan_now;
-        $data['sel_tahun'] = $tahun_now;
-        $data['tot_hari'] = $tot_hari;
-        $data['siswa'] = $siswa; //daftar siswa
-        $data['rec'] = $rec; //data absensi
-        $data['hari'] = $hari; //daftar hari per siswa
-        $data['bulan'] = $this->bulan();
-        $data['kelas'] = $this->kelas->get_data_kelas();
-        $data['guru'] = $this->kelas->get_data_guru($kelas);
-        $data['kepsek'] = $this->guru->where('level_login', "KS")->first();
-        $data['periode'] = $this->periode->findAll();
+        $data['title'] = 'Edit';
         return view('v_admin/presensi/V_edit', $data);
     }
 
+    //mendapatkan daftar tanggal
+    public function list_tanggal($tgl_awal, $tgl_akhir)
+    {
+        $startDate = new \DateTime($tgl_awal);// tanda "\" unttuk global namespace, karena DateTime build-in php
+        $endDate = new \DateTime($tgl_akhir);
+
+        // Create DatePeriod object
+        $interval = new \DateInterval('P1D');
+
+        // 1 day interval
+        $dateRange = new \DatePeriod($startDate, $interval, $endDate->modify('+1 day'));
+
+        // Collect dates in an array
+        $dates = [];
+        foreach ($dateRange as $date) {
+            $dates[] = $date->format('Y-m-d');
+
+        }
+        return $dates;
+    }
+
+    //insert to DB
+    public function send_to_db($date)
+    {
+        $rec = $this->presensi->get_today_by($date); //id yang sudah absen pada tanggal tersebut
+        $aTmp1[] = "";
+        $aTmp2[] = "";
+        foreach ($rec as $aV) {
+            $aTmp1[] = $aV['id_absensi'];
+        }
+        $master = $this->presensi->get_id_presensi(); //semua data id
+        foreach ($master as $aV) {
+            $aTmp2[] = $aV['id_absensi'];
+        }
+
+        $tmp = array_diff($aTmp2, $aTmp1); //id yang belum absen
+        $data_input = array_values($tmp); //reindex array
+        $suc = 0;
+        $err = 0;
+        if ($data_input) {
+            for ($i = 0; $i < count($data_input); $i++) { //looping sebanyak id_absensi
+                if ($data_input[$i] != "") {
+                    $data = [
+                        'id_detail_absensi' => md5(microtime()),
+                        'id_absensi' => $data_input[$i],
+                        'jam_absensi' => "08:00:01",
+                        'tgl_absensi' => $date,
+                        'absensi' => "hadir",
+                        'jenis_absensi' => 'manual'
+                    ];
+                    $set_data = $this->home->simpan($data);
+                    if ($set_data) {
+                        $suc += 1;
+                    } else {
+                        $err += 1;
+                    }
+                }
+            }
+        }
+        return [date("d-m-Y", strtotime($date)), $suc, $err];
+    }
+
+    //add presensi multiple
+    public function add_multiple($tgl_awal, $tgl_akhir)
+    {
+        $list = $this->list_tanggal($tgl_awal, $tgl_akhir);// get list tanggal from function
+
+        for ($i = 0; $i < count($list); $i++) {//looping every single date
+            $cek = $this->libur->get_data_libur_by(session()->get('id_periode'), $list[$i]);
+            if (!$cek && !$this->isSunday($list[$i])) {//cek hari jika bukan hari libur dan minggu
+                $send[] = $this->send_to_db($list[$i]);
+            }
+        }
+        return $send;
+    }
 
     // update presensi multiple
     public function update_multiple()
@@ -251,7 +242,16 @@ class Presensi extends BaseController
         $tgl_awal = date("Y-m-d", strtotime($tgl[0]));
         $tgl_akhir = date("Y-m-d", strtotime($tgl[1]));
         $pil = $this->request->getVar('inp-presensi');
-        if ($pil === "hadir"):
+        if ($pil == 0):
+            $res = $this->add_multiple($tgl_awal, $tgl_akhir);
+            if ($res):
+                session()->setFlashdata('data', $res);
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('edit-presensi'));
+            else:
+                session()->setFlashdata('warning', ' Gagal menambahkan data!');
+                return redirect()->route(bin2hex('admin') . '/' . bin2hex('edit-presensi'));
+            endif;
+        elseif ($pil == 1):
             $res = $this->detail_presensi->where('tgl_absensi BETWEEN "' . $tgl_awal . '" AND "' . $tgl_akhir . '"')->set(['absensi' => "hadir"])->update();
             if ($res):
                 session()->setFlashdata('success', ' Data berhasil disimpan.');
@@ -260,7 +260,7 @@ class Presensi extends BaseController
                 session()->setFlashdata('warning', ' Gagal memperbaharui data!');
                 return redirect()->route(bin2hex('admin') . '/' . bin2hex('edit-presensi'));
             endif;
-        elseif ($pil == "hapus"):
+        elseif ($pil == 2):
             $res = $this->detail_presensi->where('tgl_absensi BETWEEN "' . $tgl_awal . '" AND "' . $tgl_akhir . '"')->delete();
             if ($res):
                 session()->setFlashdata('success', ' Data berhasil dihapus.');
