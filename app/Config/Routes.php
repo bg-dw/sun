@@ -33,7 +33,10 @@ $routes->setAutoRoute(true);
  * Route Definitions
  * --------------------------------------------------------------------
  */
-
+$routes->options('(:any)', function () {
+	$response = service('response');
+	return $response->setStatusCode(200);
+});
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Dashboard::index');
@@ -46,6 +49,15 @@ $routes->get('/auto_by', 'Dashboard::auto_task_by');
 $routes->post('/show', 'Dashboard::get_absen');
 $routes->post('/inp', 'Dashboard::put_absen');
 $routes->post('/get_last', 'Dashboard::get_total');
+
+//API
+$routes->options('/api/login', 'api\Presensi::options'); // preflight
+$routes->post('/api/login', 'api\Presensi::auth');
+
+// Route untuk OPTIONS request (PREFLIGHT) - SANGAT PENTING!
+$routes->options('/api/today_by/(:any)', 'api\Presensi::options');
+$routes->options('/api/today_by/', 'api\Presensi::options');
+$routes->get('/api/today_by/(:any)', 'api\Presensi::today_by/$1');
 
 //Login
 $routes->get('/' . bin2hex('login'), 'Login::index');
