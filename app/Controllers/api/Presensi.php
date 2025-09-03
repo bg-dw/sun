@@ -62,7 +62,7 @@ class Presensi extends BaseController
             );
             $data[] = $item;
         }
-        return $this->respond(json_encode($data));
+        return $this->respond($data);//tanpa json encode karena repond otomatis mengembalikan data dalam bentuk json
     }
 
     // METHOD INI SANGAT PENTING UNTUK PREFLIGHT
